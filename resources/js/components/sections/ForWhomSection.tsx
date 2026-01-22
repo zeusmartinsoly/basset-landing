@@ -78,25 +78,21 @@ function useTextScramble(text: string, isActive: boolean) {
 
 export default function ForWhomSection() {
     const sectionRef = useRef<HTMLElement>(null);
-    const titleRef = useRef<HTMLHeadingElement>(null);
     const cardRef = useRef<HTMLDivElement>(null);
     const forWhomRef = useRef<HTMLHeadingElement>(null);
+    const cursorRef = useRef<HTMLSpanElement>(null);
     const crosshair1Ref = useRef<SVGSVGElement>(null);
     const crosshair2Ref = useRef<SVGSVGElement>(null);
     const crosshair3Ref = useRef<SVGSVGElement>(null);
     const [scrambleActive, setScrambleActive] = useState(false);
+    const [titleText, setTitleText] = useState('');
 
+    const fullTitle = 'الكامب ده ليك!';
     const scrambledText = useTextScramble('FOR WHOM?', scrambleActive);
 
     useGSAP(
         () => {
             // Set initial states
-            gsap.set(titleRef.current, {
-                opacity: 0,
-                y: 60,
-                clipPath: 'polygon(0 100%, 100% 100%, 100% 100%, 0% 100%)',
-            });
-
             gsap.set(cardRef.current, {
                 opacity: 0,
                 scale: 0.95,
@@ -135,26 +131,48 @@ export default function ForWhomSection() {
                 });
             });
 
+            // Cursor blinking animation
+            gsap.to(cursorRef.current, {
+                opacity: 0,
+                repeat: -1,
+                yoyo: true,
+                duration: 0.5,
+                ease: 'steps(1)',
+            });
+
+            // Typewriter effect for title
+            let titleIndex = 0;
+            const typeTitle = () => {
+                if (titleIndex <= fullTitle.length) {
+                    setTitleText(fullTitle.slice(0, titleIndex));
+                    titleIndex++;
+                    gsap.delayedCall(0.08, typeTitle);
+                } else {
+                    // Hide cursor when done
+                    gsap.to(cursorRef.current, {
+                        opacity: 0,
+                        duration: 0.3,
+                    });
+                }
+            };
+
             // Main Timeline with ScrollTrigger
             const tl = gsap.timeline({
                 scrollTrigger: {
                     trigger: sectionRef.current,
                     start: 'top 75%',
                     end: 'bottom 25%',
-                    toggleActions: 'play none none reverse',
+                    toggleActions: 'play none none none',
+                    once: true,
                 },
             });
 
-            // Phase 1: Title reveal
-            tl.to(titleRef.current, {
-                opacity: 1,
-                y: 0,
-                clipPath: 'polygon(0 0%, 100% 0%, 100% 100%, 0% 100%)',
-                duration: 1,
-                ease: 'power4.out',
+            // Phase 1: Title typewriter
+            tl.add(() => {
+                typeTitle();
             });
 
-            // Phase 2: Card fade in
+            // Phase 2: Card fade in (wait for typewriter ~1.2s)
             tl.to(
                 cardRef.current,
                 {
@@ -163,7 +181,7 @@ export default function ForWhomSection() {
                     duration: 0.8,
                     ease: 'power3.out',
                 },
-                '-=0.5'
+                '+=0.8'
             );
 
             // Phase 3: Crosshairs targeting animation
@@ -253,13 +271,16 @@ export default function ForWhomSection() {
             className="relative w-full bg-white py-16 md:py-24"
         >
             <div className="mx-auto max-w-[1400px] px-4 md:px-8">
-                {/* Title */}
+                {/* Title with Typewriter */}
                 <h2
-                    ref={titleRef}
                     className="mb-12 font-arabic text-6xl font-bold text-black md:mb-16 md:text-7xl lg:text-8xl"
                     dir="rtl"
                 >
-                    الكامب ده ليك!
+                    {titleText}
+                    <span
+                        ref={cursorRef}
+                        className="inline-block h-[0.9em] w-[4px] translate-y-1 bg-[#F02624] md:w-[6px]"
+                    />
                 </h2>
 
                 {/* Card Container */}
