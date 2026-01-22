@@ -24,7 +24,56 @@ export default function AboutSection() {
     const fullDescription2 =
         'مــش كورس، ومــش ورشــة، ومش فيديوهات مســجلة. هــو بيئة متقفلة بتتعلــم فيهــا إزاي تفكّر صــح، وتاخد قرارات براندنج محســوبة، وتنفّذ وانت فاهم إنت بتعمل إيه وليه.';
 
-    // First block animations
+    // Helper to start second block animation
+    const startSecondBlock = () => {
+        // Dice 2 entrance animation
+        gsap.fromTo(
+            dice2Ref.current,
+            {
+                scale: 0.5,
+                opacity: 0,
+                y: 50,
+            },
+            {
+                scale: 1,
+                opacity: 1,
+                y: 0,
+                duration: 1.2,
+                ease: 'power3.out',
+            }
+        );
+
+        // Typewriter effect for description 2
+        let desc2Index = 0;
+        const typeDescription2 = () => {
+            if (desc2Index <= fullDescription2.length) {
+                setDesc2Text(fullDescription2.slice(0, desc2Index));
+                desc2Index++;
+                gsap.delayedCall(0.02, typeDescription2);
+            } else {
+                // Hide cursor when done
+                gsap.to(cursor2Ref.current, {
+                    opacity: 0,
+                    duration: 0.3,
+                });
+            }
+        };
+
+        // Start typewriter
+        gsap.delayedCall(0.5, typeDescription2);
+
+        // Dice 2 floating animation (infinite)
+        gsap.to(dice2Ref.current, {
+            y: 20,
+            duration: 4,
+            yoyo: true,
+            repeat: -1,
+            ease: 'sine.inOut',
+            delay: 1.2,
+        });
+    };
+
+    // All animations
     useGSAP(
         () => {
             const tl = gsap.timeline({
@@ -78,6 +127,8 @@ export default function AboutSection() {
                         opacity: 0,
                         duration: 0.3,
                     });
+                    // Start second block after first description finishes
+                    gsap.delayedCall(0.5, startSecondBlock);
                 }
             };
 
@@ -88,6 +139,16 @@ export default function AboutSection() {
 
             // Cursor blinking
             gsap.to(cursorRef.current, {
+                opacity: 0,
+                repeat: -1,
+                yoyo: true,
+                duration: 0.5,
+                ease: 'steps(1)',
+            });
+
+            // Cursor 2 blinking (start hidden, will show when second block starts)
+            gsap.set(cursor2Ref.current, { opacity: 0 });
+            gsap.to(cursor2Ref.current, {
                 opacity: 0,
                 repeat: -1,
                 yoyo: true,
@@ -106,77 +167,6 @@ export default function AboutSection() {
             });
         },
         { scope: sectionRef }
-    );
-
-    // Second block animations
-    useGSAP(
-        () => {
-            const tl2 = gsap.timeline({
-                scrollTrigger: {
-                    trigger: secondBlockRef.current,
-                    start: 'top 80%',
-                    once: true,
-                },
-            });
-
-            // Dice 2 entrance animation
-            tl2.fromTo(
-                dice2Ref.current,
-                {
-                    scale: 0.5,
-                    opacity: 0,
-                    y: 50,
-                },
-                {
-                    scale: 1,
-                    opacity: 1,
-                    y: 0,
-                    duration: 1.2,
-                    ease: 'power3.out',
-                }
-            );
-
-            // Typewriter effect for description 2
-            let desc2Index = 0;
-            const typeDescription2 = () => {
-                if (desc2Index <= fullDescription2.length) {
-                    setDesc2Text(fullDescription2.slice(0, desc2Index));
-                    desc2Index++;
-                    gsap.delayedCall(0.02, typeDescription2);
-                } else {
-                    // Hide cursor when done
-                    gsap.to(cursor2Ref.current, {
-                        opacity: 0,
-                        duration: 0.3,
-                    });
-                }
-            };
-
-            // Start typewriter after dice animation
-            tl2.add(() => {
-                typeDescription2();
-            }, '-=0.5');
-
-            // Cursor 2 blinking
-            gsap.to(cursor2Ref.current, {
-                opacity: 0,
-                repeat: -1,
-                yoyo: true,
-                duration: 0.5,
-                ease: 'steps(1)',
-            });
-
-            // Dice 2 floating animation (infinite)
-            gsap.to(dice2Ref.current, {
-                y: 20,
-                duration: 4,
-                yoyo: true,
-                repeat: -1,
-                ease: 'sine.inOut',
-                delay: 1.2,
-            });
-        },
-        { dependencies: [secondBlockRef] }
     );
 
     return (
