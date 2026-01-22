@@ -1,5 +1,5 @@
 import { useGSAP } from '@gsap/react';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { gsap } from '@/lib/animations/gsap-setup';
 
 export default function Navbar() {
@@ -7,6 +7,8 @@ export default function Navbar() {
     const logoRef = useRef<HTMLAnchorElement>(null);
     const linksRef = useRef<HTMLDivElement>(null);
     const ctaRef = useRef<HTMLAnchorElement>(null);
+    const mobileMenuRef = useRef<HTMLDivElement>(null);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     useGSAP(
         () => {
@@ -33,12 +35,43 @@ export default function Navbar() {
                 opacity: 1,
                 filter: 'blur(0px)',
                 duration: 1.2,
-                stagger: 0.1, // Delay between each element
+                stagger: 0.1,
                 ease: 'power4.out',
             });
         },
         { scope: navRef }
     );
+
+    // Mobile menu animation
+    useGSAP(
+        () => {
+            if (!mobileMenuRef.current) return;
+
+            if (isMenuOpen) {
+                gsap.to(mobileMenuRef.current, {
+                    height: 'auto',
+                    opacity: 1,
+                    duration: 0.4,
+                    ease: 'power3.out',
+                });
+                gsap.fromTo(
+                    mobileMenuRef.current.querySelectorAll('a'),
+                    { y: 20, opacity: 0 },
+                    { y: 0, opacity: 1, stagger: 0.08, duration: 0.4, ease: 'power3.out' }
+                );
+            } else {
+                gsap.to(mobileMenuRef.current, {
+                    height: 0,
+                    opacity: 0,
+                    duration: 0.3,
+                    ease: 'power3.in',
+                });
+            }
+        },
+        { dependencies: [isMenuOpen] }
+    );
+
+    const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
     return (
         <nav
@@ -46,53 +79,117 @@ export default function Navbar() {
             className="fixed top-0 right-0 left-0 z-50 bg-black opacity-0"
             style={{ fontFamily: "'IRANSansX', sans-serif" }}
         >
-            <div className="mx-auto px-16">
-                <div className="flex h-24 items-center justify-between lg:h-32">
+            <div className="mx-auto px-4 sm:px-6 md:px-10 lg:px-16">
+                <div className="flex h-16 items-center justify-between sm:h-20 lg:h-32">
                     {/* Logo - Left Side */}
-                    <a ref={logoRef} href="/" className="flex-shrink-0 block">
+                    <a ref={logoRef} href="/" className="block flex-shrink-0">
                         <img
                             src="/images/logos/logo.svg"
                             alt="Baseet"
-                            className="h-10 w-auto lg:h-12"
+                            className="h-8 w-auto sm:h-10 lg:h-12"
                         />
                     </a>
 
-                    {/* Navigation + CTA - Right Side */}
-                    <div
-                        className="flex items-center gap-12 lg:gap-16"
-                        dir="rtl"
-                    >
-                        {/* CTA Button - Big rounded red */}
+                    {/* Desktop Navigation + CTA - Right Side */}
+                    <div className="hidden items-center gap-8 md:flex lg:gap-16" dir="rtl">
+                        {/* CTA Button */}
                         <a
                             ref={ctaRef}
                             href="#register"
-                            className="rounded-full bg-[#F02624] px-10 py-4 text-xl font-black text-white transition-colors duration-300 hover:bg-[#D62839] lg:px-12 lg:py-5 lg:text-2xl"
+                            className="rounded-full bg-[#F02624] px-6 py-3 text-base font-black text-white transition-colors duration-300 hover:bg-[#D62839] lg:px-12 lg:py-5 lg:text-2xl"
                         >
                             احجز مكان
                         </a>
 
                         {/* Nav Links */}
-                        <div ref={linksRef} className="hidden items-center gap-10 md:flex lg:gap-14">
+                        <div ref={linksRef} className="hidden items-center gap-6 lg:flex lg:gap-14">
                             <a
                                 href="#content"
-                                className="text-lg font-bold text-white transition-colors duration-300 hover:text-white/70 lg:text-xl"
+                                className="text-base font-bold text-white transition-colors duration-300 hover:text-white/70 lg:text-xl"
                             >
                                 محتوى الكامب
                             </a>
                             <a
                                 href="#works"
-                                className="text-lg font-bold text-white transition-colors duration-300 hover:text-white/70 lg:text-xl"
+                                className="text-base font-bold text-white transition-colors duration-300 hover:text-white/70 lg:text-xl"
                             >
                                 أعمال الكامبرز
                             </a>
                             <a
                                 href="#behance"
-                                className="text-lg font-bold text-white transition-colors duration-300 hover:text-white/70 lg:text-xl"
+                                className="text-base font-bold text-white transition-colors duration-300 hover:text-white/70 lg:text-xl"
                             >
                                 بيهانس
                             </a>
                         </div>
                     </div>
+
+                    {/* Mobile: CTA + Menu Button */}
+                    <div className="flex items-center gap-3 md:hidden" dir="rtl">
+                        {/* CTA */}
+                        <a
+                            href="#register"
+                            className="rounded-full bg-[#F02624] px-5 py-2.5 text-sm font-bold text-white transition-colors duration-300 hover:bg-[#D62839]"
+                        >
+                            احجز مكان
+                        </a>
+
+                        {/* Hamburger Menu Button */}
+                        <button
+                            onClick={toggleMenu}
+                            className="relative flex h-10 w-10 items-center justify-center text-white"
+                            aria-label="Toggle menu"
+                        >
+                            <div className="flex flex-col gap-1.5">
+                                <span
+                                    className={`h-0.5 w-6 bg-white transition-all duration-300 ${
+                                        isMenuOpen ? 'translate-y-2 rotate-45' : ''
+                                    }`}
+                                />
+                                <span
+                                    className={`h-0.5 w-6 bg-white transition-all duration-300 ${
+                                        isMenuOpen ? 'opacity-0' : ''
+                                    }`}
+                                />
+                                <span
+                                    className={`h-0.5 w-6 bg-white transition-all duration-300 ${
+                                        isMenuOpen ? '-translate-y-2 -rotate-45' : ''
+                                    }`}
+                                />
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            {/* Mobile Menu */}
+            <div
+                ref={mobileMenuRef}
+                className="h-0 overflow-hidden bg-black opacity-0 md:hidden"
+                dir="rtl"
+            >
+                <div className="flex flex-col gap-4 px-4 pb-6">
+                    <a
+                        href="#content"
+                        onClick={() => setIsMenuOpen(false)}
+                        className="border-b border-white/10 py-3 text-lg font-bold text-white transition-colors duration-300 hover:text-white/70"
+                    >
+                        محتوى الكامب
+                    </a>
+                    <a
+                        href="#works"
+                        onClick={() => setIsMenuOpen(false)}
+                        className="border-b border-white/10 py-3 text-lg font-bold text-white transition-colors duration-300 hover:text-white/70"
+                    >
+                        أعمال الكامبرز
+                    </a>
+                    <a
+                        href="#behance"
+                        onClick={() => setIsMenuOpen(false)}
+                        className="py-3 text-lg font-bold text-white transition-colors duration-300 hover:text-white/70"
+                    >
+                        بيهانس
+                    </a>
                 </div>
             </div>
         </nav>
