@@ -1,0 +1,20 @@
+{
+    "mcpServers": {
+        "laravel-boost": {
+            "command": "/Users/karimtarek/Library/Application Support/Herd/bin/php85",
+            "args": [
+                "/Users/karimtarek/Herd/bassetlanding/artisan",
+                "boost:mcp"
+            ]
+        },
+        "herd": {
+            "command": "/Users/karimtarek/Library/Application Support/Herd/bin/php85",
+            "args": [
+                "/Applications/Herd.app/Contents/Resources/herd-mcp.phar"
+            ],
+            "env": {
+                "SITE_PATH": "/Users/karimtarek/Herd/bassetlanding"
+            }
+        }
+    }
+}

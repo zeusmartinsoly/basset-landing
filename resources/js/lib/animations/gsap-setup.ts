@@ -1,0 +1,28 @@
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+// Register GSAP plugins
+gsap.registerPlugin(ScrollTrigger);
+
+// Default GSAP settings for smooth animations
+gsap.defaults({
+    ease: 'power3.out',
+    duration: 1,
+});
+
+// ScrollTrigger defaults
+ScrollTrigger.defaults({
+    toggleActions: 'play none none reverse',
+});
+
+// Export configured instances
+export { gsap, ScrollTrigger };
+
+// Refresh ScrollTrigger on window resize (debounced)
+let resizeTimeout: ReturnType<typeof setTimeout>;
+window.addEventListener('resize', () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
+        ScrollTrigger.refresh();
+    }, 200);
+});
