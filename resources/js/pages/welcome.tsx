@@ -3,6 +3,7 @@ import Navbar from '@/components/sections/Navbar';
 import HeroSection from '@/components/sections/HeroSection';
 import AboutSection from '@/components/sections/AboutSection';
 import CTASection from '@/components/sections/CTASection';
+import GallerySection from '@/components/sections/GallerySection';
 
 export default function Welcome() {
     return (
@@ -19,6 +20,7 @@ export default function Welcome() {
                 <HeroSection />
                 <AboutSection />
                 <CTASection />
+                <GallerySection />
             </div>
         </>
     );
