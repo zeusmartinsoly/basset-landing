@@ -4,6 +4,7 @@ import HeroSection from '@/components/sections/HeroSection';
 import AboutSection from '@/components/sections/AboutSection';
 import CTASection from '@/components/sections/CTASection';
 import GallerySection from '@/components/sections/GallerySection';
+import ForWhomSection from '@/components/sections/ForWhomSection';
 
 export default function Welcome() {
     return (
@@ -21,6 +22,7 @@ export default function Welcome() {
                 <AboutSection />
                 <CTASection />
                 <GallerySection />
+                <ForWhomSection />
             </div>
         </>
     );
