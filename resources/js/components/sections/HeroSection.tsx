@@ -204,7 +204,7 @@ export default function HeroSection() {
                     {/* 103 */}
                     <img
                         ref={numberRef}
-                        src="/images/hero/103.svg"
+                        src="/images/hero/number-103.svg"
                         alt="103"
                         className="absolute bottom-[8%] left-[5%] w-[35%] object-contain md:bottom-[5%] md:w-[25%] lg:w-[20%]"
                     />

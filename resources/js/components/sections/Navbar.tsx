@@ -84,7 +84,7 @@ export default function Navbar() {
                     {/* Logo - Left Side */}
                     <a ref={logoRef} href="/" className="block flex-shrink-0">
                         <img
-                            src="/images/logos/logo.svg"
+                            src="/images/brand/logo.svg"
                             alt="Baseet"
                             className="h-8 w-auto sm:h-10 lg:h-12"
                         />

@@ -4,19 +4,19 @@ import { gsap } from '@/lib/animations/gsap-setup';
 
 // Gallery images - duplicated for seamless loop
 const row1Images = [
-    'Assets web-07.png',
-    'Assets web-08.png',
-    'Assets web-09.png',
-    'Assets web-10.png',
-    'Assets web-11.png',
+    'camp-preview-01.png',
+    'camp-preview-02.png',
+    'camp-preview-03.png',
+    'camp-preview-04.png',
+    'camp-preview-05.png',
 ];
 
 const row2Images = [
-    'Assets web-12.png',
-    'Assets web-13.png',
-    'Assets web-14.png',
-    'Assets web-15.png',
-    'Assets web-16.png',
+    'camp-preview-06.png',
+    'camp-preview-07.png',
+    'camp-preview-08.png',
+    'camp-preview-09.png',
+    'camp-preview-10.png',
 ];
 
 export default function GallerySection() {
@@ -129,7 +129,7 @@ export default function GallerySection() {
                             className="gallery-item relative w-[300px] flex-shrink-0 overflow-hidden rounded-xl md:w-[400px] lg:w-[500px]"
                         >
                             <img
-                                src={`/images/assets/${image}`}
+                                src={`/images/gallery/${image}`}
                                 alt={`Gallery ${(index % 5) + 1}`}
                                 className="h-auto w-full object-contain"
                                 loading="lazy"
@@ -148,7 +148,7 @@ export default function GallerySection() {
                             className="gallery-item relative w-[300px] flex-shrink-0 overflow-hidden rounded-xl md:w-[400px] lg:w-[500px]"
                         >
                             <img
-                                src={`/images/assets/${image}`}
+                                src={`/images/gallery/${image}`}
                                 alt={`Gallery ${(index % 5) + 6}`}
                                 className="h-auto w-full object-contain"
                                 loading="lazy"
