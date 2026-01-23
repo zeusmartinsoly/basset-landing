@@ -48,10 +48,10 @@ export default function CTASection() {
                 '-=0.4'
             );
 
-            // Button pulse animation (infinite)
+            // Button float/levitate animation (infinite)
             gsap.to(buttonRef.current, {
-                scale: 1.03,
-                duration: 1.5,
+                y: -8,
+                duration: 2,
                 yoyo: true,
                 repeat: -1,
                 ease: 'sine.inOut',

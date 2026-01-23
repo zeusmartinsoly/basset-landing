@@ -86,7 +86,7 @@ export default function Navbar() {
                         <img
                             src="/images/brand/logo.svg"
                             alt="Baseet"
-                            className="h-8 w-auto sm:h-10 lg:h-12"
+                            className="h-6 w-auto sm:h-8 lg:h-10"
                         />
                     </a>
 
@@ -96,7 +96,7 @@ export default function Navbar() {
                         <a
                             ref={ctaRef}
                             href="#register"
-                            className="rounded-full bg-[#F02624] px-6 py-3 text-base font-black text-white transition-colors duration-300 hover:bg-[#D62839] lg:px-12 lg:py-5 lg:text-2xl"
+                            className="rounded-full bg-[#F02624] px-5 py-2.5 text-sm font-black text-white transition-colors duration-300 hover:bg-[#D62839] lg:px-10 lg:py-4 lg:text-xl"
                         >
                             احجز مكان
                         </a>
@@ -129,7 +129,7 @@ export default function Navbar() {
                         {/* CTA */}
                         <a
                             href="#register"
-                            className="rounded-full bg-[#F02624] px-5 py-2.5 text-sm font-bold text-white transition-colors duration-300 hover:bg-[#D62839]"
+                            className="rounded-full bg-[#F02624] px-4 py-2 text-xs font-bold text-white transition-colors duration-300 hover:bg-[#D62839]"
                         >
                             احجز مكان
                         </a>
