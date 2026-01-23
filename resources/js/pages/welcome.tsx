@@ -2,6 +2,8 @@ import { Head } from '@inertiajs/react';
 import Navbar from '@/components/sections/Navbar';
 import HeroSection from '@/components/sections/HeroSection';
 import AboutSection from '@/components/sections/AboutSection';
+import FounderSection from '@/components/sections/FounderSection';
+import PhasesSection from '@/components/sections/PhasesSection';
 import CTASection from '@/components/sections/CTASection';
 import GallerySection from '@/components/sections/GallerySection';
 import ForWhomSection from '@/components/sections/ForWhomSection';
@@ -23,6 +25,8 @@ export default function Welcome() {
                 <CTASection />
                 <GallerySection />
                 <ForWhomSection />
+                <PhasesSection />
+                <FounderSection />
             </div>
         </>
     );
