@@ -8,16 +8,44 @@ export default function FounderSection() {
     const imageContainerRef = useRef<HTMLDivElement>(null);
     const maskRef = useRef<HTMLDivElement>(null);
 
-    // 3D Tilt Effect on mouse move (Desktop only)
+    // 3D Tilt Effect on mouse move (Desktop only, only when section is in view)
     useEffect(() => {
         const imageContainer = imageContainerRef.current;
-        if (!imageContainer) return;
+        const section = sectionRef.current;
+        if (!imageContainer || !section) return;
 
         // Skip on touch devices
         const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
         if (isTouch) return;
 
+        let isInView = false;
+
+        // Track if section is in view
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    isInView = entry.isIntersecting;
+                    
+                    // Reset rotation when leaving view
+                    if (!isInView) {
+                        gsap.to(imageContainer, {
+                            rotateX: 0,
+                            rotateY: 0,
+                            duration: 0.3,
+                            ease: 'power2.out',
+                        });
+                    }
+                });
+            },
+            { threshold: 0.1 }
+        );
+
+        observer.observe(section);
+
         const handleMouseMove = (e: MouseEvent) => {
+            // Only apply effect if section is in view
+            if (!isInView) return;
+
             const rect = imageContainer.getBoundingClientRect();
             const centerX = rect.left + rect.width / 2;
             const centerY = rect.top + rect.height / 2;
@@ -25,7 +53,7 @@ export default function FounderSection() {
             const mouseX = e.clientX - centerX;
             const mouseY = e.clientY - centerY;
 
-            // Calculate rotation (max 15 degrees)
+            // Calculate rotation (max 12 degrees)
             const rotateY = (mouseX / (rect.width / 2)) * 12;
             const rotateX = -(mouseY / (rect.height / 2)) * 12;
 
@@ -51,6 +79,7 @@ export default function FounderSection() {
         imageContainer.addEventListener('mouseleave', handleMouseLeave);
 
         return () => {
+            observer.disconnect();
             window.removeEventListener('mousemove', handleMouseMove);
             imageContainer.removeEventListener('mouseleave', handleMouseLeave);
         };
