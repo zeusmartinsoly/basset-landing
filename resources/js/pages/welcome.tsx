@@ -7,6 +7,7 @@ import PhasesSection from '@/components/sections/PhasesSection';
 import CTASection from '@/components/sections/CTASection';
 import GallerySection from '@/components/sections/GallerySection';
 import ForWhomSection from '@/components/sections/ForWhomSection';
+import IntroSection from '@/components/sections/IntroSection';
 
 export default function Welcome() {
     return (
@@ -27,6 +28,7 @@ export default function Welcome() {
                 <ForWhomSection />
                 <PhasesSection />
                 <FounderSection />
+                <IntroSection />
             </div>
         </>
     );
