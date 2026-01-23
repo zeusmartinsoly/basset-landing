@@ -11,6 +11,7 @@ import IntroSection from '@/components/sections/IntroSection';
 import WorkShowcaseSection from '@/components/sections/WorkShowcaseSection';
 import FooterSection from '@/components/sections/FooterSection';
 import JsonLd from '@/components/seo/JsonLd';
+import type { LandingPageSections } from '@/types/landing';
 
 interface WorkImage {
     src: string;
@@ -40,9 +41,10 @@ interface WelcomeProps {
     workImages: WorkImage[];
     seo: SeoSettings;
     appUrl: string;
+    sections: LandingPageSections;
 }
 
-export default function Welcome({ workImages, seo, appUrl }: WelcomeProps) {
+export default function Welcome({ workImages, seo, appUrl, sections }: WelcomeProps) {
     const ogTitle = seo.og_title || seo.site_title;
     const ogDescription = seo.og_description || seo.site_description;
     const ogImage = seo.og_image ? `${appUrl}${seo.og_image}` : null;
@@ -145,17 +147,17 @@ export default function Welcome({ workImages, seo, appUrl }: WelcomeProps) {
                 className="min-h-screen bg-[#0A0A0A]"
                 style={{ fontFamily: "'IRANSansX', sans-serif" }}
             >
-                <Navbar />
-                <HeroSection />
-                <AboutSection />
-                <CTASection />
-                <GallerySection />
-                <ForWhomSection />
-                <PhasesSection />
-                <FounderSection />
-                <IntroSection />
-                <WorkShowcaseSection images={workImages} />
-                <FooterSection />
+                <Navbar data={sections.navbar} />
+                <HeroSection data={sections.hero} />
+                <AboutSection data={sections.about} />
+                <CTASection data={sections.cta} />
+                <GallerySection data={sections.gallery} />
+                <ForWhomSection data={sections.for_whom} />
+                <PhasesSection data={sections.phases} />
+                <FounderSection data={sections.founder} />
+                <IntroSection data={sections.intro} />
+                <WorkShowcaseSection images={workImages} data={sections.work} />
+                <FooterSection data={sections.footer} />
             </div>
         </>
     );

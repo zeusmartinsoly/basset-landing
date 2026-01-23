@@ -1,8 +1,13 @@
 import { useGSAP } from '@gsap/react';
 import { useEffect, useRef } from 'react';
 import { gsap } from '@/lib/animations/gsap-setup';
+import type { HeroSection as HeroSectionType } from '@/types/landing';
 
-export default function HeroSection() {
+interface HeroSectionProps {
+    data: HeroSectionType;
+}
+
+export default function HeroSection({ data }: HeroSectionProps) {
     const sectionRef = useRef<HTMLElement>(null);
     const diceLeftRef = useRef<HTMLImageElement>(null);
     const diceRightRef = useRef<HTMLImageElement>(null);
@@ -196,7 +201,7 @@ export default function HeroSection() {
                     {/* Bran - with bar */}
                     <img
                         ref={branRef}
-                        src="/images/hero/bran.svg"
+                        src={`/images/${data.images.bran_svg}`}
                         alt="Bran —"
                         className="absolute left-1/2 top-[25%] w-[85%] -translate-x-1/2 object-contain md:left-[5%] md:top-[18%] md:w-[70%] md:translate-x-0 lg:w-[60%]"
                     />
@@ -204,7 +209,7 @@ export default function HeroSection() {
                     {/* 103 */}
                     <img
                         ref={numberRef}
-                        src="/images/hero/number-103.svg"
+                        src={`/images/${data.images.number_svg}`}
                         alt="103"
                         className="absolute bottom-[8%] left-[5%] w-[35%] object-contain md:bottom-[5%] md:w-[25%] lg:w-[20%]"
                     />
@@ -214,7 +219,7 @@ export default function HeroSection() {
                 <div className="pointer-events-none absolute inset-0 z-20 select-none">
                     <img
                         ref={datRef}
-                        src="/images/hero/dat.svg"
+                        src={`/images/${data.images.dat_svg}`}
                         alt="— dat"
                         className="absolute right-1/2 top-[48%] w-[85%] translate-x-1/2 object-contain md:right-[5%] md:top-[45%] md:w-[70%] md:translate-x-0 lg:w-[60%]"
                     />
@@ -227,7 +232,7 @@ export default function HeroSection() {
                 >
                     <img
                         ref={diceLeftRef}
-                        src="/images/hero/dice-left.webp"
+                        src={`/images/${data.images.dice_left}`}
                         alt="Red Dice Left"
                         className="absolute left-[15%] top-[38%] w-[45%] max-w-[280px] object-contain md:left-[25%] md:top-[35%] md:max-w-[400px] lg:left-[30%] lg:max-w-[500px]"
                         style={{
@@ -244,7 +249,7 @@ export default function HeroSection() {
                 >
                     <img
                         ref={diceRightRef}
-                        src="/images/hero/dice-right.webp"
+                        src={`/images/${data.images.dice_right}`}
                         alt="Red Dice Right"
                         className="absolute left-[40%] top-[36%] w-[50%] max-w-[320px] object-contain md:left-[40%] md:top-[35%] md:max-w-[500px] lg:left-[45%] lg:max-w-[600px]"
                         style={{
@@ -262,25 +267,31 @@ export default function HeroSection() {
                         dir="rtl"
                     >
                         <p className="text-right font-arabic text-sm font-bold leading-relaxed text-white opacity-90 md:text-base lg:text-[1.2vw]">
-                            لقرارات وتحكّم .. مفيش رمي نرد
-                            <br />
-                            في فهم إمتى وإزاي ترميه.
+                            {data.arabic_quote.split('\n').map((line, i) => (
+                                <span key={i}>
+                                    {line}
+                                    {i < data.arabic_quote.split('\n').length - 1 && <br />}
+                                </span>
+                            ))}
                         </p>
                     </div>
 
                     {/* Branding Is Thinking - Left Middle */}
                     <div className="hero-text absolute left-[5%] top-[68%] md:top-[50%] lg:top-[45%]">
                         <p className="font-display text-sm leading-snug tracking-wide text-white opacity-90 md:text-base lg:text-[1.2vw]">
-                            Branding Is Thinking
-                            <br />
-                            Before Design.
+                            {data.english_text.split('\n').map((line, i) => (
+                                <span key={i}>
+                                    {line}
+                                    {i < data.english_text.split('\n').length - 1 && <br />}
+                                </span>
+                            ))}
                         </p>
                     </div>
 
                     {/* THIRD EDITION - Left, Above 103 */}
                     <div className="hero-text absolute bottom-[22%] left-[5%] md:bottom-[26%] md:left-[9%]">
                         <span className="font-display text-xs font-medium tracking-[0.2em] text-[#F02624] md:text-sm md:tracking-[0.25em] lg:text-[1.3rem]">
-                            THIRD EDITION
+                            {data.edition}
                         </span>
                     </div>
 
@@ -290,17 +301,17 @@ export default function HeroSection() {
                         dir="rtl"
                     >
                         <span className="font-arabic text-2xl font-bold text-white md:text-3xl lg:text-[3vw]">
-                            علامات
+                            {data.brand_name}
                         </span>
                         <span className="font-display text-sm font-bold text-white md:text-base lg:text-[1vw]">
-                            103
+                            {data.brand_number}
                         </span>
                     </div>
 
                     {/* 2026 - Bottom Right Corner */}
                     <div className="hero-text absolute bottom-[8%] right-[5%] md:bottom-[5%]">
                         <span className="font-display text-xs tracking-widest text-white opacity-80 md:text-sm lg:text-[1.2vw]">
-                            2026
+                            {data.year}
                         </span>
                     </div>
                 </div>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\LandingPageSection;
 use App\Models\SeoSetting;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
@@ -17,10 +18,14 @@ Route::get('/', function () {
         ->values()
         ->all();
 
+    // Get all landing page sections content
+    $sections = LandingPageSection::getAllSections();
+
     return Inertia::render('welcome', [
         'workImages' => $workImages,
         'seo' => SeoSetting::getSettings(),
         'appUrl' => config('app.url'),
+        'sections' => $sections,
     ]);
 })->name('home');
 

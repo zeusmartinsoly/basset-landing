@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { gsap } from '@/lib/animations/gsap-setup';
+import type { IntroSection as IntroSectionType } from '@/types/landing';
 
 // Simple Counter Component
 function AnimatedCounter({ target, duration = 2 }: { target: number; duration?: number }) {
@@ -49,7 +50,11 @@ function AnimatedCounter({ target, duration = 2 }: { target: number; duration?: 
     );
 }
 
-export default function IntroSection() {
+interface IntroSectionProps {
+    data: IntroSectionType;
+}
+
+export default function IntroSection({ data }: IntroSectionProps) {
     const sectionRef = useRef<HTMLElement>(null);
     const hasAnimated = useRef(false);
 
@@ -157,7 +162,7 @@ export default function IntroSection() {
                         
                         {/* Award Image */}
                         <img
-                            src="/images/assets/award.webp"
+                            src={`/images/${data.award_image}`}
                             alt="Award 2025 Edition - Business Wheel Gold Winner"
                             className="award-image relative z-10 h-auto w-full object-contain opacity-0"
                         />
@@ -169,38 +174,53 @@ export default function IntroSection() {
                             className="intro-title mb-6 text-4xl font-bold text-white opacity-0 md:mb-8 md:text-5xl lg:text-6xl"
                             style={{ fontFamily: "'IRANSansX', sans-serif" }}
                         >
-                            نتعرف؟
+                            {data.title}
                         </h2>
 
                         <div
                             className="space-y-4 text-base leading-[1.5] text-white/90 md:space-y-5 md:text-lg lg:text-xl"
                             style={{ fontFamily: "'IRANSansX', sans-serif" }}
                         >
-                            <p className="intro-text text-xl leading-[1.5] text-white opacity-0 md:text-2xl lg:text-3xl">
-                                انا محمد , هتقولي يا "بسيط".
-                                <br />
-                                مصمم جرافيك بخبرة <span className="font-bold text-amber-400"><AnimatedCounter target={13} /></span> سنة في التصميم و أكثر من
-                                <br />
-                                <span className="font-bold text-amber-400"><AnimatedCounter target={7} /></span> سـنوات في مجال البراندنج , اشـتغلت في الخليج
-                                <br />
-                                وأوروبا وكندا وعملت مشـاريع كبيرة في اكتر من بلد!
-                                <br />
-                                أخــدت دهبية جريدلاينرز في تصميم الهويات البصرية
-                                <br />
-                                وجايزة مشروع العام!
-                            </p>
-
-                            <p className="intro-text text-xl leading-[1.5] text-white opacity-0 md:text-2xl lg:text-3xl">
-                                وأخدت جايزتين (المركزين الأول والثاني) لسنتين علي
-                                <br />
-                                التوالــي في أكبر إيفنــت يخص التصميم فــي العالم
-                                <br />
-                                العربي (جرافيك ديزاين بالعربي).
-                            </p>
-
-                            <p className="intro-text text-xl leading-[1.5] text-white opacity-0 md:text-2xl lg:text-3xl">
-                                جاهز تتعرف عليا وتبقى ابن خالتي؟
-                            </p>
+                            {data.paragraphs.map((paragraph, index) => (
+                                <p
+                                    key={index}
+                                    className="intro-text text-xl leading-[1.5] text-white opacity-0 md:text-2xl lg:text-3xl"
+                                >
+                                    {paragraph.split('\n').map((line, lineIndex) => {
+                                        // Replace placeholders with animated counters
+                                        let processedLine: React.ReactNode = line;
+                                        if (line.includes('{years_design}')) {
+                                            const parts = line.split('{years_design}');
+                                            processedLine = (
+                                                <>
+                                                    {parts[0]}
+                                                    <span className="font-bold text-amber-400">
+                                                        <AnimatedCounter target={data.years_design} />
+                                                    </span>
+                                                    {parts[1]}
+                                                </>
+                                            );
+                                        } else if (line.includes('{years_branding}')) {
+                                            const parts = line.split('{years_branding}');
+                                            processedLine = (
+                                                <>
+                                                    {parts[0]}
+                                                    <span className="font-bold text-amber-400">
+                                                        <AnimatedCounter target={data.years_branding} />
+                                                    </span>
+                                                    {parts[1]}
+                                                </>
+                                            );
+                                        }
+                                        return (
+                                            <span key={lineIndex}>
+                                                {processedLine}
+                                                {lineIndex < paragraph.split('\n').length - 1 && <br />}
+                                            </span>
+                                        );
+                                    })}
+                                </p>
+                            ))}
                         </div>
                     </div>
                 </div>
@@ -212,17 +232,20 @@ export default function IntroSection() {
                         style={{ fontFamily: "'IRANSansX', sans-serif" }}
                         dir="rtl"
                     >
-                        ابتدي رحلة بناء العلامات التجارية من استراتيجية العلامة
-                        <br />
-                        وحتى عملية التسليم وعرض الهوية البصرية.
+                        {data.cta_title.split('\n').map((line, i) => (
+                            <span key={i}>
+                                {line}
+                                {i < data.cta_title.split('\n').length - 1 && <br />}
+                            </span>
+                        ))}
                     </p>
 
                     <a
-                        href="#register"
+                        href={data.cta_button_url}
                         className="inline-block rounded-full bg-[#F02624] px-12 py-4 text-xl font-bold text-white transition-all duration-300 hover:scale-105 hover:bg-[#D62839] md:px-16 md:py-5 md:text-2xl"
                         style={{ fontFamily: "'IRANSansX', sans-serif" }}
                     >
-                        احجز مكان
+                        {data.cta_button_text}
                     </a>
                 </div>
             </div>

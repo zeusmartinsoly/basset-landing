@@ -1,25 +1,15 @@
 import { useGSAP } from '@gsap/react';
 import { useRef } from 'react';
 import { gsap } from '@/lib/animations/gsap-setup';
+import type { GallerySection as GallerySectionType } from '@/types/landing';
 
-// Gallery images - duplicated for seamless loop
-const row1Images = [
-    'camp-preview-01.webp',
-    'camp-preview-02.webp',
-    'camp-preview-03.webp',
-    'camp-preview-04.webp',
-    'camp-preview-05.webp',
-];
+interface GallerySectionProps {
+    data: GallerySectionType;
+}
 
-const row2Images = [
-    'camp-preview-06.webp',
-    'camp-preview-07.webp',
-    'camp-preview-08.webp',
-    'camp-preview-09.webp',
-    'camp-preview-10.webp',
-];
-
-export default function GallerySection() {
+export default function GallerySection({ data }: GallerySectionProps) {
+    const row1Images = data.row_1_images;
+    const row2Images = data.row_2_images;
     const sectionRef = useRef<HTMLElement>(null);
     const track1Ref = useRef<HTMLDivElement>(null);
     const track2Ref = useRef<HTMLDivElement>(null);
@@ -129,8 +119,8 @@ export default function GallerySection() {
                             className="gallery-item relative w-[300px] flex-shrink-0 overflow-hidden rounded-xl md:w-[400px] lg:w-[500px]"
                         >
                             <img
-                                src={`/images/gallery/${image}`}
-                                alt={`Gallery ${(index % 5) + 1}`}
+                                src={`/images/${image}`}
+                                alt={`Gallery ${(index % row1Images.length) + 1}`}
                                 className="h-auto w-full object-contain"
                                 loading="lazy"
                             />
@@ -148,8 +138,8 @@ export default function GallerySection() {
                             className="gallery-item relative w-[300px] flex-shrink-0 overflow-hidden rounded-xl md:w-[400px] lg:w-[500px]"
                         >
                             <img
-                                src={`/images/gallery/${image}`}
-                                alt={`Gallery ${(index % 5) + 6}`}
+                                src={`/images/${image}`}
+                                alt={`Gallery ${(index % row2Images.length) + row1Images.length + 1}`}
                                 className="h-auto w-full object-contain"
                                 loading="lazy"
                             />

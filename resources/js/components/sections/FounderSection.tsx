@@ -1,8 +1,13 @@
 import { useGSAP } from '@gsap/react';
 import { useRef } from 'react';
 import { gsap } from '@/lib/animations/gsap-setup';
+import type { FounderSection as FounderSectionType } from '@/types/landing';
 
-export default function FounderSection() {
+interface FounderSectionProps {
+    data: FounderSectionType;
+}
+
+export default function FounderSection({ data }: FounderSectionProps) {
     const sectionRef = useRef<HTMLElement>(null);
     const imageRef = useRef<HTMLImageElement>(null);
     const imageContainerRef = useRef<HTMLDivElement>(null);
@@ -73,7 +78,7 @@ export default function FounderSection() {
             {/* Background SVG - alamat103 (smaller) */}
             <div className="founder-svg pointer-events-none absolute inset-0 z-0 flex items-center justify-center">
                 <img
-                    src="/images/alamat103.svg"
+                    src={`/images/${data.background_image}`}
                     alt="Bran—dat 103"
                     className="h-auto w-[95%] object-contain opacity-100 sm:w-[90%] md:w-[80%] lg:w-[70%] xl:w-[65%]"
                 />
@@ -92,8 +97,8 @@ export default function FounderSection() {
                 >
                     <img
                         ref={imageRef}
-                        src="/images/assets/founder.webp"
-                        alt="Mohamed Baseet - Founder"
+                        src={`/images/${data.founder_image}`}
+                        alt={`${data.founder_name} - ${data.founder_title}`}
                         className="h-auto w-[280px] object-contain sm:w-[320px] md:w-[400px] lg:w-[500px] xl:w-[600px]"
                     />
                 </div>

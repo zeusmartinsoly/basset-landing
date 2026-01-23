@@ -21,5 +21,8 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('Loza@464**##'),
             'email_verified_at' => now(),
         ]);
+
+        // Landing page sections
+        $this->call(LandingPageSectionSeeder::class);
     }
 }

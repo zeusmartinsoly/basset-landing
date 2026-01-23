@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, useCallback, useMemo } from 'react';
 import { gsap } from '@/lib/animations/gsap-setup';
+import type { WorkSection } from '@/types/landing';
 
 interface WorkImage {
     src: string;
@@ -8,6 +9,7 @@ interface WorkImage {
 
 interface WorkShowcaseSectionProps {
     images: WorkImage[];
+    data: WorkSection;
 }
 
 interface LightboxState {
@@ -17,7 +19,7 @@ interface LightboxState {
     isClosing: boolean;
 }
 
-export default function WorkShowcaseSection({ images }: WorkShowcaseSectionProps) {
+export default function WorkShowcaseSection({ images, data }: WorkShowcaseSectionProps) {
     const sectionRef = useRef<HTMLElement>(null);
     const cylinderRef = useRef<HTMLDivElement>(null);
     const rotationRef = useRef({ value: 0 });
@@ -249,14 +251,14 @@ export default function WorkShowcaseSection({ images }: WorkShowcaseSectionProps
                         style={{ fontFamily: "'IRANSansX', sans-serif" }}
                         dir="rtl"
                     >
-                        أعمالي
+                        {data.title}
                     </h2>
                     <p
                         className="mt-4 text-lg text-white/60 md:text-xl"
                         style={{ fontFamily: "'IRANSansX', sans-serif" }}
                         dir="rtl"
                     >
-                        مشاريع حقيقية
+                        {data.subtitle}
                     </p>
                 </div>
 
@@ -360,7 +362,7 @@ export default function WorkShowcaseSection({ images }: WorkShowcaseSectionProps
                     style={{ fontFamily: "'IRANSansX', sans-serif" }}
                     dir="rtl"
                 >
-                    اضغط على الصورة لعرضها
+                    {data.instructions}
                 </p>
 
             </section>

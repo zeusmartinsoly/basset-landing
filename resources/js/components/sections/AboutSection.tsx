@@ -1,8 +1,13 @@
 import { useGSAP } from '@gsap/react';
 import { useRef, useState } from 'react';
 import { gsap } from '@/lib/animations/gsap-setup';
+import type { AboutSection as AboutSectionType } from '@/types/landing';
 
-export default function AboutSection() {
+interface AboutSectionProps {
+    data: AboutSectionType;
+}
+
+export default function AboutSection({ data }: AboutSectionProps) {
     const sectionRef = useRef<HTMLElement>(null);
     const titleRef = useRef<HTMLHeadingElement>(null);
     const descriptionRef = useRef<HTMLParagraphElement>(null);
@@ -17,12 +22,9 @@ export default function AboutSection() {
     const cursor2Ref = useRef<HTMLSpanElement>(null);
     const [desc2Text, setDesc2Text] = useState('');
 
-    const fullTitle = 'ايه هو\nكامب العلامات™!';
-    const fullDescription =
-        'هــو كامب لايــف، قايم علـــى المتابعة المباشرة ، موجه للمصممين المهتمين بصناعــة الهويات والعلامـــات التجارية اللي شــغالين فريلانس أو في شركات، وعايزيــن يطلعــوا من مرحلــة التنفيذ لمرحلة التفكير والسيطرة والإبداع.';
-
-    const fullDescription2 =
-        'مــش كورس، ومــش ورشــة، ومش فيديوهات مســجلة. هــو بيئة متقفلة بتتعلــم فيهــا إزاي تفكّر صــح، وتاخد قرارات براندنج محســوبة، وتنفّذ وانت فاهم إنت بتعمل إيه وليه.';
+    const fullTitle = data.title;
+    const fullDescription = data.description_1;
+    const fullDescription2 = data.description_2;
 
     // Helper to start second block animation
     const startSecondBlock = () => {
@@ -208,7 +210,7 @@ export default function AboutSection() {
                     <div className="relative w-full lg:w-1/2">
                         <img
                             ref={diceRef}
-                            src="/images/hero/assets-web-05.webp"
+                            src={`/images/${data.images.image_1}`}
                             alt="Camp Image"
                             className="mx-auto w-[70%] max-w-[500px] object-contain opacity-0 sm:w-[60%] lg:mx-0 lg:mr-0 lg:ml-auto lg:w-full"
                             style={{
@@ -227,7 +229,7 @@ export default function AboutSection() {
                     <div className="relative order-2 w-full lg:order-1 lg:w-1/2">
                         <img
                             ref={dice2Ref}
-                            src="/images/hero/assets-web-06.webp"
+                            src={`/images/${data.images.image_2}`}
                             alt="Camp Image"
                             className="mx-auto w-[70%] max-w-[500px] object-contain opacity-0 sm:w-[60%] lg:mx-0 lg:ml-0 lg:mr-auto lg:w-full"
                             style={{

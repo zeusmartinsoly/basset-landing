@@ -1,8 +1,13 @@
 import { useGSAP } from '@gsap/react';
 import { useRef } from 'react';
 import { gsap } from '@/lib/animations/gsap-setup';
+import type { CtaSection as CtaSectionType } from '@/types/landing';
 
-export default function CTASection() {
+interface CTASectionProps {
+    data: CtaSectionType;
+}
+
+export default function CTASection({ data }: CTASectionProps) {
     const sectionRef = useRef<HTMLElement>(null);
     const buttonRef = useRef<HTMLAnchorElement>(null);
     const textRef = useRef<HTMLParagraphElement>(null);
@@ -71,11 +76,11 @@ export default function CTASection() {
                     {/* CTA Button */}
                     <a
                         ref={buttonRef}
-                        href="#register"
+                        href={data.button_url}
                         className="rounded-full bg-[#F02624] px-12 py-5 font-arabic text-2xl font-bold text-white opacity-0 transition-colors duration-300 hover:bg-[#D62839] sm:px-16 sm:py-6 sm:text-3xl md:px-20 md:py-7 md:text-4xl"
                         dir="rtl"
                     >
-                        احجز مكان
+                        {data.button_text}
                     </a>
 
                     {/* Tagline */}
@@ -83,9 +88,12 @@ export default function CTASection() {
                         ref={textRef}
                         className="font-display text-lg tracking-wide text-white opacity-0 sm:text-xl md:text-2xl"
                     >
-                        We Don't Design Brands ..
-                        <br />
-                        We Build them!
+                        {data.tagline.split('\n').map((line, i) => (
+                            <span key={i}>
+                                {line}
+                                {i < data.tagline.split('\n').length - 1 && <br />}
+                            </span>
+                        ))}
                     </p>
                 </div>
             </div>

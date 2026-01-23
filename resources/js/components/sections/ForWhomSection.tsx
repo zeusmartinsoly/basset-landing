@@ -1,6 +1,7 @@
 import { useGSAP } from '@gsap/react';
 import { useRef, useState, useEffect } from 'react';
 import { gsap } from '@/lib/animations/gsap-setup';
+import type { ForWhomSection as ForWhomSectionType } from '@/types/landing';
 
 // Crosshair Component with drawing animation
 function Crosshair({
@@ -76,7 +77,11 @@ function useTextScramble(text: string, isActive: boolean) {
     return displayText;
 }
 
-export default function ForWhomSection() {
+interface ForWhomSectionProps {
+    data: ForWhomSectionType;
+}
+
+export default function ForWhomSection({ data }: ForWhomSectionProps) {
     const sectionRef = useRef<HTMLElement>(null);
     const cardRef = useRef<HTMLDivElement>(null);
     const forWhomRef = useRef<HTMLHeadingElement>(null);
@@ -87,8 +92,8 @@ export default function ForWhomSection() {
     const [scrambleActive, setScrambleActive] = useState(false);
     const [titleText, setTitleText] = useState('');
 
-    const fullTitle = 'الكامب ده ليك!';
-    const scrambledText = useTextScramble('FOR WHOM?', scrambleActive);
+    const fullTitle = data.title;
+    const scrambledText = useTextScramble(data.subtitle, scrambleActive);
 
     useGSAP(
         () => {
@@ -309,87 +314,32 @@ export default function ForWhomSection() {
                         dir="rtl"
                     >
                         <div className="grid grid-cols-1 gap-10 md:grid-cols-3 md:gap-12 lg:gap-16">
-                            {/* Column 1 */}
-                            <div className="space-y-10 md:space-y-12">
-                                {/* Item 1 */}
-                                <div className="for-whom-item">
-                                    <p className="font-arabic text-xl leading-relaxed text-white md:text-2xl">
-                                        <span className="font-bold">
-                                            لو بتشتغل على Photoshop و
-                                            Illustrator
-                                        </span>{' '}
-                                        وعنـــدك أســـاس كويس في أدوات التصميم.
-                                        <span className="font-bold text-[#F02624]">
-                                            *
-                                        </span>
-                                    </p>
+                            {/* Distribute items into 3 columns */}
+                            {[0, 1, 2].map((colIndex) => (
+                                <div key={colIndex} className="space-y-10 md:space-y-12">
+                                    {data.items
+                                        .filter((_, i) => i % 3 === colIndex)
+                                        .map((item, i) => (
+                                            <div key={i} className="for-whom-item">
+                                                <p
+                                                    className={`font-arabic text-xl leading-relaxed md:text-2xl ${
+                                                        item.color === 'red'
+                                                            ? 'text-[#F02624]'
+                                                            : 'text-white'
+                                                    }`}
+                                                >
+                                                    <span className="font-bold">{item.text}</span>{' '}
+                                                    {item.description}
+                                                    {item.highlight && (
+                                                        <span className="font-bold text-[#F02624]">
+                                                            *
+                                                        </span>
+                                                    )}
+                                                </p>
+                                            </div>
+                                        ))}
                                 </div>
-
-                                {/* Item 4 */}
-                                <div className="for-whom-item">
-                                    <p className="font-arabic text-xl leading-relaxed text-white md:text-2xl">
-                                        <span className="font-bold">
-                                            لو صمّمــت لوجوهات قبل كده
-                                        </span>{' '}
-                                        حتــى لو كانت بســيطة، وعارف يعني إيه
-                                        تبدأ فكرة من الصفر.
-                                        <span className="font-bold text-[#F02624]">
-                                            *
-                                        </span>
-                                    </p>
-                                </div>
-                            </div>
-
-                            {/* Column 2 */}
-                            <div className="space-y-10 md:space-y-12">
-                                {/* Item 2 */}
-                                <div className="for-whom-item">
-                                    <p className="font-arabic text-xl leading-relaxed text-white md:text-2xl">
-                                        <span className="font-bold">
-                                            لــو مهتــم بالبراند ســتراتيجي
-                                        </span>{' '}
-                                        أو عندك أي قصور في أي جزئية مهمــا
-                                        كانــت في بروســيس البراندنج.
-                                    </p>
-                                </div>
-
-                                {/* Item 5 */}
-                                <div className="for-whom-item">
-                                    <p className="font-arabic text-xl leading-relaxed text-white md:text-2xl">
-                                        <span className="font-bold">
-                                            لــو عايز تطلع من مرحلة اللوجو
-                                        </span>{' '}
-                                        وتدخــل في مرحلة بناء العلامة التجارية
-                                        من الأساس.
-                                    </p>
-                                </div>
-                            </div>
-
-                            {/* Column 3 */}
-                            <div className="space-y-10 md:space-y-12">
-                                {/* Item 3 */}
-                                <div className="for-whom-item">
-                                    <p className="font-arabic text-xl leading-relaxed text-[#F02624] md:text-2xl">
-                                        <span className="font-bold">
-                                            لو بتــدور تــزود قيمة شــغلك
-                                            وتســعيرتك
-                                        </span>{' '}
-                                        وتشــتغل علــى مشاريع أكبر مع عملاء
-                                        أتقل.
-                                    </p>
-                                </div>
-
-                                {/* Item 6 */}
-                                <div className="for-whom-item">
-                                    <p className="font-arabic text-xl leading-relaxed text-[#F02624] md:text-2xl">
-                                        <span className="font-bold">
-                                            لو محتاج Framework واضح
-                                        </span>{' '}
-                                        تمشي عليــه في بناء البراند من غير تخمين
-                                        أو عشوائية.
-                                    </p>
-                                </div>
-                            </div>
+                            ))}
                         </div>
                     </div>
                 </div>

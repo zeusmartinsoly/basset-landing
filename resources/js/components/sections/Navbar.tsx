@@ -1,8 +1,13 @@
 import { useGSAP } from '@gsap/react';
 import { useRef, useState } from 'react';
 import { gsap } from '@/lib/animations/gsap-setup';
+import type { NavbarSection } from '@/types/landing';
 
-export default function Navbar() {
+interface NavbarProps {
+    data: NavbarSection;
+}
+
+export default function Navbar({ data }: NavbarProps) {
     const navRef = useRef<HTMLElement>(null);
     const logoRef = useRef<HTMLAnchorElement>(null);
     const linksRef = useRef<HTMLDivElement>(null);
@@ -84,7 +89,7 @@ export default function Navbar() {
                     {/* Logo - Left Side */}
                     <a ref={logoRef} href="/" className="block flex-shrink-0">
                         <img
-                            src="/images/brand/logo.svg"
+                            src={`/images/${data.logo}`}
                             alt="Baseet"
                             className="h-6 w-auto sm:h-8 lg:h-10"
                         />
@@ -95,38 +100,25 @@ export default function Navbar() {
                         {/* CTA Button */}
                         <a
                             ref={ctaRef}
-                            href="#register"
+                            href={data.cta_url}
                             className="rounded-full bg-[#F02624] px-5 py-2.5 text-sm font-black text-white transition-colors duration-300 hover:bg-[#D62839] lg:px-10 lg:py-4 lg:text-xl"
                         >
-                            احجز مكان
+                            {data.cta_text}
                         </a>
 
                         {/* Nav Links */}
                         <div ref={linksRef} className="hidden items-center gap-6 lg:flex lg:gap-14">
-                            <a
-                                href="https://drive.google.com/file/d/1Y0a6btdSkxcFAWmBf4px9AWJJ5vQLAKi/view?usp=sharing"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-base font-bold text-white transition-colors duration-300 hover:text-white/70 lg:text-xl"
-                            >
-                                محتوى الكامب
-                            </a>
-                            <a
-                                href="https://drive.google.com/file/d/1MyTF6DDiE3kZ-98C7YgJKZ0rS2dJc90I/view?usp=sharing"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-base font-bold text-white transition-colors duration-300 hover:text-white/70 lg:text-xl"
-                            >
-                                أعمال الكامبرز
-                            </a>
-                            <a
-                                href="https://www.behance.net/baseet464"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-base font-bold text-white transition-colors duration-300 hover:text-white/70 lg:text-xl"
-                            >
-                                بيهانس
-                            </a>
+                            {data.links.map((link, index) => (
+                                <a
+                                    key={index}
+                                    href={link.url}
+                                    target={link.external ? '_blank' : undefined}
+                                    rel={link.external ? 'noopener noreferrer' : undefined}
+                                    className="text-base font-bold text-white transition-colors duration-300 hover:text-white/70 lg:text-xl"
+                                >
+                                    {link.text}
+                                </a>
+                            ))}
                         </div>
                     </div>
 
@@ -134,10 +126,10 @@ export default function Navbar() {
                     <div className="flex items-center gap-3 md:hidden" dir="rtl">
                         {/* CTA */}
                         <a
-                            href="#register"
+                            href={data.cta_url}
                             className="rounded-full bg-[#F02624] px-4 py-2 text-xs font-bold text-white transition-colors duration-300 hover:bg-[#D62839]"
                         >
-                            احجز مكان
+                            {data.cta_text}
                         </a>
 
                         {/* Hamburger Menu Button */}
@@ -175,33 +167,20 @@ export default function Navbar() {
                 dir="rtl"
             >
                 <div className="flex flex-col gap-4 px-4 pb-6">
-                    <a
-                        href="https://drive.google.com/file/d/1Y0a6btdSkxcFAWmBf4px9AWJJ5vQLAKi/view?usp=sharing"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={() => setIsMenuOpen(false)}
-                        className="border-b border-white/10 py-3 text-lg font-bold text-white transition-colors duration-300 hover:text-white/70"
-                    >
-                        محتوى الكامب
-                    </a>
-                    <a
-                        href="https://drive.google.com/file/d/1MyTF6DDiE3kZ-98C7YgJKZ0rS2dJc90I/view?usp=sharing"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={() => setIsMenuOpen(false)}
-                        className="border-b border-white/10 py-3 text-lg font-bold text-white transition-colors duration-300 hover:text-white/70"
-                    >
-                        أعمال الكامبرز
-                    </a>
-                    <a
-                        href="https://www.behance.net/baseet464"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={() => setIsMenuOpen(false)}
-                        className="py-3 text-lg font-bold text-white transition-colors duration-300 hover:text-white/70"
-                    >
-                        بيهانس
-                    </a>
+                    {data.links.map((link, index) => (
+                        <a
+                            key={index}
+                            href={link.url}
+                            target={link.external ? '_blank' : undefined}
+                            rel={link.external ? 'noopener noreferrer' : undefined}
+                            onClick={() => setIsMenuOpen(false)}
+                            className={`py-3 text-lg font-bold text-white transition-colors duration-300 hover:text-white/70 ${
+                                index < data.links.length - 1 ? 'border-b border-white/10' : ''
+                            }`}
+                        >
+                            {link.text}
+                        </a>
+                    ))}
                 </div>
             </div>
         </nav>

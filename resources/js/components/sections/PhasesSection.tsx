@@ -1,19 +1,18 @@
 import { useGSAP } from '@gsap/react';
 import { useRef } from 'react';
 import { gsap } from '@/lib/animations/gsap-setup';
+import type { PhasesSection as PhasesSectionType } from '@/types/landing';
 
-export default function PhasesSection() {
+interface PhasesSectionProps {
+    data: PhasesSectionType;
+}
+
+export default function PhasesSection({ data }: PhasesSectionProps) {
     const sectionRef = useRef<HTMLElement>(null);
     const svgRef = useRef<HTMLImageElement>(null);
     const phaseItemsRef = useRef<(HTMLDivElement | null)[]>([]);
 
-    const phases = [
-        { number: '01', title: 'Foundation' },
-        { number: '02', title: 'Brand Strategy Deck' },
-        { number: '03', title: 'Translate Visually' },
-        { number: '04', title: 'Full Brand System' },
-        { number: '05', title: 'Delivery' },
-    ];
+    const phases = data.phases;
 
     useGSAP(
         () => {
@@ -159,7 +158,7 @@ export default function PhasesSection() {
                     <div className="flex w-full items-center justify-center lg:w-1/2 lg:justify-end">
                         <img
                             ref={svgRef}
-                            src="/images/brandat-withai.svg"
+                            src={`/images/${data.image}`}
                             alt="Bran—dat 103 - Now With AI"
                             className="h-auto w-full max-w-[700px] lg:max-w-[950px] xl:max-w-[1100px]"
                         />

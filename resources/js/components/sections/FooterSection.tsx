@@ -1,14 +1,12 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from '@/lib/animations/gsap-setup';
+import type { FooterSection as FooterSectionType } from '@/types/landing';
 
-const socialLinks = [
-    { name: 'Behance', icon: '/images/social/icons-01.webp', url: 'https://www.behance.net/baseet464' },
-    { name: 'Facebook', icon: '/images/social/icons-02.webp', url: 'https://www.facebook.com/share/1893Sb8hSv/?mibextid=wwXIfr' },
-    { name: 'LinkedIn', icon: '/images/social/icons-03.webp', url: 'https://www.linkedin.com/in/baseet464/' },
-    { name: 'Instagram', icon: '/images/social/icons-04.webp', url: 'https://www.instagram.com/baseet464?igsh=ZWw4OWdibTZtcmRz&utm_source=qr' },
-];
+interface FooterSectionProps {
+    data: FooterSectionType;
+}
 
-export default function FooterSection() {
+export default function FooterSection({ data }: FooterSectionProps) {
     const sectionRef = useRef<HTMLElement>(null);
     const hasAnimated = useRef(false);
 
@@ -58,7 +56,7 @@ export default function FooterSection() {
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 {/* Social Icons */}
                 <div className="flex items-center justify-center gap-6 md:gap-8">
-                    {socialLinks.map((social) => (
+                    {data.social_links.map((social) => (
                         <a
                             key={social.name}
                             href={social.url}
@@ -68,7 +66,7 @@ export default function FooterSection() {
                             aria-label={social.name}
                         >
                             <img
-                                src={social.icon}
+                                src={`/images/${social.icon}`}
                                 alt={social.name}
                                 className="h-12 w-12 object-contain md:h-14 md:w-14"
                             />
@@ -81,7 +79,7 @@ export default function FooterSection() {
                     className="copyright-text mt-10 text-center text-base text-white/70 opacity-0 md:mt-12 md:text-lg"
                     style={{ fontFamily: "'Termina', sans-serif" }}
                 >
-                    All Rights Reserved @Baseet 2026
+                    {data.copyright_text}
                 </p>
 
                 {/* Developer Credit */}
@@ -89,7 +87,7 @@ export default function FooterSection() {
                     className="copyright-text mt-4 text-center text-sm text-white/40 opacity-0"
                     style={{ fontFamily: "'Termina', sans-serif" }}
                 >
-                    Developed by Cerebro AI
+                    {data.developer_credit}
                 </p>
             </div>
         </footer>
