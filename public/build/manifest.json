@@ -1,0 +1,145 @@
+{
+  "resources/css/app.css": {
+    "file": "assets/app-cLHsAVnC.css",
+    "src": "resources/css/app.css",
+    "isEntry": true,
+    "name": "app",
+    "names": [
+      "app.css"
+    ]
+  },
+  "resources/fonts/iran-sans/IRANSansX-BoldD4.ttf": {
+    "file": "assets/IRANSansX-BoldD4-BQEvnBZu.ttf",
+    "src": "resources/fonts/iran-sans/IRANSansX-BoldD4.ttf"
+  },
+  "resources/fonts/iran-sans/IRANSansX-LightD4.ttf": {
+    "file": "assets/IRANSansX-LightD4-DZSVboFM.ttf",
+    "src": "resources/fonts/iran-sans/IRANSansX-LightD4.ttf"
+  },
+  "resources/fonts/iran-sans/IRANSansX-MediumD4.ttf": {
+    "file": "assets/IRANSansX-MediumD4-NfpENKfZ.ttf",
+    "src": "resources/fonts/iran-sans/IRANSansX-MediumD4.ttf"
+  },
+  "resources/fonts/iran-sans/IRANSansX-RegularD4.ttf": {
+    "file": "assets/IRANSansX-RegularD4-PeohVVcn.ttf",
+    "src": "resources/fonts/iran-sans/IRANSansX-RegularD4.ttf"
+  },
+  "resources/fonts/termina/TerminaTest-Black.otf": {
+    "file": "assets/TerminaTest-Black-BA1Tdm73.otf",
+    "src": "resources/fonts/termina/TerminaTest-Black.otf"
+  },
+  "resources/fonts/termina/TerminaTest-Bold.otf": {
+    "file": "assets/TerminaTest-Bold-C5cReKlJ.otf",
+    "src": "resources/fonts/termina/TerminaTest-Bold.otf"
+  },
+  "resources/fonts/termina/TerminaTest-Demi.otf": {
+    "file": "assets/TerminaTest-Demi-DNr8hpAs.otf",
+    "src": "resources/fonts/termina/TerminaTest-Demi.otf"
+  },
+  "resources/fonts/termina/TerminaTest-ExtraLight.otf": {
+    "file": "assets/TerminaTest-ExtraLight-DnJA2oyY.otf",
+    "src": "resources/fonts/termina/TerminaTest-ExtraLight.otf"
+  },
+  "resources/fonts/termina/TerminaTest-Heavy.otf": {
+    "file": "assets/TerminaTest-Heavy-C1j_kfe-.otf",
+    "src": "resources/fonts/termina/TerminaTest-Heavy.otf"
+  },
+  "resources/fonts/termina/TerminaTest-Light.otf": {
+    "file": "assets/TerminaTest-Light-CdxZJTV3.otf",
+    "src": "resources/fonts/termina/TerminaTest-Light.otf"
+  },
+  "resources/fonts/termina/TerminaTest-Medium.otf": {
+    "file": "assets/TerminaTest-Medium-C94JgEIN.otf",
+    "src": "resources/fonts/termina/TerminaTest-Medium.otf"
+  },
+  "resources/fonts/termina/TerminaTest-Regular.otf": {
+    "file": "assets/TerminaTest-Regular-DWAQ7vN_.otf",
+    "src": "resources/fonts/termina/TerminaTest-Regular.otf"
+  },
+  "resources/fonts/termina/TerminaTest-Thin.otf": {
+    "file": "assets/TerminaTest-Thin-BnzAQyka.otf",
+    "src": "resources/fonts/termina/TerminaTest-Thin.otf"
+  },
+  "resources/js/app.tsx": {
+    "file": "assets/app-9_zVoTP5.js",
+    "name": "app",
+    "src": "resources/js/app.tsx",
+    "isEntry": true,
+    "dynamicImports": [
+      "resources/js/pages/Page/Show.tsx",
+      "resources/js/pages/welcome.tsx"
+    ],
+    "css": [
+      "assets/app-cLHsAVnC.css"
+    ],
+    "assets": [
+      "assets/IRANSansX-LightD4-DZSVboFM.ttf",
+      "assets/IRANSansX-RegularD4-PeohVVcn.ttf",
+      "assets/IRANSansX-MediumD4-NfpENKfZ.ttf",
+      "assets/IRANSansX-BoldD4-BQEvnBZu.ttf",
+      "assets/TerminaTest-Thin-BnzAQyka.otf",
+      "assets/TerminaTest-ExtraLight-DnJA2oyY.otf",
+      "assets/TerminaTest-Light-CdxZJTV3.otf",
+      "assets/TerminaTest-Regular-DWAQ7vN_.otf",
+      "assets/TerminaTest-Medium-C94JgEIN.otf",
+      "assets/TerminaTest-Demi-DNr8hpAs.otf",
+      "assets/TerminaTest-Bold-C5cReKlJ.otf",
+      "assets/TerminaTest-Heavy-C1j_kfe-.otf",
+      "assets/TerminaTest-Black-BA1Tdm73.otf"
+    ]
+  },
+  "resources/js/pages/Page/Show.tsx": {
+    "file": "assets/Show-DkT4xBiM.js",
+    "name": "Show",
+    "src": "resources/js/pages/Page/Show.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.tsx"
+    ],
+    "css": [
+      "assets/app-cLHsAVnC.css"
+    ],
+    "assets": [
+      "assets/IRANSansX-LightD4-DZSVboFM.ttf",
+      "assets/IRANSansX-RegularD4-PeohVVcn.ttf",
+      "assets/IRANSansX-MediumD4-NfpENKfZ.ttf",
+      "assets/IRANSansX-BoldD4-BQEvnBZu.ttf",
+      "assets/TerminaTest-Thin-BnzAQyka.otf",
+      "assets/TerminaTest-ExtraLight-DnJA2oyY.otf",
+      "assets/TerminaTest-Light-CdxZJTV3.otf",
+      "assets/TerminaTest-Regular-DWAQ7vN_.otf",
+      "assets/TerminaTest-Medium-C94JgEIN.otf",
+      "assets/TerminaTest-Demi-DNr8hpAs.otf",
+      "assets/TerminaTest-Bold-C5cReKlJ.otf",
+      "assets/TerminaTest-Heavy-C1j_kfe-.otf",
+      "assets/TerminaTest-Black-BA1Tdm73.otf"
+    ]
+  },
+  "resources/js/pages/welcome.tsx": {
+    "file": "assets/welcome-B-Sf1II6.js",
+    "name": "welcome",
+    "src": "resources/js/pages/welcome.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.tsx"
+    ],
+    "css": [
+      "assets/app-cLHsAVnC.css"
+    ],
+    "assets": [
+      "assets/IRANSansX-LightD4-DZSVboFM.ttf",
+      "assets/IRANSansX-RegularD4-PeohVVcn.ttf",
+      "assets/IRANSansX-MediumD4-NfpENKfZ.ttf",
+      "assets/IRANSansX-BoldD4-BQEvnBZu.ttf",
+      "assets/TerminaTest-Thin-BnzAQyka.otf",
+      "assets/TerminaTest-ExtraLight-DnJA2oyY.otf",
+      "assets/TerminaTest-Light-CdxZJTV3.otf",
+      "assets/TerminaTest-Regular-DWAQ7vN_.otf",
+      "assets/TerminaTest-Medium-C94JgEIN.otf",
+      "assets/TerminaTest-Demi-DNr8hpAs.otf",
+      "assets/TerminaTest-Bold-C5cReKlJ.otf",
+      "assets/TerminaTest-Heavy-C1j_kfe-.otf",
+      "assets/TerminaTest-Black-BA1Tdm73.otf"
+    ]
+  }
+}
