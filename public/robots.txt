@@ -1,2 +1,20 @@
+# Baseet Landing Page - robots.txt
+# Allow all crawlers for public content
+
 User-agent: *
-Disallow:
+Allow: /
+Disallow: /admin
+Disallow: /admin/*
+Disallow: /dashboard
+Disallow: /settings
+Disallow: /settings/*
+Disallow: /login
+Disallow: /register
+Disallow: /forgot-password
+Disallow: /reset-password
+Disallow: /email/verify
+Disallow: /two-factor-challenge
+Disallow: /user/*
+
+# Sitemap location
+Sitemap: https://bassetlanding.test/sitemap.xml

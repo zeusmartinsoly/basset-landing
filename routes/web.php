@@ -1,9 +1,9 @@
 <?php
 
+use App\Models\SeoSetting;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-use Laravel\Fortify\Features;
 
 Route::get('/', function () {
     // Dynamically get work images from the public/images/work directory
@@ -18,15 +18,17 @@ Route::get('/', function () {
         ->all();
 
     return Inertia::render('welcome', [
-        'canRegister' => Features::enabled(Features::registration()),
         'workImages' => $workImages,
+        'seo' => SeoSetting::getSettings(),
+        'appUrl' => config('app.url'),
     ]);
 })->name('home');
 
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('dashboard', function () {
-        return Inertia::render('dashboard');
-    })->name('dashboard');
-});
-
-require __DIR__.'/settings.php';
+// Sitemap for SEO
+Route::get('/sitemap.xml', function () {
+    return response()
+        ->view('sitemap', [
+            'lastmod' => now()->toIso8601String(),
+        ])
+        ->header('Content-Type', 'application/xml');
+})->name('sitemap');
