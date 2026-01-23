@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { gsap } from '@/lib/animations/gsap-setup';
 
-// Counter component for animated numbers
+// Simple Counter Component
 function AnimatedCounter({ target, duration = 2 }: { target: number; duration?: number }) {
     const [count, setCount] = useState(0);
     const [hasAnimated, setHasAnimated] = useState(false);
@@ -37,7 +37,16 @@ function AnimatedCounter({ target, duration = 2 }: { target: number; duration?: 
         return () => observer.disconnect();
     }, [target, duration, hasAnimated]);
 
-    return <span ref={ref}>{count}</span>;
+    return (
+        <span 
+            ref={ref}
+            style={{
+                textShadow: '0 0 10px rgba(245, 158, 11, 0.8), 0 0 20px rgba(245, 158, 11, 0.5), 0 0 40px rgba(245, 158, 11, 0.3)',
+            }}
+        >
+            {count}
+        </span>
+    );
 }
 
 export default function IntroSection() {
