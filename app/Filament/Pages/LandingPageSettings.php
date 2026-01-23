@@ -497,8 +497,23 @@ class LandingPageSettings extends Page implements HasSchemas
             ->icon('heroicon-o-link')
             ->schema([
                 Section::make('Footer Section')
-                    ->description('Social links and copyright')
+                    ->description('Footer links, social links and copyright')
                     ->schema([
+                        Repeater::make('footer.footer_links')
+                            ->label('Footer Links')
+                            ->schema([
+                                TextInput::make('text')
+                                    ->label('Link Text')
+                                    ->required(),
+                                TextInput::make('url')
+                                    ->label('URL')
+                                    ->required(),
+                            ])
+                            ->columns(2)
+                            ->defaultItems(2)
+                            ->reorderable()
+                            ->collapsible(),
+
                         Repeater::make('footer.social_links')
                             ->label('Social Links')
                             ->schema([

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PageController;
 use App\Models\LandingPageSection;
 use App\Models\SeoSetting;
 use Illuminate\Support\Facades\File;
@@ -37,3 +38,6 @@ Route::get('/sitemap.xml', function () {
         ])
         ->header('Content-Type', 'application/xml');
 })->name('sitemap');
+
+// Static pages (privacy, terms, etc.)
+Route::get('/page/{slug}', [PageController::class, 'show'])->name('page.show');

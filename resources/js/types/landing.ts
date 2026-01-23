@@ -110,7 +110,13 @@ export interface SocialLink {
     url: string;
 }
 
+export interface FooterLink {
+    text: string;
+    url: string;
+}
+
 export interface FooterSection {
+    footer_links: FooterLink[];
     social_links: SocialLink[];
     copyright_text: string;
     developer_credit: string;

@@ -54,6 +54,22 @@ export default function FooterSection({ data }: FooterSectionProps) {
             className="relative w-full bg-black py-10 md:py-14"
         >
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                {/* Footer Links */}
+                {data.footer_links && data.footer_links.length > 0 && (
+                    <div className="mb-8 flex items-center justify-center gap-6 md:gap-8">
+                        {data.footer_links.map((link, index) => (
+                            <a
+                                key={index}
+                                href={link.url}
+                                className="footer-link text-base text-white/70 transition-colors duration-300 hover:text-[#D4A853] md:text-lg"
+                                style={{ fontFamily: "'IRANSansX', sans-serif" }}
+                            >
+                                {link.text}
+                            </a>
+                        ))}
+                    </div>
+                )}
+
                 {/* Social Icons */}
                 <div className="flex items-center justify-center gap-6 md:gap-8">
                     {data.social_links.map((social) => (

@@ -220,6 +220,16 @@ class LandingPageSectionSeeder extends Seeder
             'footer' => [
                 'name' => 'Footer Section',
                 'content' => [
+                    'footer_links' => [
+                        [
+                            'text' => 'سياسة الاسترجاع',
+                            'url' => '/page/refund-policy',
+                        ],
+                        [
+                            'text' => 'أتصل بنا',
+                            'url' => '/page/contact',
+                        ],
+                    ],
                     'social_links' => [
                         [
                             'name' => 'Behance',

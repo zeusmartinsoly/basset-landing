@@ -24,5 +24,8 @@ class DatabaseSeeder extends Seeder
 
         // Landing page sections
         $this->call(LandingPageSectionSeeder::class);
+
+        // Static pages
+        $this->call(PageSeeder::class);
     }
 }
