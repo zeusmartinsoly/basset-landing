@@ -208,7 +208,7 @@ export default function AboutSection() {
                     <div className="relative w-full lg:w-1/2">
                         <img
                             ref={diceRef}
-                            src="/images/hero/assets-web-05.png"
+                            src="/images/hero/assets-web-05.webp"
                             alt="Camp Image"
                             className="mx-auto w-[70%] max-w-[500px] object-contain opacity-0 sm:w-[60%] lg:mx-0 lg:mr-0 lg:ml-auto lg:w-full"
                             style={{
@@ -227,7 +227,7 @@ export default function AboutSection() {
                     <div className="relative order-2 w-full lg:order-1 lg:w-1/2">
                         <img
                             ref={dice2Ref}
-                            src="/images/hero/assets-web-06.png"
+                            src="/images/hero/assets-web-06.webp"
                             alt="Camp Image"
                             className="mx-auto w-[70%] max-w-[500px] object-contain opacity-0 sm:w-[60%] lg:mx-0 lg:ml-0 lg:mr-auto lg:w-full"
                             style={{

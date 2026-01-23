@@ -4,19 +4,19 @@ import { gsap } from '@/lib/animations/gsap-setup';
 
 // Gallery images - duplicated for seamless loop
 const row1Images = [
-    'camp-preview-01.png',
-    'camp-preview-02.png',
-    'camp-preview-03.png',
-    'camp-preview-04.png',
-    'camp-preview-05.png',
+    'camp-preview-01.webp',
+    'camp-preview-02.webp',
+    'camp-preview-03.webp',
+    'camp-preview-04.webp',
+    'camp-preview-05.webp',
 ];
 
 const row2Images = [
-    'camp-preview-06.png',
-    'camp-preview-07.png',
-    'camp-preview-08.png',
-    'camp-preview-09.png',
-    'camp-preview-10.png',
+    'camp-preview-06.webp',
+    'camp-preview-07.webp',
+    'camp-preview-08.webp',
+    'camp-preview-09.webp',
+    'camp-preview-10.webp',
 ];
 
 export default function GallerySection() {

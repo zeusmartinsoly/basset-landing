@@ -227,7 +227,7 @@ export default function HeroSection() {
                 >
                     <img
                         ref={diceLeftRef}
-                        src="/images/hero/dice-left.png"
+                        src="/images/hero/dice-left.webp"
                         alt="Red Dice Left"
                         className="absolute left-[15%] top-[38%] w-[45%] max-w-[280px] object-contain md:left-[25%] md:top-[35%] md:max-w-[400px] lg:left-[30%] lg:max-w-[500px]"
                         style={{
@@ -244,7 +244,7 @@ export default function HeroSection() {
                 >
                     <img
                         ref={diceRightRef}
-                        src="/images/hero/dice-right.png"
+                        src="/images/hero/dice-right.webp"
                         alt="Red Dice Right"
                         className="absolute left-[40%] top-[36%] w-[50%] max-w-[320px] object-contain md:left-[40%] md:top-[35%] md:max-w-[500px] lg:left-[45%] lg:max-w-[600px]"
                         style={{

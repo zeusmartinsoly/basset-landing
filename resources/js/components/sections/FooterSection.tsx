@@ -2,10 +2,10 @@ import { useEffect, useRef } from 'react';
 import { gsap } from '@/lib/animations/gsap-setup';
 
 const socialLinks = [
-    { name: 'Behance', icon: '/images/social/icons-01.png', url: 'https://www.behance.net/baseet464' },
-    { name: 'Facebook', icon: '/images/social/icons-02.png', url: 'https://www.facebook.com/share/1893Sb8hSv/?mibextid=wwXIfr' },
-    { name: 'LinkedIn', icon: '/images/social/icons-03.png', url: 'https://www.linkedin.com/in/baseet464/' },
-    { name: 'Instagram', icon: '/images/social/icons-04.png', url: 'https://www.instagram.com/baseet464?igsh=ZWw4OWdibTZtcmRz&utm_source=qr' },
+    { name: 'Behance', icon: '/images/social/icons-01.webp', url: 'https://www.behance.net/baseet464' },
+    { name: 'Facebook', icon: '/images/social/icons-02.webp', url: 'https://www.facebook.com/share/1893Sb8hSv/?mibextid=wwXIfr' },
+    { name: 'LinkedIn', icon: '/images/social/icons-03.webp', url: 'https://www.linkedin.com/in/baseet464/' },
+    { name: 'Instagram', icon: '/images/social/icons-04.webp', url: 'https://www.instagram.com/baseet464?igsh=ZWw4OWdibTZtcmRz&utm_source=qr' },
 ];
 
 export default function FooterSection() {

@@ -92,7 +92,7 @@ export default function FounderSection() {
                 >
                     <img
                         ref={imageRef}
-                        src="/images/assets/founder.png"
+                        src="/images/assets/founder.webp"
                         alt="Mohamed Baseet - Founder"
                         className="h-auto w-[280px] object-contain sm:w-[320px] md:w-[400px] lg:w-[500px] xl:w-[600px]"
                     />

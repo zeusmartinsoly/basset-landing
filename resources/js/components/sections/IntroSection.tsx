@@ -157,7 +157,7 @@ export default function IntroSection() {
                         
                         {/* Award Image */}
                         <img
-                            src="/images/assets/award.png"
+                            src="/images/assets/award.webp"
                             alt="Award 2025 Edition - Business Wheel Gold Winner"
                             className="award-image relative z-10 h-auto w-full object-contain opacity-0"
                         />

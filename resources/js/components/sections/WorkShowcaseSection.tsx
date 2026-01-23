@@ -3,7 +3,7 @@ import { gsap } from '@/lib/animations/gsap-setup';
 
 const workImages = Array.from({ length: 25 }, (_, i) => ({
     id: i + 17,
-    src: `/images/work/work-${i + 17}.png`,
+    src: `/images/work/work-${i + 17}.webp`,
     alt: `Project ${i + 1}`,
 }));
 
@@ -298,7 +298,6 @@ export default function WorkShowcaseSection() {
                                         src={image.src}
                                         alt={image.alt}
                                         className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
-                                        loading="lazy"
                                         draggable={false}
                                     />
                                     {/* Gradient overlay */}
