@@ -39,9 +39,11 @@ export default function WorkShowcaseSection({ images, data }: WorkShowcaseSectio
     const angleStep = 360 / totalItems;
     
     // Fixed radius to maintain consistent cylinder size regardless of image count
-    const radius = 700;
+    const radius = 770; // Increased by 10%
     // Calculate item width based on radius and number of items
     const itemWidth = Math.round(2 * radius * Math.tan(Math.PI / totalItems));
+    // Calculate item height based on 16:10 aspect ratio (landscape images)
+    const itemHeight = Math.round(itemWidth * (10 / 16));
 
     // Update cylinder rotation
     const updateCylinder = useCallback(() => {
@@ -268,7 +270,7 @@ export default function WorkShowcaseSection({ images, data }: WorkShowcaseSectio
                     style={{
                         perspective: '1500px',
                         perspectiveOrigin: '50% 50%',
-                        height: '400px',
+                        height: `${itemHeight + 200}px`,
                     }}
                     onMouseEnter={pauseRotation}
                     onMouseLeave={resumeRotation}
@@ -281,9 +283,9 @@ export default function WorkShowcaseSection({ images, data }: WorkShowcaseSectio
                             transformStyle: 'preserve-3d',
                             transform: 'rotateY(0deg)',
                             width: `${itemWidth}px`,
-                            height: '200px',
+                            height: `${itemHeight}px`,
                             marginLeft: `-${itemWidth / 2}px`,
-                            marginTop: '-100px',
+                            marginTop: `-${itemHeight / 2}px`,
                         }}
                     >
                         {workImages.map((image, index) => {
