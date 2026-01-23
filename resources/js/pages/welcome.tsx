@@ -1,15 +1,15 @@
 import { Head } from '@inertiajs/react';
-import Navbar from '@/components/sections/Navbar';
-import HeroSection from '@/components/sections/HeroSection';
 import AboutSection from '@/components/sections/AboutSection';
-import FounderSection from '@/components/sections/FounderSection';
-import PhasesSection from '@/components/sections/PhasesSection';
 import CTASection from '@/components/sections/CTASection';
-import GallerySection from '@/components/sections/GallerySection';
-import ForWhomSection from '@/components/sections/ForWhomSection';
-import IntroSection from '@/components/sections/IntroSection';
-import WorkShowcaseSection from '@/components/sections/WorkShowcaseSection';
 import FooterSection from '@/components/sections/FooterSection';
+import ForWhomSection from '@/components/sections/ForWhomSection';
+import FounderSection from '@/components/sections/FounderSection';
+import GallerySection from '@/components/sections/GallerySection';
+import HeroSection from '@/components/sections/HeroSection';
+import IntroSection from '@/components/sections/IntroSection';
+import Navbar from '@/components/sections/Navbar';
+import PhasesSection from '@/components/sections/PhasesSection';
+import WorkShowcaseSection from '@/components/sections/WorkShowcaseSection';
 import JsonLd from '@/components/seo/JsonLd';
 import type { LandingPageSections } from '@/types/landing';
 
