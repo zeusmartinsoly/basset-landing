@@ -5,6 +5,12 @@
 
     RewriteEngine On
 
+    # CORS headers for fonts
+    <FilesMatch "\.(ttf|otf|woff|woff2|eot)$">
+        Header set Access-Control-Allow-Origin "*"
+        Header set Cache-Control "max-age=31536000, public, immutable"
+    </FilesMatch>
+
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]

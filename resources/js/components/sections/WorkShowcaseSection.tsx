@@ -1,11 +1,14 @@
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useRef, useState, useCallback, useMemo } from 'react';
 import { gsap } from '@/lib/animations/gsap-setup';
 
-const workImages = Array.from({ length: 25 }, (_, i) => ({
-    id: i + 17,
-    src: `/images/work/work-${i + 17}.webp`,
-    alt: `Project ${i + 1}`,
-}));
+interface WorkImage {
+    src: string;
+    alt: string;
+}
+
+interface WorkShowcaseSectionProps {
+    images: WorkImage[];
+}
 
 interface LightboxState {
     src: string;
@@ -14,7 +17,7 @@ interface LightboxState {
     isClosing: boolean;
 }
 
-export default function WorkShowcaseSection() {
+export default function WorkShowcaseSection({ images }: WorkShowcaseSectionProps) {
     const sectionRef = useRef<HTMLElement>(null);
     const cylinderRef = useRef<HTMLDivElement>(null);
     const rotationRef = useRef({ value: 0 });
@@ -24,12 +27,19 @@ export default function WorkShowcaseSection() {
     const lightboxImageRef = useRef<HTMLImageElement>(null);
     const backdropRef = useRef<HTMLDivElement>(null);
 
-    const cylinderImages = workImages.slice(0, 16);
-    const totalItems = cylinderImages.length;
+    // Use all images dynamically
+    const workImages = useMemo(() => 
+        images.map((img, index) => ({ ...img, id: index })), 
+        [images]
+    );
+    
+    const totalItems = workImages.length;
     const angleStep = 360 / totalItems;
     
-    const itemWidth = 280;
-    const radius = Math.round((itemWidth / 2) / Math.tan(Math.PI / totalItems));
+    // Fixed radius to maintain consistent cylinder size regardless of image count
+    const radius = 700;
+    // Calculate item width based on radius and number of items
+    const itemWidth = Math.round(2 * radius * Math.tan(Math.PI / totalItems));
 
     // Update cylinder rotation
     const updateCylinder = useCallback(() => {
@@ -274,7 +284,7 @@ export default function WorkShowcaseSection() {
                             marginTop: '-100px',
                         }}
                     >
-                        {cylinderImages.map((image, index) => {
+                        {workImages.map((image, index) => {
                             const angle = angleStep * index;
                             return (
                                 <div

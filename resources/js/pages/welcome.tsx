@@ -11,7 +11,16 @@ import IntroSection from '@/components/sections/IntroSection';
 import WorkShowcaseSection from '@/components/sections/WorkShowcaseSection';
 import FooterSection from '@/components/sections/FooterSection';
 
-export default function Welcome() {
+interface WorkImage {
+    src: string;
+    alt: string;
+}
+
+interface WelcomeProps {
+    workImages: WorkImage[];
+}
+
+export default function Welcome({ workImages }: WelcomeProps) {
     return (
         <>
             <Head title="Baseet - Bran—dat 103">
@@ -31,7 +40,7 @@ export default function Welcome() {
                 <PhasesSection />
                 <FounderSection />
                 <IntroSection />
-                <WorkShowcaseSection />
+                <WorkShowcaseSection images={workImages} />
                 <FooterSection />
             </div>
         </>

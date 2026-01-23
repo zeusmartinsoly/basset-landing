@@ -104,19 +104,25 @@ export default function Navbar() {
                         {/* Nav Links */}
                         <div ref={linksRef} className="hidden items-center gap-6 lg:flex lg:gap-14">
                             <a
-                                href="#content"
+                                href="https://drive.google.com/file/d/1Y0a6btdSkxcFAWmBf4px9AWJJ5vQLAKi/view?usp=sharing"
+                                target="_blank"
+                                rel="noopener noreferrer"
                                 className="text-base font-bold text-white transition-colors duration-300 hover:text-white/70 lg:text-xl"
                             >
                                 محتوى الكامب
                             </a>
                             <a
-                                href="#works"
+                                href="https://drive.google.com/file/d/1MyTF6DDiE3kZ-98C7YgJKZ0rS2dJc90I/view?usp=sharing"
+                                target="_blank"
+                                rel="noopener noreferrer"
                                 className="text-base font-bold text-white transition-colors duration-300 hover:text-white/70 lg:text-xl"
                             >
                                 أعمال الكامبرز
                             </a>
                             <a
-                                href="#behance"
+                                href="https://www.behance.net/baseet464"
+                                target="_blank"
+                                rel="noopener noreferrer"
                                 className="text-base font-bold text-white transition-colors duration-300 hover:text-white/70 lg:text-xl"
                             >
                                 بيهانس
@@ -170,21 +176,27 @@ export default function Navbar() {
             >
                 <div className="flex flex-col gap-4 px-4 pb-6">
                     <a
-                        href="#content"
+                        href="https://drive.google.com/file/d/1Y0a6btdSkxcFAWmBf4px9AWJJ5vQLAKi/view?usp=sharing"
+                        target="_blank"
+                        rel="noopener noreferrer"
                         onClick={() => setIsMenuOpen(false)}
                         className="border-b border-white/10 py-3 text-lg font-bold text-white transition-colors duration-300 hover:text-white/70"
                     >
                         محتوى الكامب
                     </a>
                     <a
-                        href="#works"
+                        href="https://drive.google.com/file/d/1MyTF6DDiE3kZ-98C7YgJKZ0rS2dJc90I/view?usp=sharing"
+                        target="_blank"
+                        rel="noopener noreferrer"
                         onClick={() => setIsMenuOpen(false)}
                         className="border-b border-white/10 py-3 text-lg font-bold text-white transition-colors duration-300 hover:text-white/70"
                     >
                         أعمال الكامبرز
                     </a>
                     <a
-                        href="#behance"
+                        href="https://www.behance.net/baseet464"
+                        target="_blank"
+                        rel="noopener noreferrer"
                         onClick={() => setIsMenuOpen(false)}
                         className="py-3 text-lg font-bold text-white transition-colors duration-300 hover:text-white/70"
                     >
