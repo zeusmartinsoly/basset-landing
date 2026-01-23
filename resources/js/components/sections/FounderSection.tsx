@@ -1,5 +1,5 @@
 import { useGSAP } from '@gsap/react';
-import { useRef, useEffect } from 'react';
+import { useRef } from 'react';
 import { gsap } from '@/lib/animations/gsap-setup';
 
 export default function FounderSection() {
@@ -7,83 +7,6 @@ export default function FounderSection() {
     const imageRef = useRef<HTMLImageElement>(null);
     const imageContainerRef = useRef<HTMLDivElement>(null);
     const maskRef = useRef<HTMLDivElement>(null);
-
-    // 3D Tilt Effect on mouse move (Desktop only, only when section is in view)
-    useEffect(() => {
-        const imageContainer = imageContainerRef.current;
-        const section = sectionRef.current;
-        if (!imageContainer || !section) return;
-
-        // Skip on touch devices
-        const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-        if (isTouch) return;
-
-        let isInView = false;
-
-        // Track if section is in view
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    isInView = entry.isIntersecting;
-                    
-                    // Reset rotation when leaving view
-                    if (!isInView) {
-                        gsap.to(imageContainer, {
-                            rotateX: 0,
-                            rotateY: 0,
-                            duration: 0.3,
-                            ease: 'power2.out',
-                        });
-                    }
-                });
-            },
-            { threshold: 0.1 }
-        );
-
-        observer.observe(section);
-
-        const handleMouseMove = (e: MouseEvent) => {
-            // Only apply effect if section is in view
-            if (!isInView) return;
-
-            const rect = imageContainer.getBoundingClientRect();
-            const centerX = rect.left + rect.width / 2;
-            const centerY = rect.top + rect.height / 2;
-
-            const mouseX = e.clientX - centerX;
-            const mouseY = e.clientY - centerY;
-
-            // Calculate rotation (max 12 degrees)
-            const rotateY = (mouseX / (rect.width / 2)) * 12;
-            const rotateX = -(mouseY / (rect.height / 2)) * 12;
-
-            gsap.to(imageContainer, {
-                rotateX: rotateX,
-                rotateY: rotateY,
-                duration: 0.5,
-                ease: 'power2.out',
-                transformPerspective: 1000,
-            });
-        };
-
-        const handleMouseLeave = () => {
-            gsap.to(imageContainer, {
-                rotateX: 0,
-                rotateY: 0,
-                duration: 0.7,
-                ease: 'elastic.out(1, 0.5)',
-            });
-        };
-
-        window.addEventListener('mousemove', handleMouseMove);
-        imageContainer.addEventListener('mouseleave', handleMouseLeave);
-
-        return () => {
-            observer.disconnect();
-            window.removeEventListener('mousemove', handleMouseMove);
-            imageContainer.removeEventListener('mouseleave', handleMouseLeave);
-        };
-    }, []);
 
     useGSAP(
         () => {
@@ -138,16 +61,6 @@ export default function FounderSection() {
                 '-=1.4'
             );
 
-            // Add subtle floating animation after reveal
-            tl.add(() => {
-                gsap.to(imageContainerRef.current, {
-                    y: -10,
-                    duration: 2.5,
-                    yoyo: true,
-                    repeat: -1,
-                    ease: 'sine.inOut',
-                });
-            });
         },
         { scope: sectionRef }
     );
@@ -166,11 +79,10 @@ export default function FounderSection() {
                 />
             </div>
 
-            {/* Founder Image - Center, on top of logo with 3D tilt */}
+            {/* Founder Image - Center, on top of logo */}
             <div
                 ref={imageContainerRef}
-                className="relative z-20 flex items-center justify-center"
-                style={{ transformStyle: 'preserve-3d' }}
+                className="absolute left-1/2 top-1/2 z-20 -translate-x-1/2 -translate-y-1/2"
             >
                 {/* Circle Mask Container */}
                 <div
@@ -182,7 +94,7 @@ export default function FounderSection() {
                         ref={imageRef}
                         src="/images/assets/founder.png"
                         alt="Mohamed Baseet - Founder"
-                        className="h-auto w-[85%] max-w-[700px] object-contain sm:max-w-[380px] md:max-w-[450px] lg:max-w-[550px] xl:w-[90%] xl:max-w-none"
+                        className="h-auto w-[280px] object-contain sm:w-[320px] md:w-[400px] lg:w-[500px] xl:w-[600px]"
                     />
                 </div>
             </div>
