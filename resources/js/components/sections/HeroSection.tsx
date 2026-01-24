@@ -234,7 +234,7 @@ export default function HeroSection({ data }: HeroSectionProps) {
                         ref={diceLeftRef}
                         src={`/images/${data.images.dice_left}`}
                         alt="Red Dice Left"
-                        className="absolute left-[15%] top-[38%] w-[45%] max-w-[280px] object-contain md:left-[25%] md:top-[35%] md:max-w-[400px] lg:left-[30%] lg:max-w-[500px]"
+                        className="absolute left-[15%] top-[38%] w-[40%] max-w-[240px] object-contain md:left-[25%] md:top-[35%] md:max-w-[340px] lg:left-[30%] lg:max-w-[425px]"
                         style={{
                             transformStyle: 'preserve-3d',
                             willChange: 'transform',
@@ -251,7 +251,7 @@ export default function HeroSection({ data }: HeroSectionProps) {
                         ref={diceRightRef}
                         src={`/images/${data.images.dice_right}`}
                         alt="Red Dice Right"
-                        className="absolute left-[40%] top-[36%] w-[50%] max-w-[320px] object-contain md:left-[40%] md:top-[35%] md:max-w-[500px] lg:left-[45%] lg:max-w-[600px]"
+                        className="absolute left-[40%] top-[36%] w-[45%] max-w-[270px] object-contain md:left-[40%] md:top-[35%] md:max-w-[425px] lg:left-[45%] lg:max-w-[510px]"
                         style={{
                             transformStyle: 'preserve-3d',
                             willChange: 'transform',
