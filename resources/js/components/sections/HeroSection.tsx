@@ -234,7 +234,7 @@ export default function HeroSection({ data }: HeroSectionProps) {
                         ref={diceLeftRef}
                         src={`/images/${data.images.dice_left}`}
                         alt="Red Dice Left"
-                        className="absolute left-[15%] top-[38%] w-[40%] max-w-[240px] object-contain md:left-[25%] md:top-[35%] md:max-w-[340px] lg:left-[30%] lg:max-w-[425px]"
+                        className="absolute left-[15%] top-[38%] w-[40%] max-w-[240px] object-contain md:left-[25%] md:top-[35%] md:max-w-[340px] lg:left-[28%] lg:max-w-[350px]"
                         style={{
                             transformStyle: 'preserve-3d',
                             willChange: 'transform',
