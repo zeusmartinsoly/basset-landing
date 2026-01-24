@@ -297,13 +297,13 @@ export default function HeroSection({ data }: HeroSectionProps) {
 
                     {/* علامات 103 - Bottom Right */}
                     <div
-                        className="hero-text absolute bottom-[22%] right-[5%] flex items-baseline gap-1 md:bottom-[18%] md:right-[4%] md:gap-2"
+                        className="hero-text absolute bottom-[22%] right-[5%] flex items-baseline gap-1 md:bottom-[15%] md:right-[4%] md:gap-2"
                         dir="rtl"
                     >
-                        <span className="font-arabic text-2xl font-bold text-white md:text-3xl lg:text-[3vw]">
+                        <span className="font-arabic text-2xl font-bold text-white md:text-3xl lg:text-[4vw]">
                             {data.brand_name}
                         </span>
-                        <span className="font-display text-sm font-bold text-white md:text-base lg:text-[1vw]">
+                        <span className="font-display text-sm font-bold text-white md:text-base lg:text-[2vw]">
                             {data.brand_number}
                         </span>
                     </div>
