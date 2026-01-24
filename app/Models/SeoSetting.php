@@ -46,13 +46,13 @@ class SeoSetting extends Model
 
         $data = $settings->toArray();
 
-        // Convert image paths to full URLs
+        // Convert image paths to full URLs using the public disk
         if (! empty($data['og_image'])) {
-            $data['og_image'] = Storage::url($data['og_image']);
+            $data['og_image'] = Storage::disk('public')->url($data['og_image']);
         }
 
         if (! empty($data['organization_logo'])) {
-            $data['organization_logo'] = Storage::url($data['organization_logo']);
+            $data['organization_logo'] = Storage::disk('public')->url($data['organization_logo']);
         }
 
         return $data;

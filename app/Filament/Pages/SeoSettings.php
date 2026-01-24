@@ -91,6 +91,8 @@ class SeoSettings extends Page implements HasSchemas
                         FileUpload::make('og_image')
                             ->label('OG Image')
                             ->image()
+                            ->disk('public')
+                            ->visibility('public')
                             ->imageResizeMode('cover')
                             ->imageCropAspectRatio('1.91:1')
                             ->imageResizeTargetWidth('1200')
@@ -130,6 +132,8 @@ class SeoSettings extends Page implements HasSchemas
                         FileUpload::make('organization_logo')
                             ->label('Organization Logo')
                             ->image()
+                            ->disk('public')
+                            ->visibility('public')
                             ->directory('seo')
                             ->helperText('Logo for structured data (min 112x112 pixels)'),
 

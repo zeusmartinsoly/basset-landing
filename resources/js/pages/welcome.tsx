@@ -47,7 +47,7 @@ interface WelcomeProps {
 export default function Welcome({ workImages, seo, appUrl, sections }: WelcomeProps) {
     const ogTitle = seo.og_title || seo.site_title;
     const ogDescription = seo.og_description || seo.site_description;
-    const ogImage = seo.og_image ? `${appUrl}${seo.og_image}` : null;
+    const ogImage = seo.og_image || null;
     const canonicalUrl = seo.canonical_url || appUrl;
 
     return (

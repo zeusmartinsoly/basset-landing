@@ -2,9 +2,11 @@
 
 namespace App\Providers;
 
+use App\Models\SeoSetting;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
 
@@ -24,6 +26,21 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->configureDefaults();
+        $this->shareSeoSettings();
+    }
+
+    /**
+     * Share SEO settings with the app blade template for server-side OG rendering.
+     */
+    protected function shareSeoSettings(): void
+    {
+        View::composer('app', function ($view): void {
+            $seo = SeoSetting::getSettings();
+            $appUrl = config('app.url');
+
+            $view->with('seo', $seo);
+            $view->with('appUrl', $appUrl);
+        });
     }
 
     protected function configureDefaults(): void
