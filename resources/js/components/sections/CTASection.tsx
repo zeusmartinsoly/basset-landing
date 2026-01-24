@@ -69,15 +69,15 @@ export default function CTASection({ data }: CTASectionProps) {
     return (
         <section
             ref={sectionRef}
-            className="relative w-full overflow-hidden bg-black py-12 md:py-16 lg:py-20"
+            className="relative w-full overflow-hidden bg-black py-10 sm:py-12 md:py-14 lg:py-16 xl:py-18 2xl:py-20"
         >
-            <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-10 lg:px-16">
-                <div className="flex flex-col items-center gap-8 text-center md:gap-10">
+            <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16">
+                <div className="flex flex-col items-center gap-6 text-center sm:gap-7 md:gap-8 lg:gap-9 xl:gap-10">
                     {/* CTA Button */}
                     <a
                         ref={buttonRef}
                         href={data.button_url}
-                        className="rounded-full bg-[#F02624] px-12 py-5 font-arabic text-2xl font-bold text-white opacity-0 transition-colors duration-300 hover:bg-[#D62839] sm:px-16 sm:py-6 sm:text-3xl md:px-20 md:py-7 md:text-4xl"
+                        className="rounded-full bg-[#F02624] px-8 py-4 font-arabic text-xl font-bold text-white opacity-0 transition-colors duration-300 hover:bg-[#D62839] sm:px-10 sm:py-4.5 sm:text-2xl md:px-14 md:py-5 md:text-2xl lg:px-16 lg:py-6 lg:text-3xl xl:px-18 xl:py-6.5 xl:text-3xl 2xl:px-20 2xl:py-7 2xl:text-4xl"
                         dir="rtl"
                     >
                         {data.button_text}
@@ -86,7 +86,7 @@ export default function CTASection({ data }: CTASectionProps) {
                     {/* Tagline */}
                     <p
                         ref={textRef}
-                        className="font-display text-lg tracking-wide text-white opacity-0 sm:text-xl md:text-2xl"
+                        className="font-display text-base tracking-wide text-white opacity-0 sm:text-lg md:text-lg lg:text-xl xl:text-xl 2xl:text-2xl"
                     >
                         {data.tagline.split('\n').map((line, i) => (
                             <span key={i}>

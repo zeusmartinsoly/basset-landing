@@ -183,7 +183,7 @@ export default function AboutSection({ data }: AboutSectionProps) {
                         {/* Title with Typewriter */}
                         <h2
                             ref={titleRef}
-                            className="mb-4 font-arabic text-4xl font-bold leading-tight text-white sm:mb-6 sm:text-5xl md:mb-8 md:text-6xl lg:text-7xl"
+                            className="mb-4 font-arabic text-3xl font-bold leading-tight text-white sm:mb-6 sm:text-4xl md:mb-8 md:text-5xl lg:text-6xl xl:text-6xl 2xl:text-7xl"
                         >
                             {titleText.split('\n').map((line, i) => (
                                 <span key={i}>
@@ -200,7 +200,7 @@ export default function AboutSection({ data }: AboutSectionProps) {
                         {/* Description with Typewriter */}
                         <p
                             ref={descriptionRef}
-                            className="font-arabic text-xl leading-relaxed text-white sm:text-2xl md:text-3xl lg:text-4xl"
+                            className="font-arabic text-lg leading-relaxed text-white sm:text-xl md:text-2xl lg:text-3xl xl:text-3xl 2xl:text-4xl"
                         >
                             {descText}
                         </p>
@@ -240,7 +240,7 @@ export default function AboutSection({ data }: AboutSectionProps) {
 
                     {/* Text Content - Right Side */}
                     <div className="order-1 w-full lg:order-2 lg:w-1/2" dir="rtl">
-                        <p className="font-arabic text-xl leading-relaxed text-white sm:text-2xl md:text-3xl lg:text-4xl">
+                        <p className="font-arabic text-lg leading-relaxed text-white sm:text-xl md:text-2xl lg:text-3xl xl:text-3xl 2xl:text-4xl">
                             {desc2Text}
                             <span
                                 ref={cursor2Ref}

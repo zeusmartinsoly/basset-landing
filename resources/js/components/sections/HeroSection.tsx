@@ -203,7 +203,7 @@ export default function HeroSection({ data }: HeroSectionProps) {
                         ref={branRef}
                         src={`/images/${data.images.bran_svg}`}
                         alt="Bran —"
-                        className="absolute left-1/2 top-[25%] w-[85%] -translate-x-1/2 object-contain md:left-[5%] md:top-[18%] md:w-[70%] md:translate-x-0 lg:w-[60%]"
+                        className="absolute left-1/2 top-[25%] w-[85%] -translate-x-1/2 object-contain sm:w-[80%] md:left-[5%] md:top-[18%] md:w-[65%] md:translate-x-0 lg:w-[55%] xl:w-[50%] 2xl:w-[55%]"
                     />
 
                     {/* 103 */}
@@ -211,7 +211,7 @@ export default function HeroSection({ data }: HeroSectionProps) {
                         ref={numberRef}
                         src={`/images/${data.images.number_svg}`}
                         alt="103"
-                        className="absolute bottom-[8%] left-[5%] w-[35%] object-contain md:bottom-[5%] md:w-[25%] lg:w-[20%]"
+                        className="absolute bottom-[8%] left-[5%] w-[30%] object-contain sm:w-[28%] md:bottom-[5%] md:w-[22%] lg:w-[18%] xl:w-[16%] 2xl:w-[18%]"
                     />
                 </div>
 
@@ -221,7 +221,7 @@ export default function HeroSection({ data }: HeroSectionProps) {
                         ref={datRef}
                         src={`/images/${data.images.dat_svg}`}
                         alt="— dat"
-                        className="absolute right-1/2 top-[48%] w-[85%] translate-x-1/2 object-contain md:right-[5%] md:top-[45%] md:w-[70%] md:translate-x-0 lg:w-[60%]"
+                        className="absolute right-1/2 top-[48%] w-[85%] translate-x-1/2 object-contain sm:w-[80%] md:right-[5%] md:top-[45%] md:w-[65%] md:translate-x-0 lg:w-[55%] xl:w-[50%] 2xl:w-[55%]"
                     />
                 </div>
 
@@ -234,7 +234,7 @@ export default function HeroSection({ data }: HeroSectionProps) {
                         ref={diceLeftRef}
                         src={`/images/${data.images.dice_left}`}
                         alt="Red Dice Left"
-                        className="absolute left-[15%] top-[38%] w-[45%] max-w-[280px] object-contain md:left-[25%] md:top-[35%] md:max-w-[400px] lg:left-[30%] lg:max-w-[500px]"
+                        className="absolute left-[15%] top-[38%] w-[35%] max-w-[170px] object-contain sm:max-w-[200px] md:left-[25%] md:top-[35%] md:max-w-[240px] lg:left-[30%] lg:max-w-[290px] xl:max-w-[340px] 2xl:max-w-[425px]"
                         style={{
                             transformStyle: 'preserve-3d',
                             willChange: 'transform',
@@ -251,7 +251,7 @@ export default function HeroSection({ data }: HeroSectionProps) {
                         ref={diceRightRef}
                         src={`/images/${data.images.dice_right}`}
                         alt="Red Dice Right"
-                        className="absolute left-[40%] top-[36%] w-[50%] max-w-[320px] object-contain md:left-[40%] md:top-[35%] md:max-w-[500px] lg:left-[45%] lg:max-w-[600px]"
+                        className="absolute left-[40%] top-[36%] w-[40%] max-w-[185px] object-contain sm:max-w-[220px] md:left-[40%] md:top-[35%] md:max-w-[270px] lg:left-[45%] lg:max-w-[340px] xl:max-w-[410px] 2xl:max-w-[510px]"
                         style={{
                             transformStyle: 'preserve-3d',
                             willChange: 'transform',
@@ -266,7 +266,7 @@ export default function HeroSection({ data }: HeroSectionProps) {
                         className="hero-text absolute right-[5%] top-[15%] flex flex-col items-end md:right-[25%] md:top-[18%] lg:right-[35%] lg:top-[21%]"
                         dir="rtl"
                     >
-                        <p className="text-right font-arabic text-sm font-bold leading-relaxed text-white opacity-90 md:text-base lg:text-[1.2vw]">
+                        <p className="text-right font-arabic text-xs font-bold leading-relaxed text-white opacity-90 sm:text-sm md:text-sm lg:text-base xl:text-base 2xl:text-lg">
                             {data.arabic_quote.split('\n').map((line, i) => (
                                 <span key={i}>
                                     {line}
@@ -278,7 +278,7 @@ export default function HeroSection({ data }: HeroSectionProps) {
 
                     {/* Branding Is Thinking - Left Middle */}
                     <div className="hero-text absolute left-[5%] top-[68%] md:top-[50%] lg:top-[45%]">
-                        <p className="font-display text-sm leading-snug tracking-wide text-white opacity-90 md:text-base lg:text-[1.2vw]">
+                        <p className="font-display text-xs leading-snug tracking-wide text-white opacity-90 sm:text-sm md:text-sm lg:text-base xl:text-base 2xl:text-lg">
                             {data.english_text.split('\n').map((line, i) => (
                                 <span key={i}>
                                     {line}
@@ -290,7 +290,7 @@ export default function HeroSection({ data }: HeroSectionProps) {
 
                     {/* THIRD EDITION - Left, Above 103 */}
                     <div className="hero-text absolute bottom-[22%] left-[5%] md:bottom-[26%] md:left-[9%]">
-                        <span className="font-display text-xs font-medium tracking-[0.2em] text-[#F02624] md:text-sm md:tracking-[0.25em] lg:text-[1.3rem]">
+                        <span className="font-display text-[10px] font-medium tracking-[0.2em] text-[#F02624] sm:text-xs md:text-xs md:tracking-[0.25em] lg:text-sm xl:text-sm 2xl:text-base">
                             {data.edition}
                         </span>
                     </div>
@@ -300,17 +300,17 @@ export default function HeroSection({ data }: HeroSectionProps) {
                         className="hero-text absolute bottom-[22%] right-[5%] flex items-baseline gap-1 md:bottom-[18%] md:right-[4%] md:gap-2"
                         dir="rtl"
                     >
-                        <span className="font-arabic text-2xl font-bold text-white md:text-3xl lg:text-[3vw]">
+                        <span className="font-arabic text-xl font-bold text-white sm:text-2xl md:text-2xl lg:text-3xl xl:text-3xl 2xl:text-4xl">
                             {data.brand_name}
                         </span>
-                        <span className="font-display text-sm font-bold text-white md:text-base lg:text-[1vw]">
+                        <span className="font-display text-xs font-bold text-white sm:text-sm md:text-sm lg:text-base xl:text-base 2xl:text-lg">
                             {data.brand_number}
                         </span>
                     </div>
 
                     {/* 2026 - Bottom Right Corner */}
                     <div className="hero-text absolute bottom-[8%] right-[5%] md:bottom-[5%]">
-                        <span className="font-display text-xs tracking-widest text-white opacity-80 md:text-sm lg:text-[1.2vw]">
+                        <span className="font-display text-[10px] tracking-widest text-white opacity-80 sm:text-xs md:text-xs lg:text-sm xl:text-sm 2xl:text-base">
                             {data.year}
                         </span>
                     </div>

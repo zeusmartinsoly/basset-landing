@@ -85,36 +85,36 @@ export default function Navbar({ data }: NavbarProps) {
             style={{ fontFamily: "'IRANSansX', sans-serif" }}
         >
             <div className="mx-auto px-4 sm:px-6 md:px-10 lg:px-16">
-                <div className="flex h-16 items-center justify-between sm:h-20 lg:h-32">
+                <div className="flex h-16 items-center justify-between sm:h-18 md:h-20 lg:h-24 xl:h-28 2xl:h-32">
                     {/* Logo - Left Side */}
                     <a ref={logoRef} href="/" className="block flex-shrink-0">
                         <img
                             src={`/images/${data.logo}`}
                             alt="Baseet"
-                            className="h-6 w-auto sm:h-8 lg:h-10"
+                            className="h-5 w-auto sm:h-6 md:h-7 lg:h-8 xl:h-9 2xl:h-10"
                         />
                     </a>
 
                     {/* Desktop Navigation + CTA - Right Side */}
-                    <div className="hidden items-center gap-8 md:flex lg:gap-16" dir="rtl">
+                    <div className="hidden items-center gap-6 md:flex lg:gap-10 xl:gap-14 2xl:gap-16" dir="rtl">
                         {/* CTA Button */}
                         <a
                             ref={ctaRef}
                             href={data.cta_url}
-                            className="rounded-full bg-[#F02624] px-5 py-2.5 text-sm font-black text-white transition-colors duration-300 hover:bg-[#D62839] lg:px-10 lg:py-4 lg:text-xl"
+                            className="rounded-full bg-[#F02624] px-4 py-2 text-sm font-black text-white transition-colors duration-300 hover:bg-[#D62839] lg:px-6 lg:py-3 lg:text-base xl:px-8 xl:py-3.5 xl:text-lg 2xl:px-10 2xl:py-4 2xl:text-xl"
                         >
                             {data.cta_text}
                         </a>
 
                         {/* Nav Links */}
-                        <div ref={linksRef} className="hidden items-center gap-6 lg:flex lg:gap-14">
+                        <div ref={linksRef} className="hidden items-center gap-4 lg:flex lg:gap-8 xl:gap-10 2xl:gap-14">
                             {data.links.map((link, index) => (
                                 <a
                                     key={index}
                                     href={link.url}
                                     target={link.external ? '_blank' : undefined}
                                     rel={link.external ? 'noopener noreferrer' : undefined}
-                                    className="text-base font-bold text-white transition-colors duration-300 hover:text-white/70 lg:text-xl"
+                                    className="text-sm font-bold text-white transition-colors duration-300 hover:text-white/70 lg:text-base xl:text-lg 2xl:text-xl"
                                 >
                                     {link.text}
                                 </a>

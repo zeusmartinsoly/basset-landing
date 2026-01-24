@@ -19,6 +19,39 @@ interface LightboxState {
     isClosing: boolean;
 }
 
+// Hook to get responsive radius based on screen size
+function useResponsiveRadius() {
+    const [radius, setRadius] = useState(770);
+
+    useEffect(() => {
+        const updateRadius = () => {
+            const width = window.innerWidth;
+            // Scale radius based on screen width for better zoom/responsive handling
+            if (width < 640) {
+                setRadius(350); // Mobile
+            } else if (width < 768) {
+                setRadius(420); // Small tablet
+            } else if (width < 1024) {
+                setRadius(500); // Tablet
+            } else if (width < 1280) {
+                setRadius(580); // Small desktop
+            } else if (width < 1536) {
+                setRadius(650); // Desktop
+            } else if (width < 1920) {
+                setRadius(720); // Large desktop
+            } else {
+                setRadius(770); // Extra large
+            }
+        };
+
+        updateRadius();
+        window.addEventListener('resize', updateRadius);
+        return () => window.removeEventListener('resize', updateRadius);
+    }, []);
+
+    return radius;
+}
+
 export default function WorkShowcaseSection({ images, data }: WorkShowcaseSectionProps) {
     const sectionRef = useRef<HTMLElement>(null);
     const cylinderRef = useRef<HTMLDivElement>(null);
@@ -38,8 +71,8 @@ export default function WorkShowcaseSection({ images, data }: WorkShowcaseSectio
     const totalItems = workImages.length;
     const angleStep = 360 / totalItems;
     
-    // Fixed radius to maintain consistent cylinder size regardless of image count
-    const radius = 770; // Increased by 10%
+    // Responsive radius for different screen sizes
+    const radius = useResponsiveRadius();
     // Calculate item width based on radius and number of items
     const itemWidth = Math.round(2 * radius * Math.tan(Math.PI / totalItems));
     // Calculate item height based on 16:10 aspect ratio (landscape images)
@@ -244,19 +277,19 @@ export default function WorkShowcaseSection({ images, data }: WorkShowcaseSectio
         <>
             <section
                 ref={sectionRef}
-                className="relative w-full overflow-hidden bg-black py-16 md:py-20"
+                className="relative w-full overflow-hidden bg-black py-12 sm:py-14 md:py-16 lg:py-18 xl:py-20"
             >
                 {/* Section Title */}
-                <div className="work-title mb-8 text-center opacity-0 md:mb-12">
+                <div className="work-title mb-6 text-center opacity-0 sm:mb-8 md:mb-10 lg:mb-12">
                     <h2
-                        className="text-4xl font-bold text-white md:text-5xl lg:text-6xl"
+                        className="text-3xl font-bold text-white sm:text-4xl md:text-4xl lg:text-5xl xl:text-5xl 2xl:text-6xl"
                         style={{ fontFamily: "'IRANSansX', sans-serif" }}
                         dir="rtl"
                     >
                         {data.title}
                     </h2>
                     <p
-                        className="mt-4 text-lg text-white/60 md:text-xl"
+                        className="mt-3 text-base text-white/60 sm:mt-4 sm:text-lg md:text-lg lg:text-xl"
                         style={{ fontFamily: "'IRANSansX', sans-serif" }}
                         dir="rtl"
                     >
@@ -337,22 +370,22 @@ export default function WorkShowcaseSection({ images, data }: WorkShowcaseSectio
                 </div>
 
                 {/* Navigation Buttons */}
-                <div className="mt-8 flex items-center justify-center gap-6">
+                <div className="mt-6 flex items-center justify-center gap-4 sm:mt-7 sm:gap-5 md:mt-8 md:gap-6">
                     <button
                         onClick={rotateLeft}
-                        className="flex h-14 w-14 items-center justify-center rounded-full border-2 border-white/20 bg-white/5 text-white transition-all duration-300 hover:border-[#F02624] hover:bg-[#F02624]/20 hover:text-[#F02624]"
+                        className="flex h-11 w-11 items-center justify-center rounded-full border-2 border-white/20 bg-white/5 text-white transition-all duration-300 hover:border-[#F02624] hover:bg-[#F02624]/20 hover:text-[#F02624] sm:h-12 sm:w-12 md:h-13 md:w-13 lg:h-14 lg:w-14"
                         aria-label="Previous"
                     >
-                        <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="h-5 w-5 sm:h-5.5 sm:w-5.5 md:h-6 md:w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                         </svg>
                     </button>
                     <button
                         onClick={rotateRight}
-                        className="flex h-14 w-14 items-center justify-center rounded-full border-2 border-white/20 bg-white/5 text-white transition-all duration-300 hover:border-[#F02624] hover:bg-[#F02624]/20 hover:text-[#F02624]"
+                        className="flex h-11 w-11 items-center justify-center rounded-full border-2 border-white/20 bg-white/5 text-white transition-all duration-300 hover:border-[#F02624] hover:bg-[#F02624]/20 hover:text-[#F02624] sm:h-12 sm:w-12 md:h-13 md:w-13 lg:h-14 lg:w-14"
                         aria-label="Next"
                     >
-                        <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="h-5 w-5 sm:h-5.5 sm:w-5.5 md:h-6 md:w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                         </svg>
                     </button>
@@ -360,7 +393,7 @@ export default function WorkShowcaseSection({ images, data }: WorkShowcaseSectio
 
                 {/* Instructions */}
                 <p
-                    className="mt-4 text-center text-sm text-white/40 md:text-base"
+                    className="mt-3 text-center text-xs text-white/40 sm:mt-3.5 sm:text-sm md:mt-4 md:text-base"
                     style={{ fontFamily: "'IRANSansX', sans-serif" }}
                     dir="rtl"
                 >

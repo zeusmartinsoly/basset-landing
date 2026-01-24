@@ -144,11 +144,11 @@ export default function IntroSection({ data }: IntroSectionProps) {
     return (
         <section
             ref={sectionRef}
-            className="relative w-full bg-black py-16 md:py-24 lg:py-32"
+            className="relative w-full bg-black py-12 sm:py-14 md:py-16 lg:py-20 xl:py-24 2xl:py-32"
         >
-            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12">
                 {/* Main Content - Two Columns */}
-                <div className="flex flex-col items-center gap-8 md:flex-row md:items-start md:gap-12 lg:gap-16">
+                <div className="flex flex-col items-center gap-6 sm:gap-8 md:flex-row md:items-start md:gap-10 lg:gap-12 xl:gap-16">
                     {/* Left Side - Award Image with Glow Effect */}
                     <div className="relative w-full flex-shrink-0 md:w-[40%] lg:w-[35%]">
                         {/* Golden Glow Behind Award - Always visible */}
@@ -171,20 +171,20 @@ export default function IntroSection({ data }: IntroSectionProps) {
                     {/* Right Side - Text Content */}
                     <div className="w-full text-right md:w-[60%] lg:w-[65%]" dir="rtl">
                         <h2
-                            className="intro-title mb-6 text-4xl font-bold text-white opacity-0 md:mb-8 md:text-5xl lg:text-6xl"
+                            className="intro-title mb-4 text-3xl font-bold text-white opacity-0 sm:mb-5 sm:text-4xl md:mb-6 md:text-4xl lg:mb-7 lg:text-5xl xl:mb-8 xl:text-5xl 2xl:text-6xl"
                             style={{ fontFamily: "'IRANSansX', sans-serif" }}
                         >
                             {data.title}
                         </h2>
 
                         <div
-                            className="space-y-4 text-base leading-[1.5] text-white/90 md:space-y-5 md:text-lg lg:text-xl"
+                            className="space-y-3 text-base leading-[1.5] text-white/90 sm:space-y-4 md:space-y-4 md:text-lg lg:space-y-5 lg:text-lg xl:text-xl"
                             style={{ fontFamily: "'IRANSansX', sans-serif" }}
                         >
                             {data.paragraphs.map((paragraph, index) => (
                                 <p
                                     key={index}
-                                    className="intro-text text-xl leading-[1.5] text-white opacity-0 md:text-2xl lg:text-3xl"
+                                    className="intro-text text-lg leading-[1.5] text-white opacity-0 sm:text-xl md:text-xl lg:text-2xl xl:text-2xl 2xl:text-3xl"
                                 >
                                     {paragraph.split('\n').map((line, lineIndex) => {
                                         // Replace placeholders with animated counters
@@ -226,9 +226,9 @@ export default function IntroSection({ data }: IntroSectionProps) {
                 </div>
 
                 {/* Bottom CTA Section */}
-                <div className="intro-cta mt-16 text-center opacity-0 md:mt-20 lg:mt-24">
+                <div className="intro-cta mt-12 text-center opacity-0 sm:mt-14 md:mt-16 lg:mt-18 xl:mt-20 2xl:mt-24">
                     <p
-                        className="mx-auto mb-8 max-w-3xl text-xl leading-[1.5] text-white md:text-2xl lg:text-3xl"
+                        className="mx-auto mb-6 max-w-3xl text-lg leading-[1.5] text-white sm:mb-7 sm:text-xl md:mb-8 md:text-xl lg:text-2xl xl:text-2xl 2xl:text-3xl"
                         style={{ fontFamily: "'IRANSansX', sans-serif" }}
                         dir="rtl"
                     >
@@ -242,7 +242,7 @@ export default function IntroSection({ data }: IntroSectionProps) {
 
                     <a
                         href={data.cta_button_url}
-                        className="inline-block rounded-full bg-[#F02624] px-12 py-4 text-xl font-bold text-white transition-all duration-300 hover:scale-105 hover:bg-[#D62839] md:px-16 md:py-5 md:text-2xl"
+                        className="inline-block rounded-full bg-[#F02624] px-8 py-3 text-lg font-bold text-white transition-all duration-300 hover:scale-105 hover:bg-[#D62839] sm:px-10 sm:py-3.5 sm:text-xl md:px-12 md:py-4 md:text-xl lg:px-14 lg:py-4.5 lg:text-2xl xl:px-16 xl:py-5 xl:text-2xl"
                         style={{ fontFamily: "'IRANSansX', sans-serif" }}
                     >
                         {data.cta_button_text}

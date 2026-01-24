@@ -73,14 +73,14 @@ export default function FounderSection({ data }: FounderSectionProps) {
     return (
         <section
             ref={sectionRef}
-            className="relative flex min-h-[50vh] w-full items-center justify-center bg-white py-8 sm:min-h-[60vh] sm:py-12 md:min-h-[75vh] md:py-16 lg:min-h-[90vh] lg:py-32"
+            className="relative flex min-h-[50vh] w-full items-center justify-center bg-white py-8 sm:min-h-[55vh] sm:py-10 md:min-h-[60vh] md:py-12 lg:min-h-[70vh] lg:py-20 xl:min-h-[80vh] xl:py-24 2xl:min-h-[90vh] 2xl:py-32"
         >
             {/* Background SVG - alamat103 (smaller) */}
             <div className="founder-svg pointer-events-none absolute inset-0 z-0 flex items-center justify-center">
                 <img
                     src={`/images/${data.background_image}`}
                     alt="Bran—dat 103"
-                    className="h-auto w-[95%] object-contain opacity-100 sm:w-[90%] md:w-[80%] lg:w-[70%] xl:w-[65%]"
+                    className="h-auto w-[95%] object-contain opacity-100 sm:w-[90%] md:w-[85%] lg:w-[75%] xl:w-[70%] 2xl:w-[65%]"
                 />
             </div>
 
@@ -99,7 +99,7 @@ export default function FounderSection({ data }: FounderSectionProps) {
                         ref={imageRef}
                         src={`/images/${data.founder_image}`}
                         alt={`${data.founder_name} - ${data.founder_title}`}
-                        className="h-auto w-[280px] object-contain sm:w-[320px] md:w-[400px] lg:w-[500px] xl:w-[600px]"
+                        className="h-auto w-[220px] object-contain sm:w-[260px] md:w-[320px] lg:w-[400px] xl:w-[480px] 2xl:w-[560px]"
                     />
                 </div>
             </div>

@@ -123,29 +123,29 @@ export default function PhasesSection({ data }: PhasesSectionProps) {
     return (
         <section
             ref={sectionRef}
-            className="relative flex min-h-[80vh] w-full items-center overflow-hidden bg-black py-16 md:py-20 lg:py-24"
+            className="relative flex min-h-[80vh] w-full items-center overflow-hidden bg-black py-12 sm:py-14 md:py-16 lg:py-20 xl:py-24"
         >
-            <div className="mx-auto max-w-[1920px] px-6 md:px-12 lg:px-20">
-                <div className="flex flex-col items-center gap-12 lg:flex-row lg:items-center lg:justify-between lg:gap-8">
+            <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 md:px-10 lg:px-16 xl:max-w-[1400px] 2xl:max-w-[1600px]">
+                <div className="flex flex-col items-center gap-10 lg:flex-row lg:items-center lg:justify-between lg:gap-12 xl:gap-16">
                     {/* Left Side - Phases List */}
                     <div className="w-full lg:w-1/2">
-                        <div className="flex flex-col gap-8 md:gap-10 lg:gap-12">
+                        <div className="flex flex-col gap-6 sm:gap-7 md:gap-8 lg:gap-10 xl:gap-12">
                             {phases.map((phase, index) => (
                                 <div
                                     key={phase.number}
                                     ref={(el) => {
                                         phaseItemsRef.current[index] = el;
                                     }}
-                                    className="phase-item flex items-start gap-3 md:gap-4"
+                                    className="phase-item flex items-start gap-2 sm:gap-3 md:gap-4"
                                 >
-                                    <span className="phase-arrow font-display text-lg text-white md:text-xl lg:text-2xl">
+                                    <span className="phase-arrow font-display text-base text-white sm:text-lg md:text-xl lg:text-2xl">
                                         →
                                     </span>
                                     <div className="flex flex-col">
-                                        <span className="phase-title font-display text-2xl font-bold tracking-tight text-white md:text-3xl lg:text-4xl">
+                                        <span className="phase-title font-display text-xl font-bold tracking-tight text-white sm:text-2xl md:text-3xl lg:text-3xl xl:text-4xl">
                                             Phase O{phase.number.charAt(1)}
                                         </span>
-                                        <span className="phase-subtitle font-display text-lg font-light tracking-wide text-white/90 md:text-xl lg:text-2xl">
+                                        <span className="phase-subtitle font-display text-base font-light tracking-wide text-white/90 sm:text-lg md:text-xl lg:text-xl xl:text-2xl">
                                             {phase.title}
                                         </span>
                                     </div>
@@ -160,7 +160,7 @@ export default function PhasesSection({ data }: PhasesSectionProps) {
                             ref={svgRef}
                             src={`/images/${data.image}`}
                             alt="Bran—dat 103 - Now With AI"
-                            className="h-auto w-full max-w-[700px] lg:max-w-[950px] xl:max-w-[1100px]"
+                            className="h-auto w-full max-w-[500px] sm:max-w-[550px] md:max-w-[600px] lg:max-w-[700px] xl:max-w-[800px] 2xl:max-w-[900px]"
                         />
                     </div>
                 </div>

@@ -273,18 +273,18 @@ export default function ForWhomSection({ data }: ForWhomSectionProps) {
     return (
         <section
             ref={sectionRef}
-            className="relative w-full bg-white py-16 md:py-24"
+            className="relative w-full bg-white py-12 sm:py-14 md:py-16 lg:py-20 xl:py-24"
         >
-            <div className="mx-auto max-w-[1400px] px-4 md:px-8">
+            <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-8 lg:px-10 xl:max-w-[1200px] 2xl:max-w-[1400px]">
                 {/* Title with Typewriter */}
                 <h2
-                    className="mb-12 font-arabic text-6xl font-bold text-black md:mb-16 md:text-7xl lg:text-8xl"
+                    className="mb-8 font-arabic text-4xl font-bold text-black sm:mb-10 sm:text-5xl md:mb-12 md:text-6xl lg:mb-14 lg:text-6xl xl:mb-16 xl:text-7xl 2xl:text-8xl"
                     dir="rtl"
                 >
                     {titleText}
                     <span
                         ref={cursorRef}
-                        className="inline-block h-[0.9em] w-[4px] translate-y-1 bg-[#F02624] md:w-[6px]"
+                        className="inline-block h-[0.9em] w-[3px] translate-y-1 bg-[#F02624] sm:w-[4px] md:w-[5px] lg:w-[6px]"
                     />
                 </h2>
 
@@ -293,36 +293,36 @@ export default function ForWhomSection({ data }: ForWhomSectionProps) {
                     {/* Crosshair Top Left */}
                     <Crosshair
                         lineRef={crosshair1Ref}
-                        className="absolute -top-4 -left-4 h-10 w-10 md:-top-6 md:-left-6 md:h-12 md:w-12"
+                        className="absolute -top-3 -left-3 h-8 w-8 sm:-top-4 sm:-left-4 sm:h-10 sm:w-10 md:-top-5 md:-left-5 md:h-11 md:w-11 lg:-top-6 lg:-left-6 lg:h-12 lg:w-12"
                     />
 
                     {/* Crosshair Top Right */}
                     <Crosshair
                         lineRef={crosshair2Ref}
-                        className="absolute -top-4 -right-4 h-10 w-10 md:-top-6 md:-right-6 md:h-12 md:w-12"
+                        className="absolute -top-3 -right-3 h-8 w-8 sm:-top-4 sm:-right-4 sm:h-10 sm:w-10 md:-top-5 md:-right-5 md:h-11 md:w-11 lg:-top-6 lg:-right-6 lg:h-12 lg:w-12"
                     />
 
                     {/* Crosshair Bottom Right */}
                     <Crosshair
                         lineRef={crosshair3Ref}
-                        className="absolute -right-4 -bottom-4 h-10 w-10 md:-right-6 md:-bottom-6 md:h-12 md:w-12"
+                        className="absolute -right-3 -bottom-3 h-8 w-8 sm:-right-4 sm:-bottom-4 sm:h-10 sm:w-10 md:-right-5 md:-bottom-5 md:h-11 md:w-11 lg:-right-6 lg:-bottom-6 lg:h-12 lg:w-12"
                     />
 
                     {/* Black Card */}
                     <div
-                        className="bg-black px-8 py-12 md:px-14 md:py-16 lg:px-20 lg:py-20"
+                        className="bg-black px-5 py-8 sm:px-6 sm:py-10 md:px-10 md:py-12 lg:px-14 lg:py-14 xl:px-16 xl:py-16 2xl:px-20 2xl:py-20"
                         dir="rtl"
                     >
-                        <div className="grid grid-cols-1 gap-10 md:grid-cols-3 md:gap-12 lg:gap-16">
+                        <div className="grid grid-cols-1 gap-8 sm:gap-9 md:grid-cols-3 md:gap-8 lg:gap-10 xl:gap-12 2xl:gap-16">
                             {/* Distribute items into 3 columns */}
                             {[0, 1, 2].map((colIndex) => (
-                                <div key={colIndex} className="space-y-10 md:space-y-12">
+                                <div key={colIndex} className="space-y-8 sm:space-y-9 md:space-y-8 lg:space-y-10 xl:space-y-12">
                                     {data.items
                                         .filter((_, i) => i % 3 === colIndex)
                                         .map((item, i) => (
                                             <div key={i} className="for-whom-item">
                                                 <p
-                                                    className={`font-arabic text-xl leading-relaxed md:text-2xl ${
+                                                    className={`font-arabic text-base leading-relaxed sm:text-lg md:text-lg lg:text-xl xl:text-2xl ${
                                                         item.color === 'red'
                                                             ? 'text-[#F02624]'
                                                             : 'text-white'
@@ -345,10 +345,10 @@ export default function ForWhomSection({ data }: ForWhomSectionProps) {
                 </div>
 
                 {/* FOR WHOM? */}
-                <div className="-mt-12">
+                <div className="-mt-8 sm:-mt-10 md:-mt-12">
                     <h3
                         ref={forWhomRef}
-                        className="text-center font-display text-7xl md:text-9xl lg:text-[10rem]"
+                        className="text-center font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl 2xl:text-[10rem]"
                         style={{
                             color: '#F02624',
                         }}

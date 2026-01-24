@@ -112,11 +112,11 @@ export default function GallerySection({ data }: GallerySectionProps) {
         >
             {/* Row 1 - Moving Left */}
             <div className="mb-4 overflow-hidden md:mb-6">
-                <div ref={track1Ref} className="flex w-max gap-4 md:gap-6">
+                <div ref={track1Ref} className="flex w-max gap-3 sm:gap-4 md:gap-5 lg:gap-6">
                     {row1Duplicated.map((image, index) => (
                         <div
                             key={index}
-                            className="gallery-item relative w-[300px] flex-shrink-0 overflow-hidden rounded-xl md:w-[400px] lg:w-[500px]"
+                            className="gallery-item relative w-[240px] flex-shrink-0 overflow-hidden rounded-lg sm:w-[280px] sm:rounded-xl md:w-[340px] lg:w-[400px] xl:w-[450px] 2xl:w-[500px]"
                         >
                             <img
                                 src={`/images/${image}`}
@@ -131,11 +131,11 @@ export default function GallerySection({ data }: GallerySectionProps) {
 
             {/* Row 2 - Moving Right */}
             <div className="overflow-hidden">
-                <div ref={track2Ref} className="flex w-max gap-4 md:gap-6">
+                <div ref={track2Ref} className="flex w-max gap-3 sm:gap-4 md:gap-5 lg:gap-6">
                     {row2Duplicated.map((image, index) => (
                         <div
                             key={index}
-                            className="gallery-item relative w-[300px] flex-shrink-0 overflow-hidden rounded-xl md:w-[400px] lg:w-[500px]"
+                            className="gallery-item relative w-[240px] flex-shrink-0 overflow-hidden rounded-lg sm:w-[280px] sm:rounded-xl md:w-[340px] lg:w-[400px] xl:w-[450px] 2xl:w-[500px]"
                         >
                             <img
                                 src={`/images/${image}`}

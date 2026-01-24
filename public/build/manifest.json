@@ -1,6 +1,6 @@
 {
   "resources/css/app.css": {
-    "file": "assets/app-cLHsAVnC.css",
+    "file": "assets/app-B2zM4ywm.css",
     "src": "resources/css/app.css",
     "isEntry": true,
     "name": "app",
@@ -61,7 +61,7 @@
     "src": "resources/fonts/termina/TerminaTest-Thin.otf"
   },
   "resources/js/app.tsx": {
-    "file": "assets/app-CmBe4WVd.js",
+    "file": "assets/app-Bl1nD9fY.js",
     "name": "app",
     "src": "resources/js/app.tsx",
     "isEntry": true,
@@ -70,7 +70,7 @@
       "resources/js/pages/welcome.tsx"
     ],
     "css": [
-      "assets/app-cLHsAVnC.css"
+      "assets/app-B2zM4ywm.css"
     ],
     "assets": [
       "assets/IRANSansX-LightD4-DZSVboFM.ttf",
@@ -89,7 +89,7 @@
     ]
   },
   "resources/js/pages/Page/Show.tsx": {
-    "file": "assets/Show-DJSz4-nn.js",
+    "file": "assets/Show-x9SauWPV.js",
     "name": "Show",
     "src": "resources/js/pages/Page/Show.tsx",
     "isDynamicEntry": true,
@@ -97,7 +97,7 @@
       "resources/js/app.tsx"
     ],
     "css": [
-      "assets/app-cLHsAVnC.css"
+      "assets/app-B2zM4ywm.css"
     ],
     "assets": [
       "assets/IRANSansX-LightD4-DZSVboFM.ttf",
@@ -116,7 +116,7 @@
     ]
   },
   "resources/js/pages/welcome.tsx": {
-    "file": "assets/welcome-B7qPMR5_.js",
+    "file": "assets/welcome-B0StU9Uu.js",
     "name": "welcome",
     "src": "resources/js/pages/welcome.tsx",
     "isDynamicEntry": true,
@@ -124,7 +124,7 @@
       "resources/js/app.tsx"
     ],
     "css": [
-      "assets/app-cLHsAVnC.css"
+      "assets/app-B2zM4ywm.css"
     ],
     "assets": [
       "assets/IRANSansX-LightD4-DZSVboFM.ttf",
