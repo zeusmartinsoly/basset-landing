@@ -487,6 +487,17 @@ class LandingPageSettings extends Page implements HasSchemas
                         TextInput::make('work.instructions')
                             ->label('Instructions Text')
                             ->required(),
+
+                        FileUpload::make('work.images')
+                            ->label('Work Images')
+                            ->disk('landing')
+                            ->directory('work')
+                            ->visibility('public')
+                            ->image()
+                            ->multiple()
+                            ->reorderable()
+                            ->imagePreviewHeight('100')
+                            ->helperText('Upload portfolio/work images. You can drag to reorder them.'),
                     ]),
             ]);
     }
