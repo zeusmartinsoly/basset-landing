@@ -518,6 +518,17 @@ class LandingPageSettings extends Page implements HasSchemas
                             ->label('Show form on landing page')
                             ->helperText('When off, the section and the “تواصل معنا” navbar link are hidden. Submissions are still stored if the form is bypassed.')
                             ->default(true),
+
+                        TextInput::make('contact_waitlist.heading')
+                            ->label('Section heading')
+                            ->required()
+                            ->maxLength(120),
+
+                        Textarea::make('contact_waitlist.description')
+                            ->label('Section intro text')
+                            ->rows(4)
+                            ->required()
+                            ->columnSpanFull(),
                     ]),
             ]);
     }

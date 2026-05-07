@@ -248,6 +248,8 @@ class LandingPageSectionSeeder extends Seeder
                 'name' => 'Contact / waitlist block',
                 'content' => [
                     'visible' => true,
+                    'heading' => 'تواصل معنا',
+                    'description' => 'سجل الآن في قائمة الانتظار .. وهيتم التواصل معاك بمجرد فتح الباب للتسجيل في النسخة الجديدة',
                 ],
             ],
 

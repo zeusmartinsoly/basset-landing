@@ -97,6 +97,8 @@ describe('Landing Page Route', function () {
     it('exposes contact waitlist visibility as enabled by default', function () {
         $this->get('/')->assertInertia(fn ($page) => $page
             ->where('sections.contact_waitlist.visible', true)
+            ->has('sections.contact_waitlist.heading')
+            ->has('sections.contact_waitlist.description')
         );
     });
 
@@ -180,8 +182,10 @@ describe('LandingPageSection Content Structure', function () {
     it('contact_waitlist section has visibility flag', function () {
         $content = LandingPageSection::getContent('contact_waitlist');
 
-        expect($content)->toHaveKey('visible');
-        expect($content['visible'])->toBeTrue();
+        expect($content)->toHaveKeys(['visible', 'heading', 'description']);
+        expect($content['visible'])->toBeTrue()
+            ->and($content['heading'])->not->toBeEmpty()
+            ->and($content['description'])->not->toBeEmpty();
     });
 });
 

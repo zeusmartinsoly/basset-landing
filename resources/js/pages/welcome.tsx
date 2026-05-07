@@ -159,7 +159,9 @@ export default function Welcome({ workImages, seo, appUrl, sections }: WelcomePr
                 <PhasesSection data={sections.phases} />
                 <FounderSection data={sections.founder} />
                 <IntroSection data={sections.intro} />
-                {contactSectionVisible ? <ContactWaitlistSection /> : null}
+                {contactSectionVisible ? (
+                    <ContactWaitlistSection data={sections.contact_waitlist} />
+                ) : null}
                 <WorkShowcaseSection images={workImages} data={sections.work} />
                 <FooterSection data={sections.footer} />
             </div>

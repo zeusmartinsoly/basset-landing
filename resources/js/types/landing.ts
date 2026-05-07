@@ -124,6 +124,8 @@ export interface FooterSection {
 
 export interface ContactWaitlistSectionSettings {
     visible?: boolean;
+    heading?: string;
+    description?: string;
 }
 
 /**

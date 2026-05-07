@@ -10,6 +10,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { gsap } from '@/lib/animations/gsap-setup';
 import { cn } from '@/lib/utils';
+import type { ContactWaitlistSectionSettings } from '@/types/landing';
 
 type FlashProps = {
     flash?: {
@@ -23,7 +24,16 @@ const labelClass =
 const inputShell =
     'rounded-xl border border-white/12 bg-black text-white placeholder:text-white/38 shadow-inner shadow-black/50 transition-[border-color,box-shadow] hover:border-white/18';
 
-export default function ContactWaitlistSection() {
+const DEFAULT_HEADING = 'تواصل معنا';
+
+const DEFAULT_DESCRIPTION =
+    'سجل الآن في قائمة الانتظار .. وهيتم التواصل معاك بمجرد فتح الباب للتسجيل في النسخة الجديدة';
+
+interface ContactWaitlistSectionProps {
+    data?: ContactWaitlistSectionSettings | null;
+}
+
+export default function ContactWaitlistSection({ data }: ContactWaitlistSectionProps) {
     const sectionRef = useRef<HTMLElement>(null);
     const [preferWa, setPreferWa] = useState(true);
     const flash = usePage<FlashProps>().props.flash;
@@ -33,6 +43,9 @@ export default function ContactWaitlistSection() {
             setPreferWa(true);
         }
     }, [flash?.success]);
+
+    const heading = (data?.heading ?? '').trim() || DEFAULT_HEADING;
+    const description = (data?.description ?? '').trim() || DEFAULT_DESCRIPTION;
 
     useGSAP(
         () => {
@@ -72,11 +85,10 @@ export default function ContactWaitlistSection() {
                 >
                     <header dir="rtl" className="flex flex-col gap-3 text-center">
                         <h2 className="font-display font-semibold tracking-wide text-[#D4A853] sm:text-lg md:text-xl">
-                            تواصل معنا
+                            {heading}
                         </h2>
-                        <p className="font-arabic mx-auto w-full px-1 text-[15px] leading-[1.75] text-white/88 sm:text-base md:text-lg">
-                            سجل الآن في قائمة الانتظار .. وهيتم التواصل معاك بمجرد فتح الباب للتسجيل في
-                            النسخة الجديدة
+                        <p className="font-arabic mx-auto w-full px-1 whitespace-pre-line text-[15px] leading-[1.75] text-white/88 sm:text-base md:text-lg">
+                            {description}
                         </p>
                     </header>
 
