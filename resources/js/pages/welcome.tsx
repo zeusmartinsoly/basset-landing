@@ -1,5 +1,6 @@
 import { Head } from '@inertiajs/react';
 import AboutSection from '@/components/sections/AboutSection';
+import ContactWaitlistSection from '@/components/sections/ContactWaitlistSection';
 import CTASection from '@/components/sections/CTASection';
 import FooterSection from '@/components/sections/FooterSection';
 import ForWhomSection from '@/components/sections/ForWhomSection';
@@ -49,6 +50,8 @@ export default function Welcome({ workImages, seo, appUrl, sections }: WelcomePr
     const ogDescription = seo.og_description || seo.site_description;
     const ogImage = seo.og_image || null;
     const canonicalUrl = seo.canonical_url || appUrl;
+
+    const contactSectionVisible = sections.contact_waitlist?.visible !== false;
 
     return (
         <>
@@ -147,7 +150,7 @@ export default function Welcome({ workImages, seo, appUrl, sections }: WelcomePr
                 className="min-h-screen bg-[#0A0A0A]"
                 style={{ fontFamily: "'IRANSansX', sans-serif" }}
             >
-                <Navbar data={sections.navbar} />
+                <Navbar data={sections.navbar} contactSectionVisible={contactSectionVisible} />
                 <HeroSection data={sections.hero} />
                 <AboutSection data={sections.about} />
                 <CTASection data={sections.cta} />
@@ -156,6 +159,7 @@ export default function Welcome({ workImages, seo, appUrl, sections }: WelcomePr
                 <PhasesSection data={sections.phases} />
                 <FounderSection data={sections.founder} />
                 <IntroSection data={sections.intro} />
+                {contactSectionVisible ? <ContactWaitlistSection /> : null}
                 <WorkShowcaseSection images={workImages} data={sections.work} />
                 <FooterSection data={sections.footer} />
             </div>

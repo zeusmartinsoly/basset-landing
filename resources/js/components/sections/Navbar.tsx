@@ -5,9 +5,10 @@ import type { NavbarSection } from '@/types/landing';
 
 interface NavbarProps {
     data: NavbarSection;
+    contactSectionVisible?: boolean;
 }
 
-export default function Navbar({ data }: NavbarProps) {
+export default function Navbar({ data, contactSectionVisible = true }: NavbarProps) {
     const navRef = useRef<HTMLElement>(null);
     const logoRef = useRef<HTMLAnchorElement>(null);
     const linksRef = useRef<HTMLDivElement>(null);
@@ -76,6 +77,13 @@ export default function Navbar({ data }: NavbarProps) {
         { dependencies: [isMenuOpen] }
     );
 
+    const contactLink = {
+        text: 'تواصل معنا',
+        url: '#contact-waitlist',
+        external: false as const,
+    };
+    const desktopNavLinks = contactSectionVisible ? [contactLink, ...data.links] : data.links;
+
     const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
     return (
@@ -108,17 +116,18 @@ export default function Navbar({ data }: NavbarProps) {
 
                         {/* Nav Links */}
                         <div ref={linksRef} className="hidden items-center gap-4 lg:flex lg:gap-8 xl:gap-10 2xl:gap-14">
-                            {data.links.map((link, index) => (
-                                <a
-                                    key={index}
-                                    href={link.url}
-                                    target={link.external ? '_blank' : undefined}
-                                    rel={link.external ? 'noopener noreferrer' : undefined}
-                                    className="text-sm font-bold text-white transition-colors duration-300 hover:text-white/70 lg:text-base xl:text-lg 2xl:text-xl"
-                                >
-                                    {link.text}
-                                </a>
-                            ))}
+                            {desktopNavLinks.map(
+                                (link, index) => (
+                                    <a
+                                        key={`${link.url}-${link.text}-${index}`}
+                                        href={link.url}
+                                        target={link.external ? '_blank' : undefined}
+                                        rel={link.external ? 'noopener noreferrer' : undefined}
+                                        className="text-sm font-bold text-white transition-colors duration-300 hover:text-white/70 lg:text-base xl:text-lg 2xl:text-xl"
+                                    >
+                                        {link.text}
+                                    </a>
+                                ))}
                         </div>
                     </div>
 
@@ -167,20 +176,21 @@ export default function Navbar({ data }: NavbarProps) {
                 dir="rtl"
             >
                 <div className="flex flex-col gap-4 px-4 pb-6">
-                    {data.links.map((link, index) => (
-                        <a
-                            key={index}
-                            href={link.url}
-                            target={link.external ? '_blank' : undefined}
-                            rel={link.external ? 'noopener noreferrer' : undefined}
-                            onClick={() => setIsMenuOpen(false)}
-                            className={`py-3 text-lg font-bold text-white transition-colors duration-300 hover:text-white/70 ${
-                                index < data.links.length - 1 ? 'border-b border-white/10' : ''
-                            }`}
-                        >
-                            {link.text}
-                        </a>
-                    ))}
+                    {desktopNavLinks.map(
+                        (link, index, arr) => (
+                            <a
+                                key={`${link.url}-${link.text}-${index}`}
+                                href={link.url}
+                                target={link.external ? '_blank' : undefined}
+                                rel={link.external ? 'noopener noreferrer' : undefined}
+                                onClick={() => setIsMenuOpen(false)}
+                                className={`py-3 text-lg font-bold text-white transition-colors duration-300 hover:text-white/70 ${
+                                    index < arr.length - 1 ? 'border-b border-white/10' : ''
+                                }`}
+                            >
+                                {link.text}
+                            </a>
+                        ))}
                 </div>
             </div>
         </nav>

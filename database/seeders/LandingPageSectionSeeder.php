@@ -244,6 +244,13 @@ class LandingPageSectionSeeder extends Seeder
                 ],
             ],
 
+            'contact_waitlist' => [
+                'name' => 'Contact / waitlist block',
+                'content' => [
+                    'visible' => true,
+                ],
+            ],
+
             'footer' => [
                 'name' => 'Footer Section',
                 'content' => [

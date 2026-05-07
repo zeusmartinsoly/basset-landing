@@ -45,6 +45,7 @@ describe('LandingPageSection Model', function () {
             ->and($sections)->toHaveKey('founder')
             ->and($sections)->toHaveKey('intro')
             ->and($sections)->toHaveKey('work')
+            ->and($sections)->toHaveKey('contact_waitlist')
             ->and($sections)->toHaveKey('footer');
     });
 });
@@ -71,6 +72,7 @@ describe('Landing Page Route', function () {
             ->has('sections.founder')
             ->has('sections.intro')
             ->has('sections.work')
+            ->has('sections.contact_waitlist.visible')
             ->has('sections.footer')
         );
     });
@@ -89,6 +91,22 @@ describe('Landing Page Route', function () {
         $response->assertInertia(fn ($page) => $page
             ->has('seo')
             ->has('appUrl')
+        );
+    });
+
+    it('exposes contact waitlist visibility as enabled by default', function () {
+        $this->get('/')->assertInertia(fn ($page) => $page
+            ->where('sections.contact_waitlist.visible', true)
+        );
+    });
+
+    it('exposes contact waitlist as hidden when disabled in the database', function () {
+        LandingPageSection::query()->where('key', 'contact_waitlist')->update([
+            'content' => ['visible' => false],
+        ]);
+
+        $this->get('/')->assertInertia(fn ($page) => $page
+            ->where('sections.contact_waitlist.visible', false)
         );
     });
 });
@@ -157,6 +175,13 @@ describe('LandingPageSection Content Structure', function () {
             ->toHaveKey('name')
             ->toHaveKey('icon')
             ->toHaveKey('url');
+    });
+
+    it('contact_waitlist section has visibility flag', function () {
+        $content = LandingPageSection::getContent('contact_waitlist');
+
+        expect($content)->toHaveKey('visible');
+        expect($content['visible'])->toBeTrue();
     });
 });
 

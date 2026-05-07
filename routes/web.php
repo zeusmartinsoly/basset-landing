@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\StoreContactSubmissionController;
 use App\Models\LandingPageSection;
 use App\Models\SeoSetting;
 use Illuminate\Support\Facades\Route;
@@ -27,6 +28,10 @@ Route::get('/', function () {
         'sections' => $sections,
     ]);
 })->name('home');
+
+Route::post('/contact', StoreContactSubmissionController::class)
+    ->middleware(['throttle:10,1'])
+    ->name('contact.store');
 
 // Sitemap for SEO
 Route::get('/sitemap.xml', function () {

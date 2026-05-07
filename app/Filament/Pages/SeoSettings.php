@@ -14,6 +14,7 @@ use Filament\Schemas\Components\Section;
 use Filament\Schemas\Concerns\InteractsWithSchemas;
 use Filament\Schemas\Contracts\HasSchemas;
 use Filament\Schemas\Schema;
+use UnitEnum;
 
 class SeoSettings extends Page implements HasSchemas
 {
@@ -29,7 +30,9 @@ class SeoSettings extends Page implements HasSchemas
 
     protected static ?string $slug = 'seo-settings';
 
-    protected static ?int $navigationSort = 100;
+    protected static string|UnitEnum|null $navigationGroup = 'Settings';
+
+    protected static ?int $navigationSort = 40;
 
     /** @var array<string, mixed> */
     public ?array $data = [];

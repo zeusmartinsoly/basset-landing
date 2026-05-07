@@ -18,6 +18,7 @@ use Filament\Schemas\Components\Tabs\Tab;
 use Filament\Schemas\Concerns\InteractsWithSchemas;
 use Filament\Schemas\Contracts\HasSchemas;
 use Filament\Schemas\Schema;
+use UnitEnum;
 
 class LandingPageSettings extends Page implements HasSchemas
 {
@@ -33,7 +34,9 @@ class LandingPageSettings extends Page implements HasSchemas
 
     protected static ?string $slug = 'landing-page-settings';
 
-    protected static ?int $navigationSort = 99;
+    protected static string|UnitEnum|null $navigationGroup = 'Site content';
+
+    protected static ?int $navigationSort = 10;
 
     /** @var array<string, mixed> */
     public ?array $data = [];
@@ -66,6 +69,7 @@ class LandingPageSettings extends Page implements HasSchemas
                         $this->getFounderTab(),
                         $this->getIntroTab(),
                         $this->getWorkTab(),
+                        $this->getContactWaitlistTab(),
                         $this->getFooterTab(),
                     ])
                     ->persistTabInQueryString(),
@@ -502,6 +506,22 @@ class LandingPageSettings extends Page implements HasSchemas
             ]);
     }
 
+    private function getContactWaitlistTab(): Tab
+    {
+        return Tab::make('Contact form')
+            ->icon('heroicon-o-envelope')
+            ->schema([
+                Section::make('Homepage contact / waitlist')
+                    ->description('Show or hide the signup form block above the work gallery.')
+                    ->schema([
+                        Toggle::make('contact_waitlist.visible')
+                            ->label('Show form on landing page')
+                            ->helperText('When off, the section and the “تواصل معنا” navbar link are hidden. Submissions are still stored if the form is bypassed.')
+                            ->default(true),
+                    ]),
+            ]);
+    }
+
     private function getFooterTab(): Tab
     {
         return Tab::make('Footer')
@@ -579,6 +599,7 @@ class LandingPageSettings extends Page implements HasSchemas
             'founder',
             'intro',
             'work',
+            'contact_waitlist',
             'footer',
         ];
 

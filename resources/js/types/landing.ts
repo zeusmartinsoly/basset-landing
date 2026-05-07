@@ -122,6 +122,10 @@ export interface FooterSection {
     developer_credit: string;
 }
 
+export interface ContactWaitlistSectionSettings {
+    visible?: boolean;
+}
+
 /**
  * All landing page sections combined
  */
@@ -137,4 +141,5 @@ export interface LandingPageSections {
     intro: IntroSection;
     work: WorkSection;
     footer: FooterSection;
+    contact_waitlist?: ContactWaitlistSectionSettings;
 }
