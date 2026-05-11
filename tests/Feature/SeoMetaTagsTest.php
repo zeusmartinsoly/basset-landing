@@ -107,3 +107,26 @@ it('falls back to site title when OG title is empty', function () {
     // OG title should fall back to site title
     expect($content)->toContain('content="Fallback Site Title"');
 });
+
+it('does not render Google Analytics gtag when disabled or Measurement ID unset', function () {
+    SeoSetting::query()->first()->update([
+        'google_analytics_enabled' => false,
+        'google_analytics_measurement_id' => null,
+    ]);
+
+    $content = $this->get('/')->getContent();
+
+    expect($content)->not->toContain('googletagmanager.com/gtag/js');
+});
+
+it('renders GA4 gtag snippet when enabled with a valid Measurement ID', function () {
+    SeoSetting::query()->first()->update([
+        'google_analytics_enabled' => true,
+        'google_analytics_measurement_id' => 'G-TESTABCDEF12',
+    ]);
+
+    $content = $this->get('/')->getContent();
+
+    expect($content)->toContain('https://www.googletagmanager.com/gtag/js?id=G-TESTABCDEF12')
+        ->and($content)->toContain("gtag('config', 'G-TESTABCDEF12')");
+});

@@ -82,6 +82,25 @@
             <meta name="google-site-verification" content="{{ $seo['google_site_verification'] }}">
         @endif
 
+        @php
+            $__gaActive = ($seo['google_analytics_enabled'] ?? false)
+                && filled($seo['google_analytics_measurement_id'] ?? null)
+                && preg_match('/^G-[A-Z0-9]+$/', (string) $seo['google_analytics_measurement_id']);
+        @endphp
+        @if($__gaActive)
+            <script async src="https://www.googletagmanager.com/gtag/js?id={{ $seo['google_analytics_measurement_id'] }}"></script>
+            <script>
+                window.dataLayer = window.dataLayer || [];
+
+                function gtag() {
+                    dataLayer.push(arguments);
+                }
+
+                gtag('js', new Date());
+                gtag('config', '{{ $seo['google_analytics_measurement_id'] }}');
+            </script>
+        @endif
+
         <link rel="icon" href="/favicon.png" type="image/png">
         <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 

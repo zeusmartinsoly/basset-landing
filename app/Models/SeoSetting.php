@@ -24,7 +24,16 @@ class SeoSetting extends Model
         'canonical_url',
         'google_site_verification',
         'custom_head_scripts',
+        'google_analytics_enabled',
+        'google_analytics_measurement_id',
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'google_analytics_enabled' => 'boolean',
+        ];
+    }
 
     /**
      * Get the SEO settings, creating default if none exist.
