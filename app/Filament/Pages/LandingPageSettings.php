@@ -529,6 +529,18 @@ class LandingPageSettings extends Page implements HasSchemas
                             ->rows(4)
                             ->required()
                             ->columnSpanFull(),
+
+                        TextInput::make('contact_waitlist.navbar_link_text')
+                            ->label('Navbar link label')
+                            ->helperText('Text for the top navigation link that scrolls to this form.')
+                            ->required()
+                            ->maxLength(80),
+
+                        TextInput::make('contact_waitlist.submit_button_text')
+                            ->label('Submit button label')
+                            ->helperText('Label on the red form button (idle state; “sending…” stays automatic).')
+                            ->required()
+                            ->maxLength(80),
                     ]),
             ]);
     }

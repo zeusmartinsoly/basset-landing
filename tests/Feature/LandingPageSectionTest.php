@@ -99,6 +99,8 @@ describe('Landing Page Route', function () {
             ->where('sections.contact_waitlist.visible', true)
             ->has('sections.contact_waitlist.heading')
             ->has('sections.contact_waitlist.description')
+            ->has('sections.contact_waitlist.navbar_link_text')
+            ->has('sections.contact_waitlist.submit_button_text')
         );
     });
 
@@ -182,10 +184,18 @@ describe('LandingPageSection Content Structure', function () {
     it('contact_waitlist section has visibility flag', function () {
         $content = LandingPageSection::getContent('contact_waitlist');
 
-        expect($content)->toHaveKeys(['visible', 'heading', 'description']);
+        expect($content)->toHaveKeys([
+            'visible',
+            'heading',
+            'description',
+            'navbar_link_text',
+            'submit_button_text',
+        ]);
         expect($content['visible'])->toBeTrue()
             ->and($content['heading'])->not->toBeEmpty()
-            ->and($content['description'])->not->toBeEmpty();
+            ->and($content['description'])->not->toBeEmpty()
+            ->and($content['navbar_link_text'])->not->toBeEmpty()
+            ->and($content['submit_button_text'])->not->toBeEmpty();
     });
 });
 

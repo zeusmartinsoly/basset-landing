@@ -250,6 +250,8 @@ class LandingPageSectionSeeder extends Seeder
                     'visible' => true,
                     'heading' => 'تواصل معنا',
                     'description' => 'سجل الآن في قائمة الانتظار .. وهيتم التواصل معاك بمجرد فتح الباب للتسجيل في النسخة الجديدة',
+                    'navbar_link_text' => 'تواصل معنا',
+                    'submit_button_text' => 'إرسال الطلب',
                 ],
             ],
 

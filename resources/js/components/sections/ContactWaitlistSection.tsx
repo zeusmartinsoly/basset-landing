@@ -29,6 +29,8 @@ const DEFAULT_HEADING = 'تواصل معنا';
 const DEFAULT_DESCRIPTION =
     'سجل الآن في قائمة الانتظار .. وهيتم التواصل معاك بمجرد فتح الباب للتسجيل في النسخة الجديدة';
 
+const DEFAULT_SUBMIT_BUTTON = 'إرسال الطلب';
+
 interface ContactWaitlistSectionProps {
     data?: ContactWaitlistSectionSettings | null;
 }
@@ -46,6 +48,7 @@ export default function ContactWaitlistSection({ data }: ContactWaitlistSectionP
 
     const heading = (data?.heading ?? '').trim() || DEFAULT_HEADING;
     const description = (data?.description ?? '').trim() || DEFAULT_DESCRIPTION;
+    const submitButtonText = (data?.submit_button_text ?? '').trim() || DEFAULT_SUBMIT_BUTTON;
 
     useGSAP(
         () => {
@@ -285,7 +288,7 @@ export default function ContactWaitlistSection({ data }: ContactWaitlistSectionP
                                         style={{ fontFamily: "'IRANSansX', sans-serif" }}
                                         dir="rtl"
                                     >
-                                        {processing ? 'جاري الإرسال…' : 'إرسال الطلب'}
+                                        {processing ? 'جاري الإرسال…' : submitButtonText}
                                     </Button>
                                 </div>
                             </>

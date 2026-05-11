@@ -3,12 +3,19 @@ import { useRef, useState } from 'react';
 import { gsap } from '@/lib/animations/gsap-setup';
 import type { NavbarSection } from '@/types/landing';
 
+const DEFAULT_CONTACT_NAV_TEXT = 'تواصل معنا';
+
 interface NavbarProps {
     data: NavbarSection;
     contactSectionVisible?: boolean;
+    contactNavLinkText?: string | null;
 }
 
-export default function Navbar({ data, contactSectionVisible = true }: NavbarProps) {
+export default function Navbar({
+    data,
+    contactSectionVisible = true,
+    contactNavLinkText,
+}: NavbarProps) {
     const navRef = useRef<HTMLElement>(null);
     const logoRef = useRef<HTMLAnchorElement>(null);
     const linksRef = useRef<HTMLDivElement>(null);
@@ -78,7 +85,7 @@ export default function Navbar({ data, contactSectionVisible = true }: NavbarPro
     );
 
     const contactLink = {
-        text: 'تواصل معنا',
+        text: (contactNavLinkText ?? '').trim() || DEFAULT_CONTACT_NAV_TEXT,
         url: '#contact-waitlist',
         external: false as const,
     };

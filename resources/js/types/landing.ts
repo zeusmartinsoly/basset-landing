@@ -126,6 +126,8 @@ export interface ContactWaitlistSectionSettings {
     visible?: boolean;
     heading?: string;
     description?: string;
+    navbar_link_text?: string;
+    submit_button_text?: string;
 }
 
 /**

@@ -150,7 +150,11 @@ export default function Welcome({ workImages, seo, appUrl, sections }: WelcomePr
                 className="min-h-screen bg-[#0A0A0A]"
                 style={{ fontFamily: "'IRANSansX', sans-serif" }}
             >
-                <Navbar data={sections.navbar} contactSectionVisible={contactSectionVisible} />
+                <Navbar
+                    data={sections.navbar}
+                    contactSectionVisible={contactSectionVisible}
+                    contactNavLinkText={sections.contact_waitlist?.navbar_link_text}
+                />
                 <HeroSection data={sections.hero} />
                 <AboutSection data={sections.about} />
                 <CTASection data={sections.cta} />
