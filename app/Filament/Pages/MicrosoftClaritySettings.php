@@ -13,7 +13,6 @@ use Filament\Schemas\Concerns\InteractsWithSchemas;
 use Filament\Schemas\Contracts\HasSchemas;
 use Filament\Schemas\Schema;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
 use UnitEnum;
 
 class MicrosoftClaritySettings extends Page implements HasSchemas
@@ -98,7 +97,7 @@ class MicrosoftClaritySettings extends Page implements HasSchemas
             $rules['microsoft_clarity_project_id'] = [
                 'required',
                 'string',
-                Rule::regex('/^[a-z0-9]{8,32}$/'),
+                'regex:/^[a-z0-9]{8,32}$/',
             ];
         } else {
             $rules['microsoft_clarity_project_id'] = ['nullable', 'string'];
