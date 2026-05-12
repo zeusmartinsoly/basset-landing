@@ -54,6 +54,7 @@ export default function Welcome({ workImages, seo, appUrl, sections }: WelcomePr
     const canonicalUrl = seo.canonical_url || appUrl;
 
     const contactSectionVisible = sections.contact_waitlist?.visible !== false;
+    const campersWorksVisible = sections.cambers_works.visible !== false;
 
     return (
         <>
@@ -156,6 +157,9 @@ export default function Welcome({ workImages, seo, appUrl, sections }: WelcomePr
                     data={sections.navbar}
                     contactSectionVisible={contactSectionVisible}
                     contactNavLinkText={sections.contact_waitlist?.navbar_link_text}
+                    campersWorksSectionVisible={campersWorksVisible}
+                    campersWorksNavLinkText={sections.cambers_works.navbar_link_text}
+                    campersWorksHeading={sections.cambers_works.heading}
                 />
                 <HeroSection data={sections.hero} />
                 <AboutSection data={sections.about} />
@@ -163,6 +167,13 @@ export default function Welcome({ workImages, seo, appUrl, sections }: WelcomePr
                 <GallerySection data={sections.gallery} />
                 <ForWhomSection data={sections.for_whom} />
                 <PhasesSection data={sections.phases} />
+                {campersWorksVisible ? (
+                    <GallerySection
+                        data={sections.cambers_works}
+                        scrollAnchorId="campers-works"
+                        featuredHeadline
+                    />
+                ) : null}
                 <FounderSection data={sections.founder} />
                 <IntroSection data={sections.intro} />
                 {contactSectionVisible ? (

@@ -42,6 +42,7 @@ describe('LandingPageSection Model', function () {
             ->and($sections)->toHaveKey('gallery')
             ->and($sections)->toHaveKey('for_whom')
             ->and($sections)->toHaveKey('phases')
+            ->and($sections)->toHaveKey('cambers_works')
             ->and($sections)->toHaveKey('founder')
             ->and($sections)->toHaveKey('intro')
             ->and($sections)->toHaveKey('work')
@@ -57,6 +58,18 @@ describe('Landing Page Route', function () {
         $response->assertSuccessful();
     });
 
+    it('loads the home page when cambers_works row is missing from the database', function () {
+        LandingPageSection::query()->where('key', 'cambers_works')->delete();
+
+        $this->get('/')
+            ->assertSuccessful()
+            ->assertInertia(fn ($page) => $page
+                ->has('sections.cambers_works')
+                ->where('sections.cambers_works.visible', true)
+                ->where('sections.cambers_works.heading', 'أعمال الكامبرز')
+            );
+    });
+
     it('passes sections data to the view', function () {
         $response = $this->get('/');
 
@@ -69,6 +82,12 @@ describe('Landing Page Route', function () {
             ->has('sections.gallery')
             ->has('sections.for_whom')
             ->has('sections.phases')
+            ->has('sections.cambers_works')
+            ->has('sections.cambers_works.visible')
+            ->has('sections.cambers_works.navbar_link_text')
+            ->has('sections.cambers_works.heading')
+            ->has('sections.cambers_works.row_1_images')
+            ->has('sections.cambers_works.row_2_images')
             ->has('sections.founder')
             ->has('sections.intro')
             ->has('sections.work')
@@ -113,6 +132,19 @@ describe('Landing Page Route', function () {
             ->where('sections.contact_waitlist.visible', false)
         );
     });
+
+    it('exposes campers works section as hidden when disabled in the database', function () {
+        $section = LandingPageSection::getByKey('cambers_works');
+        expect($section)->not->toBeNull();
+
+        $content = $section->content;
+        $content['visible'] = false;
+        $section->update(['content' => $content]);
+
+        $this->get('/')->assertInertia(fn ($page) => $page
+            ->where('sections.cambers_works.visible', false)
+        );
+    });
 });
 
 describe('LandingPageSection Content Structure', function () {
@@ -152,6 +184,18 @@ describe('LandingPageSection Content Structure', function () {
             ->toHaveKey('external');
     });
 
+    it('stores campers navbar label on cambers_works instead of navbar links repeater', function () {
+        $navbar = LandingPageSection::getContent('navbar');
+
+        foreach ($navbar['links'] ?? [] as $link) {
+            expect($link['url'] ?? '')->not->toBe('#campers-works');
+        }
+
+        $campers = LandingPageSection::getContent('cambers_works');
+
+        expect($campers['navbar_link_text'] ?? '')->not->toBeEmpty();
+    });
+
     it('phases section has correct structure', function () {
         $content = LandingPageSection::getContent('phases');
 
@@ -164,6 +208,23 @@ describe('LandingPageSection Content Structure', function () {
         expect($content['phases'][0])
             ->toHaveKey('number')
             ->toHaveKey('title');
+    });
+
+    it('cambers_works section has correct structure', function () {
+        $content = LandingPageSection::getContent('cambers_works');
+
+        expect($content)
+            ->toHaveKey('visible')
+            ->toHaveKey('navbar_link_text')
+            ->toHaveKey('heading')
+            ->toHaveKey('row_1_images')
+            ->toHaveKey('row_2_images');
+
+        expect($content['visible'])->toBeTrue();
+        expect($content['navbar_link_text'])->toBe('أعمال الكامبرز');
+        expect($content['heading'])->toBe('أعمال الكامبرز');
+        expect($content['row_1_images'])->toBeArray();
+        expect($content['row_2_images'])->toBeArray();
     });
 
     it('footer section has correct structure', function () {

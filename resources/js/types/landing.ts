@@ -53,6 +53,9 @@ export interface CtaSection {
 }
 
 export interface GallerySection {
+    heading?: string;
+    visible?: boolean;
+    navbar_link_text?: string;
     row_1_images: string[];
     row_2_images: string[];
 }
@@ -141,6 +144,7 @@ export interface LandingPageSections {
     gallery: GallerySection;
     for_whom: ForWhomSection;
     phases: PhasesSection;
+    cambers_works: GallerySection;
     founder: FounderSection;
     intro: IntroSection;
     work: WorkSection;

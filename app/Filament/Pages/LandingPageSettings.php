@@ -24,6 +24,27 @@ class LandingPageSettings extends Page implements HasSchemas
 {
     use InteractsWithSchemas;
 
+    /**
+     * Display names for landing sections (matches {@see LandingPageSectionSeeder}).
+     *
+     * @var array<string, string>
+     */
+    private const SECTION_DISPLAY_NAMES = [
+        'navbar' => 'Navbar',
+        'hero' => 'Hero Section',
+        'about' => 'About Section',
+        'cta' => 'CTA Section',
+        'gallery' => 'Gallery Section',
+        'for_whom' => 'For Whom Section',
+        'phases' => 'Phases Section',
+        'cambers_works' => 'Campers Works Section',
+        'founder' => 'Founder Section',
+        'intro' => 'Intro Section',
+        'work' => 'Work Showcase Section',
+        'contact_waitlist' => 'Contact / waitlist block',
+        'footer' => 'Footer Section',
+    ];
+
     protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-document-text';
 
     protected string $view = 'filament.pages.landing-page-settings';
@@ -50,6 +71,14 @@ class LandingPageSettings extends Page implements HasSchemas
             $formData[$key] = $section->content;
         }
 
+        $formData['cambers_works'] ??= [
+            'visible' => true,
+            'navbar_link_text' => '',
+            'heading' => 'أعمال الكامبرز',
+            'row_1_images' => [],
+            'row_2_images' => [],
+        ];
+
         $this->form->fill($formData);
     }
 
@@ -66,6 +95,7 @@ class LandingPageSettings extends Page implements HasSchemas
                         $this->getGalleryTab(),
                         $this->getForWhomTab(),
                         $this->getPhasesTab(),
+                        $this->getCambersWorksTab(),
                         $this->getFounderTab(),
                         $this->getIntroTab(),
                         $this->getWorkTab(),
@@ -383,6 +413,51 @@ class LandingPageSettings extends Page implements HasSchemas
             ]);
     }
 
+    private function getCambersWorksTab(): Tab
+    {
+        return Tab::make('Campers works')
+            ->icon('heroicon-o-photo')
+            ->schema([
+                Section::make('Campers works')
+                    ->description('Scrolling gallery below phases (أعمال الكامبرز). Visibility and navbar label behave like the Contact form tab.')
+                    ->schema([
+                        Toggle::make('cambers_works.visible')
+                            ->label('Show section on landing page')
+                            ->helperText('When off, this gallery block and its navbar shortcut are hidden.')
+                            ->default(true),
+
+                        TextInput::make('cambers_works.navbar_link_text')
+                            ->label('Navbar link label')
+                            ->helperText('Label for the top navigation link that scrolls here. Uses the Arabic heading below when empty.')
+                            ->maxLength(80),
+
+                        TextInput::make('cambers_works.heading')
+                            ->label('Heading (Arabic)')
+                            ->required(),
+
+                        FileUpload::make('cambers_works.row_1_images')
+                            ->label('Row 1 Images')
+                            ->disk('landing')
+                            ->directory('cambers-works')
+                            ->visibility('public')
+                            ->image()
+                            ->multiple()
+                            ->reorderable()
+                            ->imagePreviewHeight('100'),
+
+                        FileUpload::make('cambers_works.row_2_images')
+                            ->label('Row 2 Images')
+                            ->disk('landing')
+                            ->directory('cambers-works')
+                            ->visibility('public')
+                            ->image()
+                            ->multiple()
+                            ->reorderable()
+                            ->imagePreviewHeight('100'),
+                    ]),
+            ]);
+    }
+
     private function getFounderTab(): Tab
     {
         return Tab::make('Founder')
@@ -619,6 +694,7 @@ class LandingPageSettings extends Page implements HasSchemas
             'gallery',
             'for_whom',
             'phases',
+            'cambers_works',
             'founder',
             'intro',
             'work',
@@ -627,11 +703,17 @@ class LandingPageSettings extends Page implements HasSchemas
         ];
 
         foreach ($sectionKeys as $key) {
-            if (isset($data[$key])) {
-                LandingPageSection::where('key', $key)->update([
-                    'content' => $data[$key],
-                ]);
+            if (! array_key_exists($key, $data)) {
+                continue;
             }
+
+            LandingPageSection::updateOrCreate(
+                ['key' => $key],
+                [
+                    'name' => self::SECTION_DISPLAY_NAMES[$key] ?? ucfirst(str_replace('_', ' ', $key)),
+                    'content' => $data[$key],
+                ]
+            );
         }
 
         Notification::make()

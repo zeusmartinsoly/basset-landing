@@ -46,11 +46,6 @@ class LandingPageSectionSeeder extends Seeder
                             'external' => true,
                         ],
                         [
-                            'text' => 'أعمال الكامبرز',
-                            'url' => 'https://drive.google.com/file/d/1MyTF6DDiE3kZ-98C7YgJKZ0rS2dJc90I/view?usp=sharing',
-                            'external' => true,
-                        ],
-                        [
                             'text' => 'بيهانس',
                             'url' => 'https://www.behance.net/baseet464',
                             'external' => true,
@@ -177,6 +172,29 @@ class LandingPageSectionSeeder extends Seeder
                         ['number' => '05', 'title' => 'Delivery'],
                     ],
                     'image' => 'brandat-withai.svg',
+                ],
+            ],
+
+            'cambers_works' => [
+                'name' => 'Campers Works Section',
+                'content' => [
+                    'visible' => true,
+                    'navbar_link_text' => 'أعمال الكامبرز',
+                    'heading' => 'أعمال الكامبرز',
+                    'row_1_images' => [
+                        'gallery/camp-preview-01.webp',
+                        'gallery/camp-preview-02.webp',
+                        'gallery/camp-preview-03.webp',
+                        'gallery/camp-preview-04.webp',
+                        'gallery/camp-preview-05.webp',
+                    ],
+                    'row_2_images' => [
+                        'gallery/camp-preview-06.webp',
+                        'gallery/camp-preview-07.webp',
+                        'gallery/camp-preview-08.webp',
+                        'gallery/camp-preview-09.webp',
+                        'gallery/camp-preview-10.webp',
+                    ],
                 ],
             ],
 

@@ -1,20 +1,51 @@
 import { useGSAP } from '@gsap/react';
-import { useRef, useState } from 'react';
+import { useRef, useState, type MouseEvent } from 'react';
 import { gsap } from '@/lib/animations/gsap-setup';
 import type { NavbarSection } from '@/types/landing';
 
 const DEFAULT_CONTACT_NAV_TEXT = 'تواصل معنا';
+const DEFAULT_CAMPERS_NAV_TEXT = 'أعمال الكامبرز';
+
+function smoothScrollToHash(hash: string): boolean {
+    if (!hash.startsWith('#') || hash.length < 2) {
+        return false;
+    }
+
+    const id = decodeURIComponent(hash.slice(1));
+    const el = document.getElementById(id);
+
+    if (!el) {
+        return false;
+    }
+
+    const reducedMotion =
+        typeof window !== 'undefined' &&
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    el.scrollIntoView({
+        behavior: reducedMotion ? 'auto' : 'smooth',
+        block: 'start',
+    });
+
+    return true;
+}
 
 interface NavbarProps {
     data: NavbarSection;
     contactSectionVisible?: boolean;
     contactNavLinkText?: string | null;
+    campersWorksSectionVisible?: boolean;
+    campersWorksNavLinkText?: string | null;
+    campersWorksHeading?: string | null;
 }
 
 export default function Navbar({
     data,
     contactSectionVisible = true,
     contactNavLinkText,
+    campersWorksSectionVisible = true,
+    campersWorksNavLinkText,
+    campersWorksHeading,
 }: NavbarProps) {
     const navRef = useRef<HTMLElement>(null);
     const logoRef = useRef<HTMLAnchorElement>(null);
@@ -89,9 +120,40 @@ export default function Navbar({
         url: '#contact-waitlist',
         external: false as const,
     };
-    const desktopNavLinks = contactSectionVisible ? [contactLink, ...data.links] : data.links;
+
+    const campersWorksLink =
+        campersWorksSectionVisible !== false
+            ? {
+                  text:
+                      (campersWorksNavLinkText ?? '').trim() ||
+                      (campersWorksHeading ?? '').trim() ||
+                      DEFAULT_CAMPERS_NAV_TEXT,
+                  url: '#campers-works',
+                  external: false as const,
+              }
+            : null;
+
+    const desktopNavLinks = [
+        ...(contactSectionVisible ? [contactLink] : []),
+        ...(campersWorksLink ? [campersWorksLink] : []),
+        ...data.links,
+    ];
 
     const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+
+    const handleHashNavClick = (
+        event: MouseEvent<HTMLAnchorElement>,
+        link: { url: string; external: boolean },
+    ): void => {
+        if (link.external || !link.url.startsWith('#')) {
+            return;
+        }
+
+        if (smoothScrollToHash(link.url)) {
+            event.preventDefault();
+            setIsMenuOpen(false);
+        }
+    };
 
     return (
         <nav
@@ -130,6 +192,7 @@ export default function Navbar({
                                         href={link.url}
                                         target={link.external ? '_blank' : undefined}
                                         rel={link.external ? 'noopener noreferrer' : undefined}
+                                        onClick={(event) => handleHashNavClick(event, link)}
                                         className="text-sm font-bold text-white transition-colors duration-300 hover:text-white/70 lg:text-base xl:text-lg 2xl:text-xl"
                                     >
                                         {link.text}
@@ -190,7 +253,7 @@ export default function Navbar({
                                 href={link.url}
                                 target={link.external ? '_blank' : undefined}
                                 rel={link.external ? 'noopener noreferrer' : undefined}
-                                onClick={() => setIsMenuOpen(false)}
+                                onClick={(event) => handleHashNavClick(event, link)}
                                 className={`py-3 text-lg font-bold text-white transition-colors duration-300 hover:text-white/70 ${
                                     index < arr.length - 1 ? 'border-b border-white/10' : ''
                                 }`}

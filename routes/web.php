@@ -12,6 +12,17 @@ Route::get('/', function () {
     // Get all landing page sections content
     $sections = LandingPageSection::getAllSections();
 
+    $sections['cambers_works'] = array_merge(
+        [
+            'heading' => 'أعمال الكامبرز',
+            'visible' => true,
+            'navbar_link_text' => '',
+            'row_1_images' => [],
+            'row_2_images' => [],
+        ],
+        $sections['cambers_works'] ?? [],
+    );
+
     // Get work images from the database (work section)
     $workImages = collect($sections['work']['images'] ?? [])
         ->map(fn (string $image) => [
