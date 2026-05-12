@@ -111,6 +111,22 @@
             </script>
         @endif
 
+        @php
+            $__microsoftClarityProjectId = trim((string) ($seo['microsoft_clarity_project_id'] ?? ''));
+            $__clarityActive = ($seo['microsoft_clarity_enabled'] ?? false)
+                && $__microsoftClarityProjectId !== ''
+                && preg_match('/^[a-z0-9]{8,32}$/', $__microsoftClarityProjectId);
+        @endphp
+        @if($__clarityActive)
+            <script type="text/javascript">
+                (function(c,l,a,r,i,t,y){
+                    c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+                    t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+                    y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+                })(window, document, "clarity", "script", @json($__microsoftClarityProjectId));
+            </script>
+        @endif
+
         <link rel="icon" href="/favicon.png" type="image/png">
         <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 

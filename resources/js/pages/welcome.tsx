@@ -39,6 +39,8 @@ interface SeoSettings {
     custom_head_scripts: string | null;
     google_analytics_enabled?: boolean;
     google_analytics_measurement_id: string | null;
+    microsoft_clarity_enabled?: boolean;
+    microsoft_clarity_project_id: string | null;
 }
 
 interface WelcomeProps {

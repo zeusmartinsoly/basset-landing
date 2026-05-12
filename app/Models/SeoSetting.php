@@ -26,12 +26,15 @@ class SeoSetting extends Model
         'custom_head_scripts',
         'google_analytics_enabled',
         'google_analytics_measurement_id',
+        'microsoft_clarity_enabled',
+        'microsoft_clarity_project_id',
     ];
 
     protected function casts(): array
     {
         return [
             'google_analytics_enabled' => 'boolean',
+            'microsoft_clarity_enabled' => 'boolean',
         ];
     }
 

@@ -105,6 +105,8 @@ it('SEO settings model returns correct data structure', function () {
     expect($settings)->toHaveKey('organization_name');
     expect($settings)->toHaveKey('course_name');
     expect($settings)->toHaveKey('course_description');
+    expect($settings)->toHaveKey('microsoft_clarity_enabled');
+    expect($settings)->toHaveKey('microsoft_clarity_project_id');
 });
 
 it('SEO settings can be updated', function () {

@@ -130,3 +130,26 @@ it('renders GA4 gtag snippet when enabled with a valid Measurement ID', function
     expect($content)->toContain('https://www.googletagmanager.com/gtag/js?id=G-TESTABCDEF12')
         ->and($content)->toContain("gtag('config', 'G-TESTABCDEF12')");
 });
+
+it('does not render Microsoft Clarity when disabled or Project ID unset', function () {
+    SeoSetting::query()->first()->update([
+        'microsoft_clarity_enabled' => false,
+        'microsoft_clarity_project_id' => null,
+    ]);
+
+    $content = $this->get('/')->getContent();
+
+    expect($content)->not->toContain('clarity.ms/tag');
+});
+
+it('renders Microsoft Clarity snippet when enabled with a valid Project ID', function () {
+    SeoSetting::query()->first()->update([
+        'microsoft_clarity_enabled' => true,
+        'microsoft_clarity_project_id' => 'abcd123456',
+    ]);
+
+    $content = $this->get('/')->getContent();
+
+    expect($content)->toContain('https://www.clarity.ms/tag/')
+        ->and($content)->toContain('})(window, document, "clarity", "script", "abcd123456")');
+});
