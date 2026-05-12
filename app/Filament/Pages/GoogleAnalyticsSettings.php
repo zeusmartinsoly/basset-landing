@@ -13,7 +13,6 @@ use Filament\Schemas\Concerns\InteractsWithSchemas;
 use Filament\Schemas\Contracts\HasSchemas;
 use Filament\Schemas\Schema;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
 use UnitEnum;
 
 class GoogleAnalyticsSettings extends Page implements HasSchemas
@@ -98,7 +97,7 @@ class GoogleAnalyticsSettings extends Page implements HasSchemas
             $rules['google_analytics_measurement_id'] = [
                 'required',
                 'string',
-                Rule::regex('/^G-[A-Z0-9]+$/'),
+                'regex:/^G-[A-Z0-9]+$/',
             ];
         } else {
             $rules['google_analytics_measurement_id'] = ['nullable', 'string'];
