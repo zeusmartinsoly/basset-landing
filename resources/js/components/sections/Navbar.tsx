@@ -5,6 +5,7 @@ import type { NavbarSection } from '@/types/landing';
 
 const DEFAULT_CONTACT_NAV_TEXT = 'تواصل معنا';
 const DEFAULT_CAMPERS_NAV_TEXT = 'أعمال الكامبرز';
+const DEFAULT_TESTIMONIALS_NAV_TEXT = 'رأي الكامبرز';
 
 function smoothScrollToHash(hash: string): boolean {
     if (!hash.startsWith('#') || hash.length < 2) {
@@ -37,6 +38,9 @@ interface NavbarProps {
     campersWorksSectionVisible?: boolean;
     campersWorksNavLinkText?: string | null;
     campersWorksHeading?: string | null;
+    testimonialsSectionVisible?: boolean;
+    testimonialsNavLinkText?: string | null;
+    testimonialsHeading?: string | null;
 }
 
 export default function Navbar({
@@ -46,6 +50,9 @@ export default function Navbar({
     campersWorksSectionVisible = true,
     campersWorksNavLinkText,
     campersWorksHeading,
+    testimonialsSectionVisible = true,
+    testimonialsNavLinkText,
+    testimonialsHeading,
 }: NavbarProps) {
     const navRef = useRef<HTMLElement>(null);
     const logoRef = useRef<HTMLAnchorElement>(null);
@@ -133,9 +140,22 @@ export default function Navbar({
               }
             : null;
 
+    const testimonialsLink =
+        testimonialsSectionVisible !== false
+            ? {
+                  text:
+                      (testimonialsNavLinkText ?? '').trim() ||
+                      (testimonialsHeading ?? '').trim() ||
+                      DEFAULT_TESTIMONIALS_NAV_TEXT,
+                  url: '#testimonials',
+                  external: false as const,
+              }
+            : null;
+
     const desktopNavLinks = [
         ...(contactSectionVisible ? [contactLink] : []),
         ...(campersWorksLink ? [campersWorksLink] : []),
+        ...(testimonialsLink ? [testimonialsLink] : []),
         ...data.links,
     ];
 

@@ -3,8 +3,9 @@
 use App\Models\LandingPageSection;
 
 beforeEach(function () {
-    // Run seeder to ensure sections exist
+    // Run seeders to ensure sections exist (testimonials live in their own seeder)
     $this->artisan('db:seed', ['--class' => 'LandingPageSectionSeeder']);
+    $this->artisan('db:seed', ['--class' => 'TestimonialsSectionSeeder']);
 });
 
 describe('LandingPageSection Model', function () {
@@ -45,6 +46,7 @@ describe('LandingPageSection Model', function () {
             ->and($sections)->toHaveKey('cambers_works')
             ->and($sections)->toHaveKey('founder')
             ->and($sections)->toHaveKey('intro')
+            ->and($sections)->toHaveKey('testimonials')
             ->and($sections)->toHaveKey('work')
             ->and($sections)->toHaveKey('contact_waitlist')
             ->and($sections)->toHaveKey('footer');
@@ -70,6 +72,19 @@ describe('Landing Page Route', function () {
             );
     });
 
+    it('loads the home page when testimonials row is missing from the database', function () {
+        LandingPageSection::query()->where('key', 'testimonials')->delete();
+
+        $this->get('/')
+            ->assertSuccessful()
+            ->assertInertia(fn ($page) => $page
+                ->has('sections.testimonials')
+                ->where('sections.testimonials.visible', true)
+                ->where('sections.testimonials.heading', 'رأي الكامبرز')
+                ->has('sections.testimonials.items')
+            );
+    });
+
     it('passes sections data to the view', function () {
         $response = $this->get('/');
 
@@ -90,6 +105,11 @@ describe('Landing Page Route', function () {
             ->has('sections.cambers_works.row_2_images')
             ->has('sections.founder')
             ->has('sections.intro')
+            ->has('sections.testimonials')
+            ->has('sections.testimonials.visible')
+            ->has('sections.testimonials.navbar_link_text')
+            ->has('sections.testimonials.heading')
+            ->has('sections.testimonials.items')
             ->has('sections.work')
             ->has('sections.contact_waitlist.visible')
             ->has('sections.footer')
@@ -145,6 +165,19 @@ describe('Landing Page Route', function () {
             ->where('sections.cambers_works.visible', false)
         );
     });
+
+    it('exposes testimonials section as hidden when disabled in the database', function () {
+        $section = LandingPageSection::getByKey('testimonials');
+        expect($section)->not->toBeNull();
+
+        $content = $section->content;
+        $content['visible'] = false;
+        $section->update(['content' => $content]);
+
+        $this->get('/')->assertInertia(fn ($page) => $page
+            ->where('sections.testimonials.visible', false)
+        );
+    });
 });
 
 describe('LandingPageSection Content Structure', function () {
@@ -196,6 +229,18 @@ describe('LandingPageSection Content Structure', function () {
         expect($campers['navbar_link_text'] ?? '')->not->toBeEmpty();
     });
 
+    it('stores testimonials navbar label on testimonials instead of navbar links repeater', function () {
+        $navbar = LandingPageSection::getContent('navbar');
+
+        foreach ($navbar['links'] ?? [] as $link) {
+            expect($link['url'] ?? '')->not->toBe('#testimonials');
+        }
+
+        $testimonials = LandingPageSection::getContent('testimonials');
+
+        expect($testimonials['navbar_link_text'] ?? '')->not->toBeEmpty();
+    });
+
     it('phases section has correct structure', function () {
         $content = LandingPageSection::getContent('phases');
 
@@ -225,6 +270,26 @@ describe('LandingPageSection Content Structure', function () {
         expect($content['heading'])->toBe('أعمال الكامبرز');
         expect($content['row_1_images'])->toBeArray();
         expect($content['row_2_images'])->toBeArray();
+    });
+
+    it('testimonials section has correct structure', function () {
+        $content = LandingPageSection::getContent('testimonials');
+
+        expect($content)
+            ->toHaveKey('visible')
+            ->toHaveKey('navbar_link_text')
+            ->toHaveKey('heading')
+            ->toHaveKey('items');
+
+        expect($content['visible'])->toBeTrue();
+        expect($content['heading'])->toBe('رأي الكامبرز');
+        expect($content['items'])->toBeArray();
+        expect(count($content['items']))->toBe(6);
+        expect($content['items'][0])
+            ->toHaveKey('image')
+            ->toHaveKey('name')
+            ->toHaveKey('course')
+            ->toHaveKey('content');
     });
 
     it('footer section has correct structure', function () {

@@ -133,6 +133,20 @@ export interface ContactWaitlistSectionSettings {
     submit_button_text?: string;
 }
 
+export interface TestimonialItem {
+    image: string;
+    name: string;
+    course: string;
+    content: string;
+}
+
+export interface TestimonialsSectionSettings {
+    visible?: boolean;
+    heading?: string;
+    navbar_link_text?: string;
+    items: TestimonialItem[];
+}
+
 /**
  * All landing page sections combined
  */
@@ -150,4 +164,5 @@ export interface LandingPageSections {
     work: WorkSection;
     footer: FooterSection;
     contact_waitlist?: ContactWaitlistSectionSettings;
+    testimonials?: TestimonialsSectionSettings;
 }

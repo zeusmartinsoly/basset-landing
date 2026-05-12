@@ -10,6 +10,7 @@ import HeroSection from '@/components/sections/HeroSection';
 import IntroSection from '@/components/sections/IntroSection';
 import Navbar from '@/components/sections/Navbar';
 import PhasesSection from '@/components/sections/PhasesSection';
+import TestimonialsSection from '@/components/sections/TestimonialsSection';
 import WorkShowcaseSection from '@/components/sections/WorkShowcaseSection';
 import JsonLd from '@/components/seo/JsonLd';
 import type { LandingPageSections } from '@/types/landing';
@@ -55,6 +56,7 @@ export default function Welcome({ workImages, seo, appUrl, sections }: WelcomePr
 
     const contactSectionVisible = sections.contact_waitlist?.visible !== false;
     const campersWorksVisible = sections.cambers_works.visible !== false;
+    const testimonialsVisible = sections.testimonials?.visible !== false;
 
     return (
         <>
@@ -160,6 +162,9 @@ export default function Welcome({ workImages, seo, appUrl, sections }: WelcomePr
                     campersWorksSectionVisible={campersWorksVisible}
                     campersWorksNavLinkText={sections.cambers_works.navbar_link_text}
                     campersWorksHeading={sections.cambers_works.heading}
+                    testimonialsSectionVisible={testimonialsVisible}
+                    testimonialsNavLinkText={sections.testimonials?.navbar_link_text}
+                    testimonialsHeading={sections.testimonials?.heading}
                 />
                 <HeroSection data={sections.hero} />
                 <AboutSection data={sections.about} />
@@ -176,6 +181,9 @@ export default function Welcome({ workImages, seo, appUrl, sections }: WelcomePr
                 ) : null}
                 <FounderSection data={sections.founder} />
                 <IntroSection data={sections.intro} />
+                {testimonialsVisible ? (
+                    <TestimonialsSection data={sections.testimonials} />
+                ) : null}
                 {contactSectionVisible ? (
                     <ContactWaitlistSection data={sections.contact_waitlist} />
                 ) : null}

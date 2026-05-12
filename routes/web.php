@@ -23,6 +23,16 @@ Route::get('/', function () {
         $sections['cambers_works'] ?? [],
     );
 
+    $sections['testimonials'] = array_merge(
+        [
+            'heading' => 'رأي الكامبرز',
+            'visible' => true,
+            'navbar_link_text' => '',
+            'items' => [],
+        ],
+        $sections['testimonials'] ?? [],
+    );
+
     // Get work images from the database (work section)
     $workImages = collect($sections['work']['images'] ?? [])
         ->map(fn (string $image) => [

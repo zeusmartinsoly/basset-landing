@@ -40,6 +40,7 @@ class LandingPageSettings extends Page implements HasSchemas
         'cambers_works' => 'Campers Works Section',
         'founder' => 'Founder Section',
         'intro' => 'Intro Section',
+        'testimonials' => 'Testimonials Section',
         'work' => 'Work Showcase Section',
         'contact_waitlist' => 'Contact / waitlist block',
         'footer' => 'Footer Section',
@@ -79,6 +80,13 @@ class LandingPageSettings extends Page implements HasSchemas
             'row_2_images' => [],
         ];
 
+        $formData['testimonials'] ??= [
+            'visible' => true,
+            'navbar_link_text' => '',
+            'heading' => 'رأي الكامبرز',
+            'items' => [],
+        ];
+
         $this->form->fill($formData);
     }
 
@@ -98,6 +106,7 @@ class LandingPageSettings extends Page implements HasSchemas
                         $this->getCambersWorksTab(),
                         $this->getFounderTab(),
                         $this->getIntroTab(),
+                        $this->getTestimonialsTab(),
                         $this->getWorkTab(),
                         $this->getContactWaitlistTab(),
                         $this->getFooterTab(),
@@ -547,6 +556,62 @@ class LandingPageSettings extends Page implements HasSchemas
             ]);
     }
 
+    private function getTestimonialsTab(): Tab
+    {
+        return Tab::make('Testimonials')
+            ->icon('heroicon-o-chat-bubble-left-right')
+            ->schema([
+                Section::make('Testimonials')
+                    ->description('Quotes from campers below the intro section. Visibility and navbar label match Campers works / Contact.')
+                    ->schema([
+                        Toggle::make('testimonials.visible')
+                            ->label('Show section on landing page')
+                            ->helperText('When off, this block and its navbar shortcut are hidden.')
+                            ->default(true),
+
+                        TextInput::make('testimonials.navbar_link_text')
+                            ->label('Navbar link label')
+                            ->helperText('Label for the nav link that scrolls here. Uses the Arabic heading below when empty.')
+                            ->maxLength(80),
+
+                        TextInput::make('testimonials.heading')
+                            ->label('Heading (Arabic)')
+                            ->required(),
+
+                        Repeater::make('testimonials.items')
+                            ->label('Testimonials')
+                            ->schema([
+                                FileUpload::make('image')
+                                    ->label('Photo')
+                                    ->disk('landing')
+                                    ->directory('testimonials')
+                                    ->visibility('public')
+                                    ->image()
+                                    ->imagePreviewHeight('80')
+                                    ->required(),
+                                TextInput::make('name')
+                                    ->label('Name')
+                                    ->required()
+                                    ->maxLength(120),
+                                TextInput::make('course')
+                                    ->label('Course / Edition')
+                                    ->helperText('اسم الدورة أو النسخة (مثلاً: كامب العلامات 103)')
+                                    ->required()
+                                    ->maxLength(150),
+                                Textarea::make('content')
+                                    ->label('Quote')
+                                    ->rows(4)
+                                    ->required()
+                                    ->columnSpanFull(),
+                            ])
+                            ->columns(2)
+                            ->defaultItems(0)
+                            ->reorderable()
+                            ->collapsible(),
+                    ]),
+            ]);
+    }
+
     private function getWorkTab(): Tab
     {
         return Tab::make('Work')
@@ -697,6 +762,7 @@ class LandingPageSettings extends Page implements HasSchemas
             'cambers_works',
             'founder',
             'intro',
+            'testimonials',
             'work',
             'contact_waitlist',
             'footer',
