@@ -63,8 +63,8 @@ class GoogleAnalyticsSettings extends Page implements HasSchemas
 
                         TextInput::make('google_analytics_measurement_id')
                             ->label('Measurement ID')
-                            ->placeholder('G-XXXXXXXXXX')
-                            ->helperText('From Admin → Data streams → your web stream.'),
+                            ->placeholder('G-XXXXXXXXXX or GTM-XXXXXXX')
+                            ->helperText('GA4: From Admin → Data streams → your web stream. GTM: From your Tag Manager container.'),
                     ])
                     ->columns(1),
             ])
@@ -97,7 +97,7 @@ class GoogleAnalyticsSettings extends Page implements HasSchemas
             $rules['google_analytics_measurement_id'] = [
                 'required',
                 'string',
-                'regex:/^G-[A-Z0-9]+$/',
+                'regex:/^(G-[A-Z0-9]+|GTM-[A-Z0-9]+)$/',
             ];
         } else {
             $rules['google_analytics_measurement_id'] = ['nullable', 'string'];
