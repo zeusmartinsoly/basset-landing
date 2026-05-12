@@ -83,12 +83,22 @@
         @endif
 
         @php
-            $__gaActive = ($seo['google_analytics_enabled'] ?? false)
-                && filled($seo['google_analytics_measurement_id'] ?? null)
-                && preg_match('/^G-[A-Z0-9]+$/', (string) $seo['google_analytics_measurement_id']);
+            $__measurementId = (string) ($seo['google_analytics_measurement_id'] ?? '');
+            $__trackingEnabled = ($seo['google_analytics_enabled'] ?? false) && filled($__measurementId);
+            $__isGtm = $__trackingEnabled && preg_match('/^GTM-[A-Z0-9]+$/', $__measurementId);
+            $__isGa4 = $__trackingEnabled && preg_match('/^G-[A-Z0-9]+$/', $__measurementId);
         @endphp
-        @if($__gaActive)
-            <script async src="https://www.googletagmanager.com/gtag/js?id={{ $seo['google_analytics_measurement_id'] }}"></script>
+        @if($__isGtm)
+            <!-- Google Tag Manager -->
+            <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+            })(window,document,'script','dataLayer','{{ $__measurementId }}');</script>
+            <!-- End Google Tag Manager -->
+        @endif
+        @if($__isGa4)
+            <script async src="https://www.googletagmanager.com/gtag/js?id={{ $__measurementId }}"></script>
             <script>
                 window.dataLayer = window.dataLayer || [];
 
@@ -97,7 +107,7 @@
                 }
 
                 gtag('js', new Date());
-                gtag('config', '{{ $seo['google_analytics_measurement_id'] }}');
+                gtag('config', '{{ $__measurementId }}');
             </script>
         @endif
 
@@ -142,6 +152,12 @@
         @inertiaHead
     </head>
     <body class="font-sans antialiased">
+        @if($__isGtm)
+            <!-- Google Tag Manager (noscript) -->
+            <noscript><iframe src="https://www.googletagmanager.com/ns.html?id={{ $__measurementId }}"
+            height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+            <!-- End Google Tag Manager (noscript) -->
+        @endif
         @inertia
     </body>
 </html>
