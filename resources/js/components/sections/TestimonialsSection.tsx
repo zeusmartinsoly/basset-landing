@@ -1,7 +1,7 @@
 import { useGSAP } from '@gsap/react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { gsap } from '@/lib/animations/gsap-setup';
-import type { TestimonialItem, TestimonialsSectionSettings } from '@/types/landing';
+import type { TestimonialsSectionSettings } from '@/types/landing';
 
 interface TestimonialsSectionProps {
     data?: TestimonialsSectionSettings;
@@ -14,7 +14,8 @@ export default function TestimonialsSection({ data }: TestimonialsSectionProps) 
     const imageRefs = useRef<(HTMLDivElement | null)[]>([]);
     const quoteRefs = useRef<(HTMLDivElement | null)[]>([]);
     const progressRef = useRef<HTMLDivElement>(null);
-    const autoplayRef = useRef<ReturnType<typeof setInterval> | null>(null);
+    const autoplayRef = useRef<Animation | null>(null);
+    const isPausedRef = useRef(false);
     const isAnimating = useRef(false);
 
     const heading = data?.heading ?? 'رأي الكامبرز';
@@ -83,25 +84,43 @@ export default function TestimonialsSection({ data }: TestimonialsSectionProps) 
         animateTo((active - 1 + items.length) % items.length);
     }, [active, items.length, animateTo]);
 
+    /**
+     * The progress bar *is* the autoplay timer: it advances the slide when it finishes, so
+     * pausing the animation on hover freezes the bar and the countdown together, and resuming
+     * picks up exactly where it stopped.
+     */
     useEffect(() => {
-        if (items.length <= 1) {
+        const bar = progressRef.current;
+        if (!bar || items.length <= 1) {
             return;
         }
-        autoplayRef.current = setInterval(goNext, AUTOPLAY_MS);
+
+        const animation = bar.animate(
+            [{ transform: 'scaleX(0)' }, { transform: 'scaleX(1)' }],
+            { duration: AUTOPLAY_MS, easing: 'linear', fill: 'forwards' },
+        );
+        animation.onfinish = () => goNext();
+        autoplayRef.current = animation;
+
+        if (isPausedRef.current) {
+            animation.pause();
+        }
 
         return () => {
-            if (autoplayRef.current) {
-                clearInterval(autoplayRef.current);
-            }
+            animation.cancel();
+            autoplayRef.current = null;
         };
-    }, [goNext, items.length]);
+    }, [active, items.length, goNext]);
 
-    const resetAutoplay = useCallback(() => {
-        if (autoplayRef.current) {
-            clearInterval(autoplayRef.current);
+    const setAutoplayPaused = useCallback((paused: boolean) => {
+        isPausedRef.current = paused;
+
+        if (paused) {
+            autoplayRef.current?.pause();
+        } else {
+            autoplayRef.current?.play();
         }
-        autoplayRef.current = setInterval(goNext, AUTOPLAY_MS);
-    }, [goNext]);
+    }, []);
 
     useGSAP(
         () => {
@@ -120,20 +139,6 @@ export default function TestimonialsSection({ data }: TestimonialsSectionProps) 
         },
         { scope: sectionRef },
     );
-
-    useEffect(() => {
-        if (!progressRef.current || items.length <= 1) {
-            return;
-        }
-        const bar = progressRef.current;
-        bar.style.transition = 'none';
-        bar.style.transform = 'scaleX(0)';
-
-        requestAnimationFrame(() => {
-            bar.style.transition = `transform ${AUTOPLAY_MS}ms linear`;
-            bar.style.transform = 'scaleX(1)';
-        });
-    }, [active, items.length]);
 
     return (
         <section
@@ -157,7 +162,13 @@ export default function TestimonialsSection({ data }: TestimonialsSectionProps) 
                         لم يتم إضافة شهادات بعد.
                     </p>
                 ) : (
-                    <div className="flex flex-col gap-10 lg:flex-row lg:items-center lg:gap-16 xl:gap-20">
+                    <div
+                        className="flex flex-col gap-10 lg:flex-row lg:items-center lg:gap-16 xl:gap-20"
+                        onMouseEnter={() => setAutoplayPaused(true)}
+                        onMouseLeave={() => setAutoplayPaused(false)}
+                        onFocusCapture={() => setAutoplayPaused(true)}
+                        onBlurCapture={() => setAutoplayPaused(false)}
+                    >
                         {/* Portrait stack */}
                         <div className="relative mx-auto aspect-[3/4] w-full max-w-[280px] shrink-0 overflow-hidden rounded-2xl sm:max-w-[320px] md:max-w-[340px] lg:mx-0 lg:max-w-[380px] xl:max-w-[420px]">
                             {items.map((item, i) => (
@@ -233,10 +244,7 @@ export default function TestimonialsSection({ data }: TestimonialsSectionProps) 
                                 <div className="mt-10 flex items-center gap-4 lg:mt-12" dir="ltr">
                                     <button
                                         type="button"
-                                        onClick={() => {
-                                            goPrev();
-                                            resetAutoplay();
-                                        }}
+                                        onClick={goPrev}
                                         aria-label="السابق"
                                         className="flex size-12 items-center justify-center rounded-full border border-white/15 text-white/60 transition-colors duration-200 hover:border-white/40 hover:text-white sm:size-14"
                                     >
@@ -255,10 +263,7 @@ export default function TestimonialsSection({ data }: TestimonialsSectionProps) 
                                     </button>
                                     <button
                                         type="button"
-                                        onClick={() => {
-                                            goNext();
-                                            resetAutoplay();
-                                        }}
+                                        onClick={goNext}
                                         aria-label="التالي"
                                         className="flex size-12 items-center justify-center rounded-full border border-white/15 text-white/60 transition-colors duration-200 hover:border-white/40 hover:text-white sm:size-14"
                                     >
