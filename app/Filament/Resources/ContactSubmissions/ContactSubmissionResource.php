@@ -4,11 +4,16 @@ namespace App\Filament\Resources\ContactSubmissions;
 
 use App\Filament\Resources\ContactSubmissions\Pages\ManageContactSubmissions;
 use App\Models\ContactSubmission;
+use App\Models\ContactSubmissionTab;
 use BackedEnum;
+use Filament\Actions\Action;
+use Filament\Actions\BulkAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\ViewAction;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Infolists\Components\IconEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\Resource;
@@ -18,7 +23,12 @@ use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
+use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
+use Illuminate\Support\Collection;
+use OpenSpout\Common\Entity\Row;
+use OpenSpout\Writer\XLSX\Writer;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use UnitEnum;
 
 class ContactSubmissionResource extends Resource
@@ -64,6 +74,10 @@ class ContactSubmissionResource extends Resource
                         IconEntry::make('contacted')
                             ->label('تم التواصل')
                             ->boolean(),
+                        TextEntry::make('tab.name')
+                            ->label('Tab')
+                            ->badge()
+                            ->placeholder('Unassigned'),
                         TextEntry::make('message')
                             ->label('Message')
                             ->columnSpanFull()
@@ -103,17 +117,96 @@ class ContactSubmissionResource extends Resource
                 ToggleColumn::make('contacted')
                     ->label('تم التواصل')
                     ->sortable(),
+                TextColumn::make('tab.name')
+                    ->label('Tab')
+                    ->badge()
+                    ->placeholder('Unassigned')
+                    ->sortable()
+                    ->toggleable(),
             ])
             ->recordActions([
                 ViewAction::make(),
                 DeleteAction::make(),
             ])
             ->toolbarActions([
+                Action::make('exportExcel')
+                    ->label('Export to Excel')
+                    ->icon(Heroicon::OutlinedArrowDownTray)
+                    ->color('gray')
+                    ->action(fn (HasTable $livewire): StreamedResponse => static::exportToExcel($livewire)),
+                BulkAction::make('moveToTab')
+                    ->label('Move to tab')
+                    ->icon(Heroicon::OutlinedFolderArrowDown)
+                    ->schema([
+                        Select::make('contact_submission_tab_id')
+                            ->label('Tab')
+                            ->placeholder('Unassigned')
+                            ->options(fn (): array => ContactSubmissionTab::query()->orderBy('name')->pluck('name', 'id')->all())
+                            ->searchable()
+                            ->createOptionForm([
+                                TextInput::make('name')
+                                    ->label('Tab name')
+                                    ->required()
+                                    ->maxLength(255)
+                                    ->unique(ContactSubmissionTab::class),
+                            ])
+                            ->createOptionUsing(fn (array $data): int => ContactSubmissionTab::create($data)->getKey()),
+                    ])
+                    ->action(function (Collection $records, array $data): void {
+                        ContactSubmission::query()
+                            ->whereKey($records->modelKeys())
+                            ->update(['contact_submission_tab_id' => $data['contact_submission_tab_id'] ?: null]);
+                    })
+                    ->deselectRecordsAfterCompletion()
+                    ->successNotificationTitle('Submissions moved'),
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                 ]),
             ])
             ->defaultSort('created_at', 'desc');
+    }
+
+    /**
+     * Stream every submission currently matching the table's filters/search as an .xlsx file.
+     */
+    protected static function exportToExcel(HasTable $livewire): StreamedResponse
+    {
+        $query = ($livewire->getFilteredSortedTableQuery() ?? ContactSubmission::query())->with('tab');
+
+        return response()->streamDownload(function () use ($query): void {
+            $writer = new Writer;
+            $writer->openToFile('php://output');
+            $writer->addRow(Row::fromValues([
+                'Submitted at',
+                'Name',
+                'Email',
+                'Mobile',
+                'Prefers WhatsApp',
+                'تم التواصل',
+                'Tab',
+                'Message',
+                'IP address',
+                'User agent',
+            ]));
+
+            // ponytail: cursor() streams row by row; swap for chunkById only if the table outgrows memory
+            foreach ($query->cursor() as $submission) {
+                $writer->addRow(Row::fromValues([
+                    $submission->created_at?->format('Y-m-d H:i'),
+                    $submission->name,
+                    $submission->email,
+                    $submission->phone,
+                    $submission->prefers_whatsapp ? 'Yes' : 'No',
+                    $submission->contacted ? 'Yes' : 'No',
+                    $submission->tab?->name,
+                    $submission->message,
+                    $submission->ip_address,
+                    $submission->user_agent,
+                ]));
+            }
+
+            $writer->close();
+        }, 'contact-submissions-'.now()->format('Y-m-d-His').'.xlsx');
     }
 
     public static function getPages(): array

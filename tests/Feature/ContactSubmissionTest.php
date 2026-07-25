@@ -1,10 +1,13 @@
 <?php
 
 use App\Filament\Resources\ContactSubmissions\Pages\ManageContactSubmissions;
+use App\Filament\Resources\ContactSubmissionTabs\Pages\ManageContactSubmissionTabs;
 use App\Mail\ContactSubmissionSubmitted;
 use App\Models\ContactSubmission;
+use App\Models\ContactSubmissionTab;
 use App\Models\User;
 use Database\Seeders\LandingPageSectionSeeder;
+use Filament\Actions\Testing\TestAction;
 use Illuminate\Support\Facades\Mail;
 use Livewire\Livewire;
 
@@ -123,4 +126,77 @@ it('allows authenticated users to open the filament contact submissions table', 
 
     Livewire::test(ManageContactSubmissions::class)
         ->assertSuccessful();
+});
+
+it('filters the table by the selected tab', function () {
+    $this->actingAs(User::factory()->create());
+
+    $tab = ContactSubmissionTab::factory()->create(['name' => 'Round 3 Users']);
+    $inTab = ContactSubmission::factory()->create(['contact_submission_tab_id' => $tab->id]);
+    $unassigned = ContactSubmission::factory()->create();
+
+    Livewire::test(ManageContactSubmissions::class, ['activeTab' => 'tab-'.$tab->id])
+        ->assertCanSeeTableRecords([$inTab])
+        ->assertCanNotSeeTableRecords([$unassigned]);
+
+    Livewire::test(ManageContactSubmissions::class, ['activeTab' => 'unassigned'])
+        ->assertCanSeeTableRecords([$unassigned])
+        ->assertCanNotSeeTableRecords([$inTab]);
+
+    Livewire::test(ManageContactSubmissions::class)
+        ->assertCanSeeTableRecords([$inTab, $unassigned]);
+});
+
+it('moves selected submissions into a tab and back out again', function () {
+    $this->actingAs(User::factory()->create());
+
+    $tab = ContactSubmissionTab::factory()->create(['name' => 'Round 3 Users']);
+    $submissions = ContactSubmission::factory()->count(2)->create();
+
+    Livewire::test(ManageContactSubmissions::class)
+        ->selectTableRecords($submissions->modelKeys())
+        ->callTableBulkAction('moveToTab', $submissions, ['contact_submission_tab_id' => $tab->id]);
+
+    expect(ContactSubmission::query()->where('contact_submission_tab_id', $tab->id)->count())->toBe(2);
+
+    Livewire::test(ManageContactSubmissions::class)
+        ->selectTableRecords($submissions->modelKeys())
+        ->callTableBulkAction('moveToTab', $submissions, ['contact_submission_tab_id' => null]);
+
+    expect(ContactSubmission::query()->whereNull('contact_submission_tab_id')->count())->toBe(2);
+});
+
+it('creates and renames tabs from the tabs resource', function () {
+    $this->actingAs(User::factory()->create());
+
+    Livewire::test(ManageContactSubmissionTabs::class)
+        ->callAction('create', ['name' => 'Round 3 Users']);
+
+    $tab = ContactSubmissionTab::query()->firstOrFail();
+    expect($tab->name)->toBe('Round 3 Users');
+
+    Livewire::test(ManageContactSubmissionTabs::class)
+        ->callAction(TestAction::make('edit')->table($tab), ['name' => 'Round 4 Users']);
+
+    expect($tab->fresh()->name)->toBe('Round 4 Users');
+});
+
+it('keeps submissions when their tab is deleted', function () {
+    $tab = ContactSubmissionTab::factory()->create();
+    $submission = ContactSubmission::factory()->create(['contact_submission_tab_id' => $tab->id]);
+
+    $tab->delete();
+
+    expect($submission->fresh())->not->toBeNull()
+        ->and($submission->fresh()->contact_submission_tab_id)->toBeNull();
+});
+
+it('exports contact submissions to an excel file', function () {
+    $this->actingAs(User::factory()->create());
+
+    ContactSubmission::factory()->create(['name' => 'Exported Person']);
+
+    Livewire::test(ManageContactSubmissions::class)
+        ->callAction(TestAction::make('exportExcel')->table())
+        ->assertFileDownloaded();
 });
