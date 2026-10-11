@@ -45,6 +45,7 @@ class AppServiceProvider extends ServiceProvider
             $appUrl = config('app.url');
 
             $view->with('seo', $seo);
+            $view->with('tracking', SeoSetting::trackingConfig($seo));
             $view->with('appUrl', $appUrl);
         });
     }

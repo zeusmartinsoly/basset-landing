@@ -63,6 +63,10 @@ Route::get('/sitemap.xml', function () {
         ->header('Content-Type', 'application/xml');
 })->name('sitemap');
 
+Route::get('/robots.txt', fn () => response(SeoSetting::robotsTxtContent())
+    ->header('Content-Type', 'text/plain; charset=UTF-8'))
+    ->name('robots');
+
 // Google Search Console HTML file verification
 Route::get('/{file}', function (string $file) {
     $settings = SeoSetting::query()->first();

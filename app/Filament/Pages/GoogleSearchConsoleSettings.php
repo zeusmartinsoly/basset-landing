@@ -2,6 +2,7 @@
 
 namespace App\Filament\Pages;
 
+use App\Filament\Pages\Concerns\ValidatesSettingsData;
 use App\Models\SeoSetting;
 use Filament\Actions\Action;
 use Filament\Forms\Components\TextInput;
@@ -12,12 +13,12 @@ use Filament\Schemas\Components\Section;
 use Filament\Schemas\Concerns\InteractsWithSchemas;
 use Filament\Schemas\Contracts\HasSchemas;
 use Filament\Schemas\Schema;
-use Illuminate\Support\Facades\Validator;
 use UnitEnum;
 
 class GoogleSearchConsoleSettings extends Page implements HasSchemas
 {
     use InteractsWithSchemas;
+    use ValidatesSettingsData;
 
     protected static string|\BackedEnum|null $navigationIcon = 'brand-google-search-console';
 
@@ -53,7 +54,7 @@ class GoogleSearchConsoleSettings extends Page implements HasSchemas
             ->components([
                 Section::make('Ownership Verification')
                     ->description(
-                        'In Search Console add a "URL prefix" property for this site, then use the HTML tag or HTML file method below. The Google Analytics / Tag Manager methods work automatically once Settings → Google Analytics is enabled. The Domain (DNS TXT record) method is configured at your domain registrar, not here.',
+                        'In Search Console add a "URL prefix" property for this site, then use the HTML tag or HTML file method below. The Google Analytics method works once Settings → Google Analytics is enabled, and the Google Tag Manager method once Settings → Google Tag Manager is enabled. The Domain (DNS TXT record) method is configured at your domain registrar, not here.',
                     )
                     ->icon('heroicon-o-shield-check')
                     ->schema([
@@ -98,7 +99,7 @@ class GoogleSearchConsoleSettings extends Page implements HasSchemas
         $verificationCode = $this->extractVerificationCode((string) ($data['google_site_verification'] ?? ''));
         $htmlFile = trim((string) ($data['google_search_console_html_file'] ?? ''));
 
-        Validator::validate(
+        $this->validateSettings(
             [
                 'enabled' => $enabled,
                 'google_site_verification' => $verificationCode,

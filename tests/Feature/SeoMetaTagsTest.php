@@ -4,6 +4,7 @@ use App\Filament\Pages\CustomScriptsSettings;
 use App\Filament\Pages\GoogleAnalyticsSettings;
 use App\Filament\Pages\GoogleSearchConsoleSettings;
 use App\Filament\Pages\GoogleTagManagerSettings;
+use App\Filament\Pages\MicrosoftClaritySettings;
 use App\Models\SeoSetting;
 use App\Models\User;
 use Filament\Forms\Components\Repeater;
@@ -255,7 +256,7 @@ it('requires a verification method when enabling Google Search Console', functio
         ->set('data.google_site_verification', '')
         ->set('data.google_search_console_html_file', '')
         ->call('save')
-        ->assertHasErrors(['google_site_verification']);
+        ->assertHasErrors(['data.google_site_verification']);
 });
 
 it('rejects an invalid Google Search Console HTML file name', function () {
@@ -264,7 +265,7 @@ it('rejects an invalid Google Search Console HTML file name', function () {
     Livewire::test(GoogleSearchConsoleSettings::class)
         ->set('data.google_search_console_html_file', '../.env')
         ->call('save')
-        ->assertHasErrors(['google_search_console_html_file']);
+        ->assertHasErrors(['data.google_search_console_html_file']);
 });
 
 it('renders brand icons in the admin navigation and a code editor for custom scripts', function () {
@@ -390,5 +391,64 @@ it('only accepts GA4 measurement IDs on the Google Analytics page', function () 
         ->set('data.google_analytics_enabled', true)
         ->set('data.google_analytics_measurement_id', 'GTM-ABC1234')
         ->call('save')
-        ->assertHasErrors(['google_analytics_measurement_id']);
+        ->assertHasErrors(['data.google_analytics_measurement_id']);
+});
+
+it('shows settings validation errors on the form fields', function () {
+    $this->actingAs(User::factory()->create());
+
+    Livewire::test(GoogleSearchConsoleSettings::class)
+        ->set('data.google_search_console_enabled', true)
+        ->set('data.google_site_verification', '')
+        ->set('data.google_search_console_html_file', '')
+        ->call('save')
+        ->assertHasErrors(['data.google_site_verification'])
+        ->assertSee('Provide the HTML tag or the HTML file name to enable verification.');
+
+    Livewire::test(MicrosoftClaritySettings::class)
+        ->set('data.microsoft_clarity_enabled', true)
+        ->set('data.microsoft_clarity_project_id', 'NOT VALID')
+        ->call('save')
+        ->assertHasErrors(['data.microsoft_clarity_project_id'])
+        ->assertSee('The Project ID field format is invalid.');
+});
+
+it('keeps consent choices when Consent Mode is switched off', function () {
+    $this->actingAs(User::factory()->create());
+
+    $undoRepeaterFake = Repeater::fake();
+
+    Livewire::test(GoogleTagManagerSettings::class)
+        ->fillForm([
+            'enabled' => true,
+            'containers' => [['container_id' => 'GTM-ABC1234']],
+            'consent_mode_enabled' => false,
+            'consent' => ['analytics_storage' => 'granted'],
+        ])
+        ->call('save')
+        ->assertHasNoFormErrors();
+
+    $undoRepeaterFake();
+
+    expect(SeoSetting::query()->first()->google_tag_manager['consent']['analytics_storage'])->toBe('granted');
+});
+
+it('loads the direct GA4 tag on the GTM data layer so it shares consent defaults', function () {
+    SeoSetting::query()->first()->update([
+        'google_analytics_enabled' => true,
+        'google_analytics_measurement_id' => 'G-TESTABCDEF12',
+        'google_tag_manager_enabled' => true,
+        'google_tag_manager' => [
+            'containers' => [['container_id' => 'GTM-ABC1234']],
+            'data_layer_name' => 'siteLayer',
+            'consent_mode_enabled' => true,
+        ],
+    ]);
+
+    $head = Str::before($this->get('/')->getContent(), '</head>');
+
+    expect($head)
+        ->toContain('gtag/js?id=G-TESTABCDEF12&amp;l=siteLayer')
+        ->toContain('window["siteLayer"].push(arguments)')
+        ->and(strpos($head, "g('consent','default'"))->toBeLessThan(strpos($head, 'gtag/js?id='));
 });

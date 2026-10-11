@@ -61,7 +61,7 @@
     "src": "resources/fonts/termina/TerminaTest-Thin.otf"
   },
   "resources/js/app.tsx": {
-    "file": "assets/app-BfapVHEd.js",
+    "file": "assets/app-DvJ5Jz3i.js",
     "name": "app",
     "src": "resources/js/app.tsx",
     "isEntry": true,
@@ -89,7 +89,7 @@
     ]
   },
   "resources/js/pages/Page/Show.tsx": {
-    "file": "assets/Show-tAfeIywn.js",
+    "file": "assets/Show-C4Ac7L7o.js",
     "name": "Show",
     "src": "resources/js/pages/Page/Show.tsx",
     "isDynamicEntry": true,
@@ -116,7 +116,7 @@
     ]
   },
   "resources/js/pages/welcome.tsx": {
-    "file": "assets/welcome-CYvhY4-B.js",
+    "file": "assets/welcome-DmZvgSJ-.js",
     "name": "welcome",
     "src": "resources/js/pages/welcome.tsx",
     "isDynamicEntry": true,

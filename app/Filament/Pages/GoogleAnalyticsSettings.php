@@ -2,6 +2,7 @@
 
 namespace App\Filament\Pages;
 
+use App\Filament\Pages\Concerns\ValidatesSettingsData;
 use App\Models\SeoSetting;
 use Filament\Actions\Action;
 use Filament\Forms\Components\TextInput;
@@ -12,12 +13,12 @@ use Filament\Schemas\Components\Section;
 use Filament\Schemas\Concerns\InteractsWithSchemas;
 use Filament\Schemas\Contracts\HasSchemas;
 use Filament\Schemas\Schema;
-use Illuminate\Support\Facades\Validator;
 use UnitEnum;
 
 class GoogleAnalyticsSettings extends Page implements HasSchemas
 {
     use InteractsWithSchemas;
+    use ValidatesSettingsData;
 
     protected static string|\BackedEnum|null $navigationIcon = 'brand-google-analytics';
 
@@ -103,7 +104,7 @@ class GoogleAnalyticsSettings extends Page implements HasSchemas
             $rules['google_analytics_measurement_id'] = ['nullable', 'string'];
         }
 
-        Validator::validate(
+        $this->validateSettings(
             [
                 'enabled' => $enabled,
                 'google_analytics_measurement_id' => $measurementId,

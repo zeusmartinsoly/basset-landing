@@ -118,7 +118,7 @@ class GoogleTagManagerSettings extends Page implements HasSchemas
                     ]),
 
                 Section::make('Consent Mode v2')
-                    ->description('Sends a default consent state before any container loads. Your consent banner (CMP) should then send the "update" command.')
+                    ->description('Sends a default consent state before any container (and the direct GA4 tag) loads. Your consent banner (CMP) should then send the "update" command.')
                     ->icon('heroicon-o-shield-check')
                     ->collapsed()
                     ->columns(2)
@@ -134,7 +134,8 @@ class GoogleTagManagerSettings extends Page implements HasSchemas
                                 ->options(['denied' => 'Denied', 'granted' => 'Granted'])
                                 ->default('denied')
                                 ->selectablePlaceholder(false)
-                                ->visible(fn (Get $get): bool => (bool) $get('consent_mode_enabled')))
+                                ->visible(fn (Get $get): bool => (bool) $get('consent_mode_enabled'))
+                                ->dehydratedWhenHidden())
                             ->all(),
 
                         TextInput::make('consent_wait_for_update')
@@ -143,7 +144,8 @@ class GoogleTagManagerSettings extends Page implements HasSchemas
                             ->minValue(0)
                             ->maxValue(10000)
                             ->placeholder('500')
-                            ->visible(fn (Get $get): bool => (bool) $get('consent_mode_enabled')),
+                            ->visible(fn (Get $get): bool => (bool) $get('consent_mode_enabled'))
+                            ->dehydratedWhenHidden(),
 
                         Toggle::make('ads_data_redaction')
                             ->label('Redact ads data when ad_storage is denied'),
@@ -181,7 +183,8 @@ class GoogleTagManagerSettings extends Page implements HasSchemas
                             ->required(fn (Get $get): bool => (bool) $get('lead_event_enabled'))
                             ->regex('/^[A-Za-z0-9_]{1,40}$/')
                             ->helperText('Pushed as { event: "<name>", form_id: "contact_waitlist" }. Use it as a Custom Event trigger in GTM.')
-                            ->visible(fn (Get $get): bool => (bool) $get('lead_event_enabled')),
+                            ->visible(fn (Get $get): bool => (bool) $get('lead_event_enabled'))
+                            ->dehydratedWhenHidden(),
                     ]),
             ])
             ->statePath('data');

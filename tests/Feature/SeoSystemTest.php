@@ -82,15 +82,16 @@ it('sitemap returns valid XML', function () {
     expect($content)->toContain('<priority>1.0</priority>');
 });
 
-it('robots.txt file exists in public directory', function () {
-    $robotsPath = public_path('robots.txt');
+it('serves robots.txt with default rules and the sitemap', function () {
+    $response = $this->get('/robots.txt');
 
-    expect(file_exists($robotsPath))->toBeTrue();
+    $response->assertSuccessful();
+    $response->assertHeader('Content-Type', 'text/plain; charset=UTF-8');
 
-    $content = file_get_contents($robotsPath);
-    expect($content)->toContain('User-agent: *');
-    expect($content)->toContain('Sitemap:');
-    expect($content)->toContain('Disallow: /admin');
+    expect($response->getContent())
+        ->toContain('User-agent: *')
+        ->toContain('Disallow: /admin')
+        ->toContain('Sitemap: '.rtrim(config('app.url'), '/').'/sitemap.xml');
 });
 
 it('SEO settings model returns correct data structure', function () {

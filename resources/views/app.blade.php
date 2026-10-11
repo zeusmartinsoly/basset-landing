@@ -82,69 +82,7 @@
             <meta name="google-site-verification" content="{{ $seo['google_site_verification'] }}">
         @endif
 
-        @php
-            $__gtm = \App\Models\SeoSetting::googleTagManagerConfig($seo ?? []);
-            $__measurementId = (string) ($seo['google_analytics_measurement_id'] ?? '');
-            $__isGa4 = ($seo['google_analytics_enabled'] ?? false) && preg_match('/^G-[A-Z0-9]+$/', $__measurementId);
-        @endphp
-        @if($__gtm)
-            <!-- Google Tag Manager -->
-            <script>
-                (function(w,l){
-                    w[l]=w[l]||[];
-                    function g(){w[l].push(arguments);}
-                    @if($__gtm['consent'])
-                        g('consent','default',@json($__gtm['consent']));
-                    @endif
-                    @if($__gtm['ads_data_redaction'])
-                        g('set','ads_data_redaction',true);
-                    @endif
-                    @if($__gtm['url_passthrough'])
-                        g('set','url_passthrough',true);
-                    @endif
-                    @if($__gtm['data_layer_variables'] !== [])
-                        w[l].push(@json($__gtm['data_layer_variables']));
-                    @endif
-                })(window,@json($__gtm['data_layer_name']));
-            </script>
-            @foreach($__gtm['containers'] as $__gtmContainer)
-                <script>(function(w,d,s,l,i,b,q){w[l]=w[l]||[];w[l].push({'gtm.start':
-                new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-                j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-                b+'/gtm.js?id='+i+dl+q;f.parentNode.insertBefore(j,f);
-                })(window,document,'script',@json($__gtm['data_layer_name']),@json($__gtmContainer['id']),@json($__gtm['base_url']),@json($__gtmContainer['query']));</script>
-            @endforeach
-            <!-- End Google Tag Manager -->
-        @endif
-        @if($__isGa4)
-            <script async src="https://www.googletagmanager.com/gtag/js?id={{ $__measurementId }}"></script>
-            <script>
-                window.dataLayer = window.dataLayer || [];
-
-                function gtag() {
-                    dataLayer.push(arguments);
-                }
-
-                gtag('js', new Date());
-                gtag('config', '{{ $__measurementId }}');
-            </script>
-        @endif
-
-        @php
-            $__microsoftClarityProjectId = trim((string) ($seo['microsoft_clarity_project_id'] ?? ''));
-            $__clarityActive = ($seo['microsoft_clarity_enabled'] ?? false)
-                && $__microsoftClarityProjectId !== ''
-                && preg_match('/^[a-z0-9]{8,32}$/', $__microsoftClarityProjectId);
-        @endphp
-        @if($__clarityActive)
-            <script type="text/javascript">
-                (function(c,l,a,r,i,t,y){
-                    c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-                    t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-                    y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-                })(window, document, "clarity", "script", @json($__microsoftClarityProjectId));
-            </script>
-        @endif
+        @include('partials.tracking-head')
 
         <link rel="icon" href="/favicon.png" type="image/png">
         <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -191,15 +129,10 @@
         @endif
     </head>
     <body class="font-sans antialiased">
-        @if($__gtm)
-            <!-- Google Tag Manager (noscript) -->
-            @foreach($__gtm['containers'] as $__gtmContainer)
-                <noscript><iframe src="{{ $__gtm['base_url'] }}/ns.html?id={{ $__gtmContainer['id'] }}{{ $__gtmContainer['query'] }}"
-                height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-            @endforeach
-            <!-- End Google Tag Manager (noscript) -->
-        @endif
+        @include('partials.tracking-body')
         @inertia
+
+        @include('partials.cookie-consent')
 
         @if(filled($seo['custom_footer_scripts'] ?? null))
             {!! $seo['custom_footer_scripts'] !!}

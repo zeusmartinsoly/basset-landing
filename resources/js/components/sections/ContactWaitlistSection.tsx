@@ -10,7 +10,6 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { gsap } from '@/lib/animations/gsap-setup';
 import { trackContactWaitlistGenerateLead } from '@/lib/gtag-events';
-import type { GoogleTagManagerLeadEvent } from '@/lib/gtag-events';
 import { cn } from '@/lib/utils';
 import type { ContactWaitlistSectionSettings } from '@/types/landing';
 
@@ -35,13 +34,9 @@ const DEFAULT_SUBMIT_BUTTON = 'إرسال الطلب';
 
 interface ContactWaitlistSectionProps {
     data?: ContactWaitlistSectionSettings | null;
-    gtmLeadEvent?: GoogleTagManagerLeadEvent | null;
 }
 
-export default function ContactWaitlistSection({
-    data,
-    gtmLeadEvent,
-}: ContactWaitlistSectionProps) {
+export default function ContactWaitlistSection({ data }: ContactWaitlistSectionProps) {
     const sectionRef = useRef<HTMLElement>(null);
     const [preferWa, setPreferWa] = useState(true);
     const flash = usePage<FlashProps>().props.flash;
@@ -117,9 +112,7 @@ export default function ContactWaitlistSection({
                         disableWhileProcessing
                         resetOnSuccess
                         options={{ preserveScroll: true }}
-                        onSuccess={() =>
-                            trackContactWaitlistGenerateLead(gtmLeadEvent)
-                        }
+                        onSuccess={() => trackContactWaitlistGenerateLead()}
                         className="reveal-contact mt-10 flex flex-col gap-8"
                     >
                         {({ errors, processing }) => (

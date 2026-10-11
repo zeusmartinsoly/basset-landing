@@ -4,6 +4,7 @@
 # /public/build  # Commented for production deployment
 /public/hot
 /public/storage
+/public/robots.txt
 /resources/js/actions
 /resources/js/routes
 /resources/js/wayfinder

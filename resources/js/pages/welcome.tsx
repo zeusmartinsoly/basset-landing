@@ -42,12 +42,6 @@ interface SeoSettings {
     custom_footer_scripts: string | null;
     google_analytics_enabled?: boolean;
     google_analytics_measurement_id: string | null;
-    google_tag_manager_enabled?: boolean;
-    google_tag_manager: {
-        data_layer_name?: string;
-        lead_event_enabled?: boolean;
-        lead_event_name?: string;
-    } | null;
     microsoft_clarity_enabled?: boolean;
     microsoft_clarity_project_id: string | null;
 }
@@ -64,14 +58,6 @@ export default function Welcome({ workImages, seo, appUrl, sections }: WelcomePr
     const ogDescription = seo.og_description || seo.site_description;
     const ogImage = seo.og_image || null;
     const canonicalUrl = seo.canonical_url || appUrl;
-    const gtmSettings = seo.google_tag_manager_enabled ? seo.google_tag_manager : null;
-    const gtmLeadEvent =
-        gtmSettings?.lead_event_enabled && gtmSettings.lead_event_name
-            ? {
-                  dataLayerName: gtmSettings.data_layer_name || 'dataLayer',
-                  eventName: gtmSettings.lead_event_name,
-              }
-            : null;
 
     const contactSectionVisible = sections.contact_waitlist?.visible !== false;
     const campersWorksVisible = sections.cambers_works.visible !== false;
@@ -195,10 +181,7 @@ export default function Welcome({ workImages, seo, appUrl, sections }: WelcomePr
                     <TestimonialsSection data={sections.testimonials} />
                 ) : null}
                 {contactSectionVisible ? (
-                    <ContactWaitlistSection
-                        data={sections.contact_waitlist}
-                        gtmLeadEvent={gtmLeadEvent}
-                    />
+                    <ContactWaitlistSection data={sections.contact_waitlist} />
                 ) : null}
                 <WorkShowcaseSection images={workImages} data={sections.work} />
                 <FooterSection data={sections.footer} />
