@@ -162,11 +162,6 @@ class SeoSettings extends Page implements HasSchemas
                         TextInput::make('google_site_verification')
                             ->label('Google Site Verification')
                             ->helperText('Google Search Console verification code'),
-
-                        Textarea::make('custom_head_scripts')
-                            ->label('Custom Head Scripts')
-                            ->rows(5)
-                            ->helperText('Custom scripts only if needed. GA4 is configured via Settings → Google Analytics.'),
                     ])
                     ->columns(1),
             ])

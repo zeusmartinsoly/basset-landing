@@ -24,6 +24,7 @@ class SeoSetting extends Model
         'canonical_url',
         'google_site_verification',
         'custom_head_scripts',
+        'custom_footer_scripts',
         'google_analytics_enabled',
         'google_analytics_measurement_id',
         'microsoft_clarity_enabled',

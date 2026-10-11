@@ -166,6 +166,10 @@
         @viteReactRefresh
         @vite(['resources/css/app.css', 'resources/js/app.tsx', "resources/js/pages/{$page['component']}.tsx"])
         @inertiaHead
+
+        @if(filled($seo['custom_head_scripts'] ?? null))
+            {!! $seo['custom_head_scripts'] !!}
+        @endif
     </head>
     <body class="font-sans antialiased">
         @if($__isGtm)
@@ -175,5 +179,9 @@
             <!-- End Google Tag Manager (noscript) -->
         @endif
         @inertia
+
+        @if(filled($seo['custom_footer_scripts'] ?? null))
+            {!! $seo['custom_footer_scripts'] !!}
+        @endif
     </body>
 </html>

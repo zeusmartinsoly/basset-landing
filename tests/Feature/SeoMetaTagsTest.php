@@ -1,6 +1,9 @@
 <?php
 
+use App\Filament\Pages\CustomScriptsSettings;
 use App\Models\SeoSetting;
+use App\Models\User;
+use Livewire\Livewire;
 
 beforeEach(function () {
     // Create SEO settings for tests
@@ -152,4 +155,50 @@ it('renders Microsoft Clarity snippet when enabled with a valid Project ID', fun
 
     expect($content)->toContain('https://www.clarity.ms/tag/')
         ->and($content)->toContain('})(window, document, "clarity", "script", "abcd123456")');
+});
+
+it('renders custom header scripts before </head> and footer scripts before </body>', function () {
+    SeoSetting::query()->first()->update([
+        'custom_head_scripts' => '<script>window.headMarker = 1;</script>',
+        'custom_footer_scripts' => '<script>window.footerMarker = 1;</script>',
+    ]);
+
+    $content = $this->get('/')->getContent();
+
+    $headPosition = strpos($content, '<script>window.headMarker = 1;</script>');
+    $footerPosition = strpos($content, '<script>window.footerMarker = 1;</script>');
+
+    expect($headPosition)->toBeInt()->toBeLessThan(strpos($content, '</head>'))
+        ->and($footerPosition)->toBeInt()->toBeGreaterThan(strpos($content, '<body'))
+        ->and($footerPosition)->toBeLessThan(strpos($content, '</body>'));
+});
+
+it('renders nothing extra when custom scripts are empty', function () {
+    $content = $this->get('/')->getContent();
+
+    expect($content)->not->toContain('headMarker')
+        ->and($content)->not->toContain('footerMarker');
+});
+
+it('saves custom scripts from the Filament settings page', function () {
+    $this->actingAs(User::factory()->create());
+
+    Livewire::test(CustomScriptsSettings::class)
+        ->set('data.custom_head_scripts', '<script>head()</script>')
+        ->set('data.custom_footer_scripts', '<script>footer()</script>')
+        ->call('save')
+        ->assertNotified();
+
+    expect(SeoSetting::query()->first())
+        ->custom_head_scripts->toBe('<script>head()</script>')
+        ->custom_footer_scripts->toBe('<script>footer()</script>');
+
+    Livewire::test(CustomScriptsSettings::class)
+        ->set('data.custom_head_scripts', '')
+        ->set('data.custom_footer_scripts', '')
+        ->call('save');
+
+    expect(SeoSetting::query()->first())
+        ->custom_head_scripts->toBeNull()
+        ->custom_footer_scripts->toBeNull();
 });

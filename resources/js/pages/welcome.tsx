@@ -37,6 +37,7 @@ interface SeoSettings {
     canonical_url: string | null;
     google_site_verification: string | null;
     custom_head_scripts: string | null;
+    custom_footer_scripts: string | null;
     google_analytics_enabled?: boolean;
     google_analytics_measurement_id: string | null;
     microsoft_clarity_enabled?: boolean;
