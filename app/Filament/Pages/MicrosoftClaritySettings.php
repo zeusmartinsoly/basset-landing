@@ -19,7 +19,7 @@ class MicrosoftClaritySettings extends Page implements HasSchemas
 {
     use InteractsWithSchemas;
 
-    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-arrow-trending-up';
+    protected static string|\BackedEnum|null $navigationIcon = 'brand-microsoft-clarity';
 
     protected string $view = 'filament.pages.microsoft-clarity-settings';
 
@@ -54,7 +54,7 @@ class MicrosoftClaritySettings extends Page implements HasSchemas
                     ->description(
                         'Loads the official Clarity tag on every public page (after Google Analytics/GTM when those are enabled). Only enable where session recordings are appropriate. Project ID comes from clarity.microsoft.com → Setup → Install.',
                     )
-                    ->icon('heroicon-o-arrow-trending-up')
+                    ->icon('brand-microsoft-clarity')
                     ->schema([
                         Toggle::make('microsoft_clarity_enabled')
                             ->label('Enable Microsoft Clarity')

@@ -158,10 +158,6 @@ class SeoSettings extends Page implements HasSchemas
                             ->label('Canonical URL')
                             ->url()
                             ->helperText('Base URL for canonical tags (e.g., https://example.com)'),
-
-                        TextInput::make('google_site_verification')
-                            ->label('Google Site Verification')
-                            ->helperText('Google Search Console verification code'),
                     ])
                     ->columns(1),
             ])

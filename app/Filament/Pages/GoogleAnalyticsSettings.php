@@ -19,7 +19,7 @@ class GoogleAnalyticsSettings extends Page implements HasSchemas
 {
     use InteractsWithSchemas;
 
-    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-chart-bar-square';
+    protected static string|\BackedEnum|null $navigationIcon = 'brand-google-analytics';
 
     protected string $view = 'filament.pages.google-analytics-settings';
 
@@ -54,7 +54,7 @@ class GoogleAnalyticsSettings extends Page implements HasSchemas
                     ->description(
                         'Load the GA4 tag on every public page (leave disabled on local/testing if you prefer). When the contact/waitlist form submits successfully, the site sends GA4\'s recommended "generate_lead" event with form_id contact_waitlist. Count them in Reports → Engagement → Events, or mark generate_lead as a key/conversion event in GA4 Admin.',
                     )
-                    ->icon('heroicon-o-chart-bar-square')
+                    ->icon('brand-google-analytics')
                     ->schema([
                         Toggle::make('google_analytics_enabled')
                             ->label('Enable Google Analytics')

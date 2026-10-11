@@ -4,7 +4,8 @@ namespace App\Filament\Pages;
 
 use App\Models\SeoSetting;
 use Filament\Actions\Action;
-use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\CodeEditor;
+use Filament\Forms\Components\CodeEditor\Enums\Language;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Filament\Schemas\Components\Section;
@@ -54,16 +55,14 @@ class CustomScriptsSettings extends Page implements HasSchemas
                     )
                     ->icon('heroicon-o-code-bracket')
                     ->schema([
-                        Textarea::make('custom_head_scripts')
+                        CodeEditor::make('custom_head_scripts')
                             ->label('Header Scripts')
-                            ->rows(8)
-                            ->extraInputAttributes(['class' => 'font-mono', 'dir' => 'ltr'])
+                            ->language(Language::Html)
                             ->helperText('Inserted just before </head>.'),
 
-                        Textarea::make('custom_footer_scripts')
+                        CodeEditor::make('custom_footer_scripts')
                             ->label('Footer Scripts')
-                            ->rows(8)
-                            ->extraInputAttributes(['class' => 'font-mono', 'dir' => 'ltr'])
+                            ->language(Language::Html)
                             ->helperText('Inserted just before </body>.'),
                     ])
                     ->columns(1),

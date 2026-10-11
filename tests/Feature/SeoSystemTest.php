@@ -108,6 +108,8 @@ it('SEO settings model returns correct data structure', function () {
     expect($settings)->toHaveKey('microsoft_clarity_enabled');
     expect($settings)->toHaveKey('microsoft_clarity_project_id');
     expect($settings)->toHaveKey('custom_footer_scripts');
+    expect($settings)->toHaveKey('google_search_console_enabled');
+    expect($settings)->toHaveKey('google_search_console_html_file');
 });
 
 it('SEO settings can be updated', function () {

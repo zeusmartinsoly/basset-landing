@@ -77,8 +77,8 @@
             <meta name="twitter:site" content="{{ '@' . ltrim($seo['twitter_handle'], '@') }}">
         @endif
 
-        {{-- Google Site Verification --}}
-        @if(!empty($seo['google_site_verification']))
+        {{-- Google Search Console Verification --}}
+        @if(($seo['google_search_console_enabled'] ?? false) && !empty($seo['google_site_verification']))
             <meta name="google-site-verification" content="{{ $seo['google_site_verification'] }}">
         @endif
 

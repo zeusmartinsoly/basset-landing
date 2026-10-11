@@ -36,6 +36,8 @@ interface SeoSettings {
     course_description: string | null;
     canonical_url: string | null;
     google_site_verification: string | null;
+    google_search_console_enabled?: boolean;
+    google_search_console_html_file: string | null;
     custom_head_scripts: string | null;
     custom_footer_scripts: string | null;
     google_analytics_enabled?: boolean;
@@ -138,15 +140,6 @@ export default function Welcome({ workImages, seo, appUrl, sections }: WelcomePr
                         head-key="twitter:site"
                         name="twitter:site"
                         content={`@${seo.twitter_handle.replace('@', '')}`}
-                    />
-                )}
-
-                {/* Google Site Verification */}
-                {seo.google_site_verification && (
-                    <meta
-                        head-key="google-site-verification"
-                        name="google-site-verification"
-                        content={seo.google_site_verification}
                     />
                 )}
 

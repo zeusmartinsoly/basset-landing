@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\SeoSetting;
+use BladeUI\Icons\Factory;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
@@ -17,7 +18,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->callAfterResolving(Factory::class, function (Factory $factory): void {
+            $factory->add('brand', [
+                'path' => resource_path('svg/brand'),
+                'prefix' => 'brand',
+            ]);
+        });
     }
 
     /**

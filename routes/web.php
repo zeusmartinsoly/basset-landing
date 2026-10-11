@@ -63,5 +63,18 @@ Route::get('/sitemap.xml', function () {
         ->header('Content-Type', 'application/xml');
 })->name('sitemap');
 
+// Google Search Console HTML file verification
+Route::get('/{file}', function (string $file) {
+    $settings = SeoSetting::query()->first();
+
+    abort_unless(
+        $settings?->google_search_console_enabled && $settings->google_search_console_html_file === $file,
+        404,
+    );
+
+    return response("google-site-verification: {$file}")
+        ->header('Content-Type', 'text/html; charset=UTF-8');
+})->where('file', 'google[a-z0-9]+\.html')->name('google-search-console.verification-file');
+
 // Static pages (privacy, terms, etc.)
 Route::get('/page/{slug}', [PageController::class, 'show'])->name('page.show');

@@ -1,6 +1,7 @@
 <?php
 
 use App\Filament\Pages\CustomScriptsSettings;
+use App\Filament\Pages\GoogleSearchConsoleSettings;
 use App\Models\SeoSetting;
 use App\Models\User;
 use Livewire\Livewire;
@@ -21,6 +22,7 @@ beforeEach(function () {
         'course_description' => 'Test course description',
         'canonical_url' => 'https://example.com',
         'google_site_verification' => 'test-verification-code',
+        'google_search_console_enabled' => true,
     ]);
 });
 
@@ -201,4 +203,73 @@ it('saves custom scripts from the Filament settings page', function () {
     expect(SeoSetting::query()->first())
         ->custom_head_scripts->toBeNull()
         ->custom_footer_scripts->toBeNull();
+});
+
+it('does not render Google site verification when Search Console is disabled', function () {
+    SeoSetting::query()->first()->update(['google_search_console_enabled' => false]);
+
+    expect($this->get('/')->getContent())->not->toContain('name="google-site-verification"');
+});
+
+it('serves the Google Search Console HTML verification file only when configured and enabled', function () {
+    SeoSetting::query()->first()->update(['google_search_console_html_file' => 'google1a2b3c4d.html']);
+
+    $this->get('/google1a2b3c4d.html')
+        ->assertSuccessful()
+        ->assertContent('google-site-verification: google1a2b3c4d.html');
+
+    $this->get('/google9999.html')->assertNotFound();
+
+    SeoSetting::query()->first()->update(['google_search_console_enabled' => false]);
+
+    $this->get('/google1a2b3c4d.html')->assertNotFound();
+});
+
+it('saves Google Search Console settings and extracts the code from a pasted meta tag', function () {
+    $this->actingAs(User::factory()->create());
+
+    Livewire::test(GoogleSearchConsoleSettings::class)
+        ->assertSuccessful()
+        ->set('data.google_search_console_enabled', true)
+        ->set('data.google_site_verification', '<meta name="google-site-verification" content="AbC_123-xyz987" />')
+        ->set('data.google_search_console_html_file', 'google1a2b3c4d.html')
+        ->call('save')
+        ->assertHasNoErrors()
+        ->assertNotified();
+
+    expect(SeoSetting::query()->first())
+        ->google_search_console_enabled->toBeTrue()
+        ->google_site_verification->toBe('AbC_123-xyz987')
+        ->google_search_console_html_file->toBe('google1a2b3c4d.html');
+});
+
+it('requires a verification method when enabling Google Search Console', function () {
+    $this->actingAs(User::factory()->create());
+
+    Livewire::test(GoogleSearchConsoleSettings::class)
+        ->set('data.google_search_console_enabled', true)
+        ->set('data.google_site_verification', '')
+        ->set('data.google_search_console_html_file', '')
+        ->call('save')
+        ->assertHasErrors(['google_site_verification']);
+});
+
+it('rejects an invalid Google Search Console HTML file name', function () {
+    $this->actingAs(User::factory()->create());
+
+    Livewire::test(GoogleSearchConsoleSettings::class)
+        ->set('data.google_search_console_html_file', '../.env')
+        ->call('save')
+        ->assertHasErrors(['google_search_console_html_file']);
+});
+
+it('renders brand icons in the admin navigation and a code editor for custom scripts', function () {
+    $this->actingAs(User::factory()->create());
+
+    $this->get('/admin/custom-scripts')
+        ->assertSuccessful()
+        ->assertSee('fill="#f9ab00"', false)
+        ->assertSee('radialGradient', false)
+        ->assertSee('m32.656 20.58', false)
+        ->assertSee('codeEditorFormComponent', false);
 });

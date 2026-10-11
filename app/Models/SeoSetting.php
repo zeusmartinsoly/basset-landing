@@ -23,6 +23,8 @@ class SeoSetting extends Model
         'course_description',
         'canonical_url',
         'google_site_verification',
+        'google_search_console_enabled',
+        'google_search_console_html_file',
         'custom_head_scripts',
         'custom_footer_scripts',
         'google_analytics_enabled',
@@ -36,6 +38,7 @@ class SeoSetting extends Model
         return [
             'google_analytics_enabled' => 'boolean',
             'microsoft_clarity_enabled' => 'boolean',
+            'google_search_console_enabled' => 'boolean',
         ];
     }
 
