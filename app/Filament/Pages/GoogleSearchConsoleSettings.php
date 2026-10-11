@@ -31,7 +31,7 @@ class GoogleSearchConsoleSettings extends Page implements HasSchemas
 
     protected static string|UnitEnum|null $navigationGroup = 'Settings';
 
-    protected static ?int $navigationSort = 44;
+    protected static ?int $navigationSort = 43;
 
     /** @var array<string, mixed> */
     public ?array $data = [];

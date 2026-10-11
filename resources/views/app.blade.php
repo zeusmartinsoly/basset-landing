@@ -83,18 +83,37 @@
         @endif
 
         @php
+            $__gtm = \App\Models\SeoSetting::googleTagManagerConfig($seo ?? []);
             $__measurementId = (string) ($seo['google_analytics_measurement_id'] ?? '');
-            $__trackingEnabled = ($seo['google_analytics_enabled'] ?? false) && filled($__measurementId);
-            $__isGtm = $__trackingEnabled && preg_match('/^GTM-[A-Z0-9]+$/', $__measurementId);
-            $__isGa4 = $__trackingEnabled && preg_match('/^G-[A-Z0-9]+$/', $__measurementId);
+            $__isGa4 = ($seo['google_analytics_enabled'] ?? false) && preg_match('/^G-[A-Z0-9]+$/', $__measurementId);
         @endphp
-        @if($__isGtm)
+        @if($__gtm)
             <!-- Google Tag Manager -->
-            <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-            })(window,document,'script','dataLayer','{{ $__measurementId }}');</script>
+            <script>
+                (function(w,l){
+                    w[l]=w[l]||[];
+                    function g(){w[l].push(arguments);}
+                    @if($__gtm['consent'])
+                        g('consent','default',@json($__gtm['consent']));
+                    @endif
+                    @if($__gtm['ads_data_redaction'])
+                        g('set','ads_data_redaction',true);
+                    @endif
+                    @if($__gtm['url_passthrough'])
+                        g('set','url_passthrough',true);
+                    @endif
+                    @if($__gtm['data_layer_variables'] !== [])
+                        w[l].push(@json($__gtm['data_layer_variables']));
+                    @endif
+                })(window,@json($__gtm['data_layer_name']));
+            </script>
+            @foreach($__gtm['containers'] as $__gtmContainer)
+                <script>(function(w,d,s,l,i,b,q){w[l]=w[l]||[];w[l].push({'gtm.start':
+                new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+                j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+                b+'/gtm.js?id='+i+dl+q;f.parentNode.insertBefore(j,f);
+                })(window,document,'script',@json($__gtm['data_layer_name']),@json($__gtmContainer['id']),@json($__gtm['base_url']),@json($__gtmContainer['query']));</script>
+            @endforeach
             <!-- End Google Tag Manager -->
         @endif
         @if($__isGa4)
@@ -172,10 +191,12 @@
         @endif
     </head>
     <body class="font-sans antialiased">
-        @if($__isGtm)
+        @if($__gtm)
             <!-- Google Tag Manager (noscript) -->
-            <noscript><iframe src="https://www.googletagmanager.com/ns.html?id={{ $__measurementId }}"
-            height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+            @foreach($__gtm['containers'] as $__gtmContainer)
+                <noscript><iframe src="{{ $__gtm['base_url'] }}/ns.html?id={{ $__gtmContainer['id'] }}{{ $__gtmContainer['query'] }}"
+                height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+            @endforeach
             <!-- End Google Tag Manager (noscript) -->
         @endif
         @inertia

@@ -1,9 +1,13 @@
 <?php
 
 use App\Filament\Pages\CustomScriptsSettings;
+use App\Filament\Pages\GoogleAnalyticsSettings;
 use App\Filament\Pages\GoogleSearchConsoleSettings;
+use App\Filament\Pages\GoogleTagManagerSettings;
 use App\Models\SeoSetting;
 use App\Models\User;
+use Filament\Forms\Components\Repeater;
+use Illuminate\Support\Str;
 use Livewire\Livewire;
 
 beforeEach(function () {
@@ -272,4 +276,119 @@ it('renders brand icons in the admin navigation and a code editor for custom scr
         ->assertSee('radialGradient', false)
         ->assertSee('m32.656 20.58', false)
         ->assertSee('codeEditorFormComponent', false);
+});
+
+it('does not render Google Tag Manager when disabled', function () {
+    SeoSetting::query()->first()->update([
+        'google_tag_manager_enabled' => false,
+        'google_tag_manager' => ['containers' => [['container_id' => 'GTM-ABC1234']]],
+    ]);
+
+    expect($this->get('/')->getContent())
+        ->not->toContain("'gtm.start'")
+        ->not->toContain('ns.html?id=GTM-ABC1234');
+});
+
+it('renders every Google Tag Manager container with environments, server url, consent and variables', function () {
+    SeoSetting::query()->first()->update([
+        'google_tag_manager_enabled' => true,
+        'google_tag_manager' => [
+            'containers' => [
+                ['container_id' => 'GTM-ABC1234'],
+                ['container_id' => 'GTM-XYZ9876', 'environment_auth' => 'aBc_12-3', 'environment_preview' => 'env-5'],
+                ['container_id' => 'not-a-container'],
+            ],
+            'data_layer_name' => 'siteLayer',
+            'server_container_url' => 'https://sgtm.example.com/',
+            'consent_mode_enabled' => true,
+            'consent' => ['analytics_storage' => 'granted'],
+            'consent_wait_for_update' => 500,
+            'ads_data_redaction' => true,
+            'url_passthrough' => true,
+            'data_layer_variables' => ['page_type' => 'landing', 'bad key!' => 'x'],
+        ],
+    ]);
+
+    $content = $this->get('/')->getContent();
+
+    expect($content)
+        ->toContain('"GTM-ABC1234"')
+        ->toContain('"GTM-XYZ9876"')
+        ->toContain('"\\u0026gtm_auth=aBc_12-3\\u0026gtm_preview=env-5\\u0026gtm_cookies_win=x"')
+        ->toContain('"https:\/\/sgtm.example.com"')
+        ->toContain('https://sgtm.example.com/ns.html?id=GTM-ABC1234"')
+        ->toContain('https://sgtm.example.com/ns.html?id=GTM-XYZ9876&amp;gtm_auth=aBc_12-3')
+        ->toContain('"siteLayer"')
+        ->toContain('"analytics_storage":"granted"')
+        ->toContain('"ad_storage":"denied"')
+        ->toContain('"wait_for_update":500')
+        ->toContain("g('set','ads_data_redaction',true)")
+        ->toContain("g('set','url_passthrough',true)")
+        ->toContain('{"page_type":"landing"}')
+        ->and(Str::before($content, '</head>'))
+        ->not->toContain('not-a-container')
+        ->not->toContain('bad key!');
+
+    expect(strpos($content, "g('consent','default'"))->toBeLessThan(strpos($content, '"GTM-ABC1234"'));
+});
+
+it('saves Google Tag Manager settings from the Filament page', function () {
+    $this->actingAs(User::factory()->create());
+
+    $undoRepeaterFake = Repeater::fake();
+
+    Livewire::test(GoogleTagManagerSettings::class)
+        ->assertSuccessful()
+        ->fillForm([
+            'enabled' => true,
+            'containers' => [
+                ['container_id' => 'gtm-abc1234', 'environment_auth' => null, 'environment_preview' => null],
+            ],
+            'data_layer_name' => 'dataLayer',
+            'lead_event_enabled' => true,
+            'lead_event_name' => 'contact_lead',
+            'data_layer_variables' => ['site' => 'baseet'],
+        ])
+        ->call('save')
+        ->assertHasNoFormErrors()
+        ->assertNotified();
+
+    $undoRepeaterFake();
+
+    $settings = SeoSetting::query()->first();
+
+    expect($settings->google_tag_manager_enabled)->toBeTrue()
+        ->and($settings->google_tag_manager['containers'][0]['container_id'])->toBe('GTM-ABC1234')
+        ->and($settings->google_tag_manager['lead_event_name'])->toBe('contact_lead')
+        ->and($settings->google_tag_manager['data_layer_variables'])->toBe(['site' => 'baseet']);
+});
+
+it('validates Google Tag Manager settings', function (array $data, string $error) {
+    $this->actingAs(User::factory()->create());
+
+    $undoRepeaterFake = Repeater::fake();
+
+    Livewire::test(GoogleTagManagerSettings::class)
+        ->fillForm(['enabled' => true, 'containers' => [['container_id' => 'GTM-ABC1234']], ...$data])
+        ->call('save')
+        ->assertHasFormErrors([$error]);
+
+    $undoRepeaterFake();
+})->with([
+    'missing containers' => [['containers' => []], 'containers'],
+    'invalid container id' => [['containers' => [['container_id' => 'UA-12345']]], 'containers.0.container_id'],
+    'environment auth without preview' => [['containers' => [['container_id' => 'GTM-ABC1234', 'environment_auth' => 'abc']]], 'containers.0.environment_preview'],
+    'invalid data layer name' => [['data_layer_name' => '1 bad'], 'data_layer_name'],
+    'non-https server url' => [['server_container_url' => 'http://sgtm.example.com'], 'server_container_url'],
+    'invalid variable key' => [['data_layer_variables' => ['bad key' => 'x']], 'data_layer_variables'],
+]);
+
+it('only accepts GA4 measurement IDs on the Google Analytics page', function () {
+    $this->actingAs(User::factory()->create());
+
+    Livewire::test(GoogleAnalyticsSettings::class)
+        ->set('data.google_analytics_enabled', true)
+        ->set('data.google_analytics_measurement_id', 'GTM-ABC1234')
+        ->call('save')
+        ->assertHasErrors(['google_analytics_measurement_id']);
 });
