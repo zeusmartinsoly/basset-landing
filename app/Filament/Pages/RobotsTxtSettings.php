@@ -55,6 +55,7 @@ class RobotsTxtSettings extends Page implements HasSchemas
                     ->schema([
                         CodeEditor::make('robots_txt')
                             ->label('Rules')
+                            ->wrap()
                             ->rules(['nullable', 'string', 'max:20000'])
                             ->helperText('One directive per line, e.g. "User-agent: *", "Disallow: /admin". Blocking "/" hides the whole site from search engines.'),
 

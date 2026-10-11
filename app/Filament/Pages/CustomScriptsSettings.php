@@ -58,11 +58,13 @@ class CustomScriptsSettings extends Page implements HasSchemas
                         CodeEditor::make('custom_head_scripts')
                             ->label('Header Scripts')
                             ->language(Language::Html)
+                            ->wrap()
                             ->helperText('Inserted just before </head>.'),
 
                         CodeEditor::make('custom_footer_scripts')
                             ->label('Footer Scripts')
                             ->language(Language::Html)
+                            ->wrap()
                             ->helperText('Inserted just before </body>.'),
                     ])
                     ->columns(1),
