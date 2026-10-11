@@ -11,6 +11,7 @@ use Filament\Forms\Components\Toggle;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -139,6 +140,8 @@ class SettingsBackup extends Page
                     ]));
             }
         });
+
+        Cache::forget(Redirect::CACHE_KEY);
 
         SeoSetting::writeRobotsTxtFile();
     }

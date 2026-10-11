@@ -269,3 +269,17 @@ it('renders all new admin pages', function (string $url) {
 
     $this->get($url)->assertSuccessful();
 })->with(['/admin/meta-pixel', '/admin/tiktok-pixel', '/admin/cookie-consent', '/admin/robots-txt', '/admin/settings-backup']);
+
+it('stops serving deleted redirects after restoring a backup without them', function () {
+    Storage::fake('local');
+
+    Redirect::factory()->create(['from_path' => '/old', 'to_url' => '/new', 'status_code' => 301]);
+
+    $this->get('/old')->assertRedirect('/new');
+
+    SettingsBackup::restore([...SettingsBackup::snapshot(), 'redirects' => []]);
+
+    expect(Redirect::query()->count())->toBe(0);
+
+    $this->get('/old')->assertNotFound();
+});
